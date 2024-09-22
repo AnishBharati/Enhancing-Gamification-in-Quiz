@@ -2,7 +2,7 @@
 <br>
 This is quiz website where multiple teachers and studetns can collaborate and assign the quiz in their classes.
 <br>
-Author: Anish Bharati<br>
+Authors: Anish Bharati<br>
 Ayush Dhakal<br>
 Sabin Manandhar <br>
 Raghav Sitaula <br>
