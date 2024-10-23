@@ -1,8 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const {db} = require("../../database/db");
-
-// Secret key for JWT token
 const secretKey = "your_secret_key";
 
 exports.login = (req, res) => {
@@ -18,9 +16,8 @@ exports.login = (req, res) => {
       if (data.length === 0) {
         return res.status(400).json({ error: "No Record Found", message: "No Record Found with this username. Please check Username or Password" });
       }
-  
-      // comparing hashed password with entered password
-      const { id, password: hashedPassword } = data[0]; // Assuming the id is retrieved from the database
+
+      const { id, password: hashedPassword } = data[0];
       bcrypt.compare(password, hashedPassword, (bcryptErr, result) => {
         if (bcryptErr) {
           console.error("Bcrypt Error:", bcryptErr);
@@ -45,7 +42,6 @@ exports.login = (req, res) => {
   exports.signup = (req, res) => {
     const { fullname, email, username, password, confirm_password } = req.body;
   
-    // Check if email or username already exist in the database
     const checkExistingUser = "SELECT * FROM user_details WHERE email = ? OR username = ?";
     db.query(checkExistingUser, [email, username], (err, results) => {
       if (err) {
@@ -54,13 +50,11 @@ exports.login = (req, res) => {
       }
   
       if (results.length > 0) {
-        // Email or username already exists
         const existingUser = results.find(user => user.Email === email || user.Username === username);
         const message = existingUser.Email === email ? "Email already exists." : "Username already exists.";
         return res.status(400).json({ error: message });
       }
   
-      // Hash the password and proceed with signup
       bcrypt.hash(password, 10, (hashErr, hashedPassword) => {
         if (hashErr) {
           console.error("Bcrypt Error:", hashErr);
