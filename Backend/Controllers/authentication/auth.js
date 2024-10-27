@@ -4,7 +4,6 @@ const { db } = require("../../database/db");
 const secretKey = "your_secret_key";
 
 exports.login = async (req, res) => {
-  // res.send("Login successful"); // Direct response
 
   const { username, password } = req.body;
   const sql = "SELECT * FROM user_details WHERE username = ?";

@@ -3,24 +3,29 @@
 import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import { useRouter } from 'next/navigation';
-
+import axios from "../../axiosSetup";
+import { isAuthenticated } from "../auth";
 
 const Home = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter();
 
-  
+  useEffect(()=>{
+    if(isAuthenticated()){
+      router.push('/dashboard');
+    }
+  })
 
   function handleSubmit(event) {
     event.preventDefault();
     axios
-      .post("http://localhost:8080/login", { username, password })
+      .post("http://localhost:8000/login", { username, password })
       .then((res) => {
         const token = res.data.token; // Get the token from the response
         localStorage.setItem("token", token); // Store the token in localStorage
         console.log("Login successful. Redirecting to dashboard...");
-        router.push("/dashboard"); // Redirect to dashboard using client-side routing
+        router.push("/dashboard"); 
       })
       .catch((err) => {
         if (err.response && err.response.data && err.response.data.error) {

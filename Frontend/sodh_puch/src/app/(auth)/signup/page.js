@@ -3,6 +3,8 @@
 import styles from "./page.module.css";
 import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
+import { isAuthenticated } from "../auth";
+import axios from '../../axiosSetup';
 
 const Home = () => {
   const [username, setUsername] = useState("");
@@ -14,7 +16,7 @@ const Home = () => {
   function handleSubmit(event) {
     event.preventDefault();
     axios
-      .post("http://localhost:8080/signup", {
+      .post("http://localhost:8000/signup", {
         fullname,
         email,
         username,
