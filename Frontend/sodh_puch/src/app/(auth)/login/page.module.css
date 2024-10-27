@@ -1,0 +1,142 @@
+/* page.module.css */
+
+/* Main container */
+.main {
+    display: flex;
+    height: 100vh;
+  }
+  
+  /* Left page container */
+  .main2 {
+    width: 100%;
+    background-image: url("/img/2.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+  
+  /* Background image */
+  .main3 {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+  
+  /* Right page container */
+  .main4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #121315;
+    width: 100%;
+    color: white;
+    
+  }
+  
+  /* Form container */
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    background-color: white;
+    padding: 2rem;
+    height: 50vh;
+    width: 40vh;
+    overflow: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Added box shadow */
+    color: black;
+  }
+  
+  /* Form label */
+  .form label {
+    margin-bottom: 0.5rem;
+    display: inline-block; /* Ensures labels are block elements */
+    text-align: left; /* Aligns text to the left */
+    width: 80%; /* Controls the width of the labels */
+  }
+  
+  /* Form input */
+  .form input {
+    margin-bottom: 1rem;
+    width: 80%;
+    height: 20px; /* Increased height of input boxes */
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 1vw;
+  }
+  
+  /* Login and Continue with Mail buttons */
+  .pbtn,
+  .sbtn {
+    border-radius: 10px;
+    text-align: center;
+    width: 80%; /* Adjusted width to match input boxes */
+    height: 20%; /* Adjusted height to match input boxes */
+    padding: 10px; /* Added padding */
+  }
+  
+  /* Login button */
+  .pbtn {
+    background-color: #121315;
+    height: 40px;
+    color: white;
+    margin-bottom: 1rem;
+  }
+  
+  /* Form heading */
+  .heading {
+    font-weight: lighter;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  
+  /* Bottom text */
+  .btmtxt {
+    font-weight: lighter;
+    margin-top: 3rem;
+    font-size: 2vh;
+  }
+  
+  /* OR Text */
+  .or {
+    margin: 0.5rem;
+  }
+  
+  .logo {
+    font-size: 4vh;
+    font-weight: lighter;
+    margin-bottom: 5rem;
+  }
+  
+  .fmhd {
+    font-weight: lighter;
+    font-size: 3vh;
+  }
+  
+  .left_head {
+    text-align: center;
+    font-weight: bold;
+    font-family: cursive;
+    font-size: 4vh;
+    padding: 2rem;
+    color: white;
+  }
+  .left_btm {
+    color: black;
+    font-weight: bold;
+    font-size: 2vh;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30%;
+    margin: 3rem;
+  }
+  .lo {
+    text-decoration: none;
+    color: black;
+  }
+  .signe{
+    text-decoration: underline;
+  }
