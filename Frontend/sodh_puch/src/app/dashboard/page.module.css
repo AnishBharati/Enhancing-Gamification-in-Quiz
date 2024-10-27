@@ -1,0 +1,37 @@
+.maincontainer{
+    background-color: #222831;
+}
+.container{
+    display: flex;
+    gap: 10px;
+   background-color: #31363F; 
+}
+.menu{
+    height: 10vh;
+
+    padding: 20px;
+  
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9); /* Added box shadow */
+
+}
+.content1{
+    flex: 0.5;
+    padding: 20px;
+    border-radius:  0 20px;
+    background-color: #5f0077;
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9); /* Added box shadow */
+
+}
+.content2{
+    flex: 4;
+    background-color: #222426   ;
+    border-radius:  20px;
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9); /* Added box shadow */
+
+}
+.containeer{
+    padding: 30px;
+}
