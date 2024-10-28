@@ -94,3 +94,54 @@ exports.delete_quiz_class = (req, res) => {
     });
   });
 };
+
+exports.addStudents = (req, res) => {
+  const {code} = req.body;
+
+  const authHeader = req.headers["authorization"];
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res
+      .status(401)
+      .json({ error: "Unauthorized", message: "JWT token is required" });
+  }
+  const token = authHeader.split(" ")[1];
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      console.error("JWT Verification Error:", err);
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    const userId = decoded.id;
+
+    const sqlSelectClassFromCode = "SELECT * FROM quiz_classes WHERE code = ?";
+
+    db.query(sqlSelectClassFromCode,[code], (err, data)=>{
+      if(err){
+        console.error("MySQL Error: ", err);
+        return res.status(500).json({error: "Internal Server Error"});
+      }
+
+      const checkTeacher = data[0].teacher_id;
+
+      if(checkTeacher == userId){
+        const sqlInsertStudentId = "INSERT INTO quiz_classes (quiz_class, teacher_id, students_id, code) SELECT quiz_class, teacher_id, ?, code FROM quiz_classes WHERE id = ?";
+
+      db.query(sqlInsertStudentId, [userId, data[0].id], (insertErr, insertResult)=> {
+        if(insertErr){
+          console.error("MySQL Error is: ", insertErr);
+          return res.status(500).json({error: "Internal Server Error"});
+        }
+
+        return res.json({message: "Student is Added Successfully"});
+      })
+      }
+
+      else{
+        return res.status(400).json({error: "Only Teacher can add students"});
+      }
+
+      
+    })
+  });
+}
