@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const secretKey = "your_secret_key";
-const authController = require("../Controllers/authentication/auth");
-const classController = require("../Controllers/quiz_class/quiz_class");
-const classController_topic = require("../Controllers/quiz_topic/quiz_topic");
+const authController = require("../Controllers/authentication/authController");
+const classController = require("../Controllers/quiz_class/quizClassController");
+const classController_topic = require("../Controllers/quiz_topic/quizTopicController");
 
 const verifyToken = (req, res, next) => {
   const token = req.headers.authorization;

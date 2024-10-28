@@ -33,12 +33,12 @@ exports.add_quiz_class = (req, res) => {
         return res.status(500).json({ error: "Internal Server Error" });
       }
 
-      // Insert a new quiz topic with the verified user ID
+      const code = Math.floor(10000 + Math.random() * 90000);
       const sqlInsertQuizTopic =
-        "INSERT INTO quiz_classes (quiz_class, teacher_id, students_id) VALUES (?, ?, ?)";
+        "INSERT INTO quiz_classes (quiz_class, teacher_id, students_id, code) VALUES (?, ?, ?, ?)";
       db.query(
         sqlInsertQuizTopic,
-        [topic, userId, userId],
+        [topic, userId, userId, code],
         (insertErr, result) => {
           if (insertErr) {
             console.error("MySQL Error:", insertErr);
