@@ -30,5 +30,6 @@ router.post("/add_topic", classController_topic.add_quiz_topic);
 router.post("/add_student", classController.addStudents);
 router.post("/add_question", classController_question.add_question);
 router.post("/check", classController_question.check_answer);
+router.post("/see_quiz", classController_question.seeQuiz);
 
 module.exports = router;
