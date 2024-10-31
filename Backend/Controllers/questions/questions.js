@@ -118,7 +118,8 @@ exports.check_answer = (req, res) => {
           // If record exists, update it
           const existingMarks = parseInt(result[0].marks, 10) || 0; // Ensure existing marks are treated as an integer
           const newMarks = existingMarks + marksAwarded; // Accumulate marks
-
+          console.log("Existing marks: ", existingMarks);
+          console.log("New MArks: ", newMarks);
           const sqlUpdateMarks =
             "UPDATE marks SET marks = ?, points = ? WHERE students_id = ? AND question_topic = ?";
 
