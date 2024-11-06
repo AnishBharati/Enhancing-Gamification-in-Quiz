@@ -38,7 +38,7 @@ exports.add_quiz_class = (req, res) => {
         "INSERT INTO quiz_classes (quiz_class, teacher_id, students_id, code) VALUES (?, ?, ?, ?)";
       db.query(
         sqlInsertQuizTopic,
-        [topic, userId, userId, code],
+        [topic, userId, null, code],
         (insertErr, result) => {
           if (insertErr) {
             console.error("MySQL Error:", insertErr);
@@ -96,7 +96,7 @@ exports.delete_quiz_class = (req, res) => {
 };
 
 exports.addStudents = (req, res) => {
-  const {code} = req.body;
+  const { code } = req.body;
 
   const authHeader = req.headers["authorization"];
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -116,30 +116,33 @@ exports.addStudents = (req, res) => {
 
     const sqlSelectClassFromCode = "SELECT * FROM quiz_classes WHERE code = ?";
 
-    db.query(sqlSelectClassFromCode,[code], (err, data)=>{
-      if(err){
+    db.query(sqlSelectClassFromCode, [code], (err, data) => {
+      if (err) {
         console.error("MySQL Error: ", err);
-        return res.status(500).json({error: "Internal Server Error"});
+        return res.status(500).json({ error: "Internal Server Error" });
       }
+
+      // const checkTeacher = data[0].teacher_id;
 
       const checkTeacher = data[0].teacher_id;
-
-      if(checkTeacher == userId){
-        const sqlInsertStudentId = "INSERT INTO quiz_classes (quiz_class, teacher_id, students_id, code) SELECT quiz_class, teacher_id, ?, code FROM quiz_classes WHERE id = ?";
-
-      db.query(sqlInsertStudentId, [userId, data[0].id], (insertErr, insertResult)=> {
-        if(insertErr){
-          console.error("MySQL Error is: ", insertErr);
-          return res.status(500).json({error: "Internal Server Error"});
-        }
-
-        return res.json({message: "Student is Added Successfully"});
-      })
+      if (checkTeacher == userId) {
+        const sqlInsertStudentId =
+          "INSERT INTO quiz_classes (quiz_class, teacher_id, students_id, code) SELECT quiz_class, teacher_id, ?, code FROM quiz_classes WHERE id = ?";
+        db.query(
+          sqlInsertStudentId,
+          [userId, data[0].id],
+          (insertErr, insertResult) => {
+            if (insertErr) {
+              console.error("MySQL Error is: ", insertErr);
+              return res.status(500).json({ error: "Internal Server Error" });
+            }
+            return res.json({ message: "Student is Added Successfully" });
+          }
+        );
+      } else {
+        return res.status(400).json({ error: "Only Teacher can add students" });
       }
-
-      else{
-        return res.status(400).json({error: "Only Teacher can add students"});
-      }
-    })
+      // return res.status(400).json({ error: "Only Teacher can add students" });
+    });
   });
-}
+};
