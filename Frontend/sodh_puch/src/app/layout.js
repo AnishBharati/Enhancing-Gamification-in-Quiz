@@ -1,16 +1,13 @@
+// pages/_app.js or app/layout.js (in the new app directory)
 
-import Navbar from "./components/navbar/page";
-import "./globals.css";
+import { ActionQueueProvider } from './context/ActionQueueProvider';
 
-
-export default function RootLayout({ children }) {
+function MyApp({ Component, pageProps }) {
   return (
-    <html lang="en">
-      <body >
-        
-        {children}
-     
-      </body>
-    </html>
+    <ActionQueueProvider>
+      <Component {...pageProps} />
+    </ActionQueueProvider>
   );
 }
+
+export default MyApp;

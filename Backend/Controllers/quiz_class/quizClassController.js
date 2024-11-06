@@ -140,8 +140,6 @@ exports.addStudents = (req, res) => {
       else{
         return res.status(400).json({error: "Only Teacher can add students"});
       }
-
-      
     })
   });
 }
