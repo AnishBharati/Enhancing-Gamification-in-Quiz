@@ -24,6 +24,7 @@ exports.add_quiz_topic = (req, res) => {
 
     const userId = decoded.id; // Getting the user ID from the token
 
+    const teacherId = "SELECT teacher_id FROM "
     // Proceed to query the database for quiz_topic
     const sqlCheckClasses = "SELECT * FROM quiz_topic";
 
@@ -52,3 +53,26 @@ exports.add_quiz_topic = (req, res) => {
     });
   });
 };
+
+exports.see_quiz_topic = (req,res) => {
+  const {quiz_class} = req.body;
+
+  const authHeader = req.headers['authorization'];
+  if (!authHeader || !authHeader.startsWith("Bearer ")){
+    return res
+      .status(401)
+      .json({error: "Unauthorized", message: "JWT token is required"});
+  }
+  const token = authHeader.split(" ")[1];
+
+  jwt.verify(token, secretKey, (err, decoded)=>{
+    if(err){
+      console.error("JWT Verification Error: ", err);
+      return res.status(401).json({ error: "Invalied token"});
+    }
+
+    const userId = decoded.id;
+
+
+  })
+}
