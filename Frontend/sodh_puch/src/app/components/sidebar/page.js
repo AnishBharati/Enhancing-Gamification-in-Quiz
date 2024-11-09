@@ -59,7 +59,7 @@ export default function Sidebar() {
                   </Link>
                 </div>
                 <div className={styles.item6}>
-                  <Link href="/dashboard/subjects" className={styles.link}>
+                  <Link href="/dashboard/classes/subjects" className={styles.link}>
                     <PiFilesLight className={styles.icon2} />
                     <span className={styles.text}> Subject</span>
                   </Link>
