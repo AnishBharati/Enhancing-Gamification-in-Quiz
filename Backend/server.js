@@ -22,5 +22,5 @@ app.use("/", routes);
 
 const PORT = process.env.PORT_SERVER;
 app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`.bgCyan.white);
+  console.log(`Server running on ${PORT}`.bgBlack.green);
 });

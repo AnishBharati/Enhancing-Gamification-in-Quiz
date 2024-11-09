@@ -4,7 +4,7 @@ const { db } = require("../../database/db");
 const secretKey = "your_secret_key";
 
 exports.add_quiz_class = (req, res) => {
-  const { topic } = req.body;
+  const { topic, description } = req.body;
 
   // Extracting the JWT token from the Authorization header
   const authHeader = req.headers["authorization"];
@@ -35,10 +35,10 @@ exports.add_quiz_class = (req, res) => {
 
       const code = Math.floor(10000 + Math.random() * 90000);
       const sqlInsertQuizTopic =
-        "INSERT INTO quiz_classes (quiz_class, teacher_id, students_id, code) VALUES (?, ?, ?, ?)";
+        "INSERT INTO quiz_classes (quiz_class, description ,teacher_id, students_id, code) VALUES (?,?, ?, ?, ?)";
       db.query(
         sqlInsertQuizTopic,
-        [topic, userId, null, code],
+        [topic, description, userId, null, code],
         (insertErr, result) => {
           if (insertErr) {
             console.error("MySQL Error:", insertErr);
