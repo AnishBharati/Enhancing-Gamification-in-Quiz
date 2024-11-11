@@ -25,6 +25,9 @@ router.post("/login", authController.login);
 router.post("/signup", authController.signup);
 
 router.post("/add_class", classController.add_quiz_class);
+router.get("/see_class", classController.see_class);
+router.post("/delete_class", classController.delete_quiz_class);
+
 router.post("/add_topic", classController_topic.add_quiz_topic);
 
 router.post("/add_student", classController.addStudents);

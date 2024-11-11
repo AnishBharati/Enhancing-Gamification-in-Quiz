@@ -58,10 +58,9 @@ exports.delete_quiz_class = (req, res) => {
 
   const authHeader = req.headers["authorization"];
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res
-      .status(401)
-      .json({ error: "Unauthorized", message: "JWT token is required" });
+    return res.status(401).json({ error: "Unauthorized", message: "JWT token is required" });
   }
+
   const token = authHeader.split(" ")[1];
 
   jwt.verify(token, secretKey, (err, decoded) => {
@@ -71,25 +70,28 @@ exports.delete_quiz_class = (req, res) => {
     }
 
     const userId = decoded.id;
-    const sqlSelectClass = "SELECT * FROM quiz_classes WHERE id=?";
 
+    // Query to check if the class exists
+    const sqlSelectClass = "SELECT * FROM quiz_classes WHERE id=?";
     db.query(sqlSelectClass, [id], (err, data) => {
       if (err) {
         console.error("MySQL Error:", err);
         return res.status(500).json({ error: "Internal Server Error" });
       }
 
-      const class_code = data[0].code;
+      if (data.length === 0) {
+        return res.status(404).json({ error: "Class not found" });
+      }
 
-      const sqlSelectResClass = "DELETE * FROM quiz_classes WHERE code = ?";
-
-      db.query(sqlSelectResClass, [class_code], (err, data1) => {
+      // Proceed to delete the class
+      const sqlDeleteClass = "DELETE FROM quiz_classes WHERE id=?";
+      db.query(sqlDeleteClass, [id], (err, result) => {
         if (err) {
-          console.error("JWT Verification Error:", err);
-          return res.status(401).json({ error: "Invalid token" });
+          console.error("MySQL Error:", err);
+          return res.status(500).json({ error: "Error deleting class" });
         }
 
-        return res.json({ message: "Class is Deleted" });
+        return res.json({ message: "Class deleted successfully" });
       });
     });
   });
@@ -145,3 +147,53 @@ exports.addStudents = (req, res) => {
     });
   });
 };
+
+exports.see_class = (req, res) => {
+  const { id, quiz_class, description } = req.body;
+
+  const authHeader = req.headers["authorization"];
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res
+      .status(401)
+      .json({ error: "Unauthorized", message: "JWT token is required" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      console.error("JWT Verification Error: ", err);
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    const userId = decoded.id;
+
+    let sqlSelectClass = "SELECT id, quiz_class, description FROM quiz_classes WHERE teacher_id = ? OR students_id = ?";
+    const queryParams = [userId, userId];
+
+    if (id || quiz_class || description) {
+      if(id) {
+        sqlSelectClass += " AND id = ?";
+        queryParams.push(id);
+      }
+      if (quiz_class) {
+        sqlSelectClass += " AND title = ?";
+        queryParams.push(quiz_class);
+      }
+      if (description) {
+        sqlSelectClass += " AND description = ?";
+        queryParams.push(description);
+      }
+    }
+
+    db.query(sqlSelectClass, queryParams, (err, result) => {
+      if (err) {
+        console.error("MySQL Error:", err);
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+
+      return res.json({ tasks: result });
+    });
+  });
+};
+
