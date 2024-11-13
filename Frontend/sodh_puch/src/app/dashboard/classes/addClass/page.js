@@ -12,15 +12,12 @@ export default function AddClass() {
     const topics = JSON.parse(localStorage.getItem("topics")) || [];
     const descriptions = JSON.parse(localStorage.getItem("descriptions")) || [];
 
-
     topics.push(topic);
     descriptions.push(description);
-
 
     localStorage.setItem("topics", JSON.stringify(topics));
     localStorage.setItem("descriptions", JSON.stringify(descriptions));
 
-    
     setTopic("");
     setDescription("");
   };
@@ -31,7 +28,9 @@ export default function AddClass() {
         <h2 className={styles.title}>Add Class</h2>
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.field}>
-            <label htmlFor="topic" className={styles.label}>Topic:</label>
+            <label htmlFor="topic" className={styles.label}>
+              Topic:
+            </label>
             <input
               type="text"
               id="topic"
@@ -43,7 +42,9 @@ export default function AddClass() {
             />
           </div>
           <div className={styles.field}>
-            <label htmlFor="description" className={styles.label}>Description:</label>
+            <label htmlFor="description" className={styles.label}>
+              Description:
+            </label>
             <textarea
               id="description"
               value={description}
@@ -52,7 +53,9 @@ export default function AddClass() {
               className={styles.textarea}
             />
           </div>
-          <button type="submit" className={styles.button}>Submit</button>
+          <button type="submit" className={styles.button}>
+            Submit
+          </button>
         </form>
       </div>
     </div>
