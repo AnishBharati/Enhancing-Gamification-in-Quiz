@@ -1,7 +1,7 @@
 "use client"; // This is a client component
 
 import styles from "./page.module.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { isAuthenticated } from "../auth";
 import axios from '../../axiosSetup';
@@ -12,6 +12,12 @@ const Home = () => {
   const [fullname, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const router = useRouter();
+
+  useEffect(()=>{
+    if(isAuthenticated()){
+      router.push('/dashboard');
+    }
+  })
 
   function handleSubmit(event) {
     event.preventDefault();

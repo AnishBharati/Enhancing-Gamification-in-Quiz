@@ -1,12 +1,26 @@
 "use client";
 import styles from "./page.module.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
+import { isAuthenticated } from "../../(auth)/auth";
 import { IoCloseOutline } from "react-icons/io5";
+import { useRouter } from "next/navigation";
 
 import AddClass from "./addClass/page.js";
 export default function Classes() {
   const [modal, setModal] = useState(false);
+
+  const router = useRouter();
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            if (!await isAuthenticated()) {
+                router.push('/login');
+            }
+        };
+        checkAuth();
+    }, [router]);
+
   const toogle = () => {
     setModal(!modal);
   };
