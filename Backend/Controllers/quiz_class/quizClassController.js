@@ -124,29 +124,60 @@ exports.addStudents = (req, res) => {
         return res.status(500).json({ error: "Internal Server Error" });
       }
 
-      // const checkTeacher = data[0].teacher_id;
-
-      const checkTeacher = data[0].teacher_id;
-      if (checkTeacher == userId) {
-        const sqlInsertStudentId =
-          "INSERT INTO quiz_classes (quiz_class, teacher_id, students_id, code) SELECT quiz_class, teacher_id, ?, code FROM quiz_classes WHERE id = ?";
-        db.query(
-          sqlInsertStudentId,
-          [userId, data[0].id],
-          (insertErr, insertResult) => {
-            if (insertErr) {
-              console.error("MySQL Error is: ", insertErr);
-              return res.status(500).json({ error: "Internal Server Error" });
-            }
-            return res.json({ message: "Student is Added Successfully" });
-          }
-        );
-      } else {
-        return res.status(400).json({ error: "Only Teacher can add students" });
+      if (data.length === 0) {
+        return res.status(404).json({ error: "Class not found" });
       }
+
+      // Check all rows for existing student or teacher
+      const isUserAlreadyAdded = data.some(row => {
+        const teacherId = row.teacher_id;
+        let studentIds = [];
+
+        // Parse students_id to ensure it's an array of IDs
+        if (row.students_id) {
+          if (typeof row.students_id === "string" && row.students_id.includes(",")) {
+            studentIds = row.students_id.split(","); // comma-separated format
+          } else if (typeof row.students_id === "string") {
+            try {
+              studentIds = JSON.parse(row.students_id); // JSON string format
+              if (!Array.isArray(studentIds)) {
+                studentIds = [row.students_id]; // fallback to single ID as string
+              }
+            } catch {
+              studentIds = [row.students_id]; // single ID as string
+            }
+          } else {
+            studentIds = Array.isArray(row.students_id) ? row.students_id : [row.students_id]; // already an array or single ID
+          }
+        }
+
+        // Check if userId matches teacher_id or any of the student IDs
+        return teacherId === userId || studentIds.includes(String(userId));
+      });
+
+      // If the user is already added, return an error message
+      if (isUserAlreadyAdded) {
+        return res.status(400).json({ error: "User is already added" });
+      }
+
+      // If user is not added, proceed with the insertion
+      const { id: classId } = data[0]; // Select the first row's ID for insertion
+      const sqlInsertStudentId =
+        "INSERT INTO quiz_classes (quiz_class, description, teacher_id, students_id, code) SELECT quiz_class, description, teacher_id, ?, code FROM quiz_classes WHERE id = ?";
+
+      db.query(sqlInsertStudentId, [userId, classId], (insertErr, insertResult) => {
+        if (insertErr) {
+          console.error("MySQL Insert Error: ", insertErr);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+
+        return res.json({ message: "Student is added successfully" });
+      });
     });
   });
 };
+
+
 
 exports.see_class = (req, res) => {
   const { id, quiz_class, description } = req.body;
