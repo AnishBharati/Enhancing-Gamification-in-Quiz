@@ -58,7 +58,7 @@ export default function Classes() {
           <br />
         </span>
         <span>
-          Make your own question bank!
+          Make your own question bank and solve!
           <br />
           It’s quick and easy!
         </span>
