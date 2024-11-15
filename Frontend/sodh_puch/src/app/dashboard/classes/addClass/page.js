@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import styles from "./page.module.css";
-
+import axios from "../../../axiosSetup";
+import { useRouter } from "next/navigation";
 export default function AddClass() {
 
 
@@ -9,23 +10,26 @@ export default function AddClass() {
   const [topic, setTopic] = useState("");
   const [description, setDescription] = useState("");
 
+  const router = useRouter();
   const handleSubmit = (e) => {
+
     e.preventDefault();
 
-    const topics = JSON.parse(localStorage.getItem("topics")) || [];
-    const descriptions = JSON.parse(localStorage.getItem("descriptions")) || [];
-
-
-    topics.push(topic);
-    descriptions.push(description);
-
-
-    localStorage.setItem("topics", JSON.stringify(topics));
-    localStorage.setItem("descriptions", JSON.stringify(descriptions));
-
-    
-    setTopic("");
-    setDescription("");
+    axios
+    .post("http://localhost:8000/add_class", { topic, description })
+    .then((res) => {
+      const token = res.data.token;
+      if (token) {
+        localStorage.setItem("token", token);
+      }
+      setTopic('');
+      setDescription('');
+      router.push("/dashboard/classes/subjects");
+    })
+    .catch((error) => {
+      console.error("Error adding class: ", error);
+    });
+  
   };
 
  

@@ -8,19 +8,25 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { GoPlus } from "react-icons/go";
 import { PiFilesLight } from "react-icons/pi";
 import { IoIosArrowDown } from "react-icons/io";
-
 import { useState } from "react";
-
+import { useRouter } from "next/navigation";
+import { IoLogOutOutline } from "react-icons/io5";
 export default function Sidebar() {
   const [open, setOpen] = useState(true);
   const toggle = () => {
     setOpen(!open);
   };
-
+  const router = useRouter();
   const [drop, setDrop] = useState(false);
   const toggleDropdown = () => {
     setDrop(!drop);
   };
+
+  const handlelogout = () => {
+    const token = localStorage.getItem('token');
+    localStorage.removeItem("token", token);
+    router.push("/login");
+  }
 
   return (
     <div className={styles.container}>
@@ -66,6 +72,12 @@ export default function Sidebar() {
                 </div>
               </>
             )}
+            <div className={styles.item7}>
+              <Link onClick={handlelogout} href="login" className={styles.link}>
+                <IoLogOutOutline className={styles.icon} />
+                <span className={styles.text}>Logout</span>
+              </Link>
+            </div>
           </>
         )}
       </div>
