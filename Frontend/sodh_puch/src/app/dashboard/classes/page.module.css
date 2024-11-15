@@ -1,16 +1,16 @@
-.container{
-
+/* Main container styling */
+.container {
    padding: 1rem;
    font-size: 1rem;
    display: flex;
    flex-direction: column;
    height: 70vh;
    justify-content: center;
-   align-items:  center;
+   align-items: center;
+}
 
-
-} 
-.container1{
+/* Background and layout for the first content container */
+.container1 {
    background-image: url(/img/4.png);
    height: 45vh;
    background-position: center;
@@ -22,46 +22,49 @@
    flex-direction: column;
    justify-content: space-between;
    text-align: center;
-   font-family: 'Courier New', Courier, monospace;   
+   font-family: 'Courier New', Courier, monospace;
 }
-.container2{
+
+/* Button container */
+.container2 {
    display: flex;
    flex-wrap: wrap;
    gap: 15px;
    margin: 2rem;
-   
    justify-content: center;
 }
-.btn1{
-      padding: 0.9rem;
-      border-radius: 1.8rem;
-      background-color: #5f0077;
-      color: white;
-      box-shadow: 0 0 10px rgba(176, 71, 202, 0.8); /* Added box shadow */
 
-}
-     
-      
-      
-.btn2{
-   background-color: #191b1b;
+/* Button styles with shadow effects */
+.btn1, .btn2 {
    padding: 0.9rem;
-   color: white;
    border-radius: 1.8rem;
-   box-shadow: 0 0 10px rgba(5, 1, 1, 0.836); /* Added box shadow */
-
+   color: white;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+   transition: background-color 0.3s, transform 0.2s;
+   cursor: pointer;
 }
- 
-.btn1:hover{
+
+.btn1 {
+   background-color: #5f0077;
+   box-shadow: 0 0 10px rgba(176, 71, 202, 0.8);
+}
+
+.btn2 {
+   background-color: #191b1b;
+   box-shadow: 0 0 10px rgba(5, 1, 1, 0.836);
+}
+
+.btn1:hover {
    background-color: #9b16b9;
-   cursor: pointer;
-   
-}
-.btn2:hover{
-   background-color: #202e2e;
-   cursor: pointer;
+   transform: scale(1.05);
 }
 
+.btn2:hover {
+   background-color: #202e2e;
+   transform: scale(1.05);
+}
+
+/* Modal overlay and content container */
 .modal {
    display: flex;
    justify-content: center;
@@ -72,25 +75,80 @@
    top: 0;
    width: 100%;
    height: 100%;
-  
    background-color: rgba(0, 0, 0, 0.5);
-   
-   
 }
 
+/* Modal content box with padding and border-radius */
 .modalContent {
-   border-radius: 8px;
+   background-color: black;
+   width: 90%;
+   max-width: 400px;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+   text-align: center;
    position: relative;
-   
-     
+   animation: fadeIn 0.3s ease-in-out;
 }
 
+/* Close button positioning in the top right of each modal */
 .close {
-cursor: pointer;
-position: absolute;
-top: 10.1rem;
-right: 10px;
-
+   cursor: pointer;
+   position: absolute;
+   top: 20px;
+   right: 10px;
+   font-size: 24px;
+   color: #888888;
+   transition: color 0.2s ease-in-out;
 }
 
+.close:hover {
+   color: #ff5c5c;
+}
 
+/* Smooth animation for modal appearance */
+@keyframes fadeIn {
+   from {
+      opacity: 0;
+      transform: translateY(-10px);
+   }
+   to {
+      opacity: 1;
+      transform: translateY(0);
+   }
+}
+
+/* Input styling within the modal */
+.modalContent input[type="text"] {
+   width: 100%;
+   padding: 10px;
+   margin: 15px 0;
+   border: 1px solid #ddd;
+   border-radius: 8px;
+   font-size: 16px;
+   outline: none;
+   transition: border-color 0.2s ease-in-out;
+}
+
+.modalContent input[type="text"]:focus {
+   border-color: #ff5c5c;
+}
+
+/* Submit button styling in the modal */
+.modalContent button {
+   width: 100%;
+   padding: 10px;
+   background-color: #ff5c5c;
+   color: white;
+   border: none;
+   border-radius: 8px;
+   font-size: 16px;
+   font-weight: bold;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+   margin-top: 10px;
+}
+
+.modalContent button:hover {
+   background-color: #ff3a3a;
+}
