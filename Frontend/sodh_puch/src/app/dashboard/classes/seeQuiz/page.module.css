@@ -104,6 +104,28 @@
   margin-top: 30px;
   animation: fadeIn 1s ease-in-out;
 }
+.finalSubmitButton {
+  background-color: #4caf50; /* Green background */
+  color: white; /* White text */
+  padding: 12px 20px; /* Add padding for size */
+  font-size: 18px; /* Make text larger */
+  font-weight: bold; /* Bold text */
+  border: none; /* Remove default border */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.finalSubmitButton:hover {
+  background-color: #45a049; /* Slightly darker green on hover */
+  transform: scale(1.05); /* Slightly larger on hover */
+}
+
+.finalSubmitButton:active {
+  background-color: #388e3c; /* Even darker green when clicked */
+  transform: scale(0.98); /* Slightly smaller on click */
+}
 
 /* Animation for fadeIn effect */
 @keyframes fadeIn {

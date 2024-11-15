@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import styles from "./page.module.css";
 
 export default function ViewQuiz() {
-  // Sample quiz data – you can replace this with real data fetched from a server or state.
   const quizDataList = [
     {
       question: "What is the capital of France?",
@@ -25,30 +24,46 @@ export default function ViewQuiz() {
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [quizCompleted, setQuizCompleted] = useState(false);
-  const [message, setMessage] = useState(""); // Message for feedback
+  const [message, setMessage] = useState("");
+  const [score, setScore] = useState(0);
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
   };
 
   const handleSubmit = () => {
+    const selectedOptionIndex =
+      quizDataList[currentQuizIndex].options.indexOf(selectedOption) + 1;
+    console.log(`Option ${selectedOptionIndex} was clicked and submitted`);
+
     if (selectedOption === quizDataList[currentQuizIndex].correctAnswer) {
-      setMessage("Correct!"); // Show success message
+      const correctAnswerMessage = "Correct!!";
+      console.log(correctAnswerMessage);
+      // setMessage("Correct!");
+      setScore((prevScore) => prevScore + 1); // Increment score for correct answer
     } else {
-      setMessage(
+      const wrongAnswerMessage =
         "Wrong answer. The correct answer was: " +
-          quizDataList[currentQuizIndex].correctAnswer
-      );
+        quizDataList[currentQuizIndex].correctAnswer;
+      console.log(wrongAnswerMessage);
+      // setMessage(
+      //   "Wrong answer. The correct answer was: " +
+      //     quizDataList[currentQuizIndex].correctAnswer
+      // );
     }
 
-    // Go to the next quiz after submission
     if (currentQuizIndex < quizDataList.length - 1) {
       setCurrentQuizIndex(currentQuizIndex + 1);
       setSelectedOption(null);
     } else {
       setQuizCompleted(true);
-      setMessage("You've completed all the quizzes!"); // Final completion message
+      console.log("You've completed all the quizzes!");
     }
+  };
+
+  const handleFinalSubmit = () => {
+    console.log(`Final score: ${score}`);
+    alert(`Your total score is: ${score} out of ${quizDataList.length}`);
   };
 
   const currentQuiz = quizDataList[currentQuizIndex];
@@ -79,13 +94,23 @@ export default function ViewQuiz() {
           ))}
         </div>
         <div className={styles.submitContainer}>
-          <button
-            className={styles.submitButton}
-            onClick={handleSubmit}
-            disabled={selectedOption === null}
-          >
-            Submit
-          </button>
+          {!quizCompleted && (
+            <button
+              className={styles.submitButton}
+              onClick={handleSubmit}
+              disabled={selectedOption === null}
+            >
+              Submit
+            </button>
+          )}
+          {quizCompleted && (
+            <button
+              className={styles.finalSubmitButton}
+              onClick={handleFinalSubmit}
+            >
+              🚀 Final Submit
+            </button>
+          )}
         </div>
       </div>
 
