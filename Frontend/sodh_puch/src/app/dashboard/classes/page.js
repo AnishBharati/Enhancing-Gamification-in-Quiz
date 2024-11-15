@@ -45,7 +45,7 @@ export default function Classes() {
         router.push("/dashboard/classes/subjects");
       })
       .catch((error) => {
-        console.error("Error adding student: ", error);
+        console.error("Error adding students: ", error);
       });
       };
   
@@ -58,7 +58,7 @@ export default function Classes() {
           <br />
         </span>
         <span>
-          Make your own question bank!
+          Make your own question bank and solve!
           <br />
           It’s quick and easy!
         </span>

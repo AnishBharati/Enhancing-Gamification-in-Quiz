@@ -1,24 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./page.module.css";
-import { FiPlusCircle } from "react-icons/fi";
+import { FaTimes, FaEye } from "react-icons/fa";
+import Link from "next/link";
 
 export default function AddQuiz() {
-  function show() {
-    const main = document.getElementById("main");
-    if (main.style.display === "none") {
-      main.style.display = "flex"; // Show the element
-    } else {
-      main.style.display = "none"; // Hide the element
-    }
-  }
+  
 
-  function hide() {
-    const main = document.getElementById("main");
-    if (main.style.display === "flex") {
-      main.style.display = "none"; // Show the element
-    }
-  }
 
   const [question, setQuestion] = useState("");
   const [correctanswer, setCorrectanswer] = useState("");
@@ -35,6 +23,7 @@ export default function AddQuiz() {
     console.log("Option2:", option2);
     console.log("Option3:", option3);
     console.log("Option4:", option4);
+
     setQuestion("");
     setCorrectanswer("");
     setOption1("");
@@ -44,22 +33,21 @@ export default function AddQuiz() {
   };
 
   return (
-    <div>
-      <h1 className={styles.title}>
-        CREATE QUIZ{" "}
-        <button onClick={show} className={styles.icon}>
-          {" "}
-          <FiPlusCircle />
-        </button>
-      </h1>
+    <div className={styles.container}>
+      <div className={styles.maincontainer}>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.header}>
+            <Link href="/dashboard/classes/subjects">
+              <FaTimes className={styles.closeIcon} />
+            </Link>
+            <h1 className={styles.title}>Create Quiz</h1>
+            <FaEye className={styles.eyeIcon} />
+          </div>
 
-      <div className={styles.maincontainer} id="main">
-        <form action="" onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.field}>
             <label htmlFor="question" className={styles.label}>
               Type a Question:
             </label>
-
             <input
               className={styles.input}
               type="text"
@@ -70,21 +58,22 @@ export default function AddQuiz() {
               onChange={(e) => setQuestion(e.target.value)}
             />
           </div>
+
           <div className={styles.field}>
             <label className={styles.label} htmlFor="correctanswer">
               Correct Answer:
             </label>
-
             <input
               className={styles.input}
               type="text"
               id="correctanswer"
-              placeholder="CorrectAnswer"
+              placeholder="Correct Answer"
               required
               value={correctanswer}
               onChange={(e) => setCorrectanswer(e.target.value)}
             />
           </div>
+
           <div className={styles.field}>
             <label htmlFor="option1" className={styles.label}>
               Write options for your question:
@@ -94,17 +83,16 @@ export default function AddQuiz() {
                 className={styles.input}
                 type="text"
                 id="option1"
-                placeholder="Option1"
+                placeholder="Option 1"
                 required
                 value={option1}
                 onChange={(e) => setOption1(e.target.value)}
               />
-
               <input
                 className={styles.input}
                 type="text"
                 id="option2"
-                placeholder="Option2"
+                placeholder="Option 2"
                 required
                 value={option2}
                 onChange={(e) => setOption2(e.target.value)}
@@ -115,7 +103,7 @@ export default function AddQuiz() {
                 className={styles.input}
                 type="text"
                 id="option3"
-                placeholder="Option3"
+                placeholder="Option 3"
                 required
                 value={option3}
                 onChange={(e) => setOption3(e.target.value)}
@@ -124,7 +112,7 @@ export default function AddQuiz() {
                 className={styles.input}
                 type="text"
                 id="option4"
-                placeholder="Option4"
+                placeholder="Option 4"
                 required
                 value={option4}
                 onChange={(e) => setOption4(e.target.value)}
@@ -132,8 +120,8 @@ export default function AddQuiz() {
             </div>
           </div>
 
-          <button className={styles.button} onClick={hide} type="submit">
-            Submit
+          <button className={styles.button} type="submit">
+            Next
           </button>
         </form>
       </div>
