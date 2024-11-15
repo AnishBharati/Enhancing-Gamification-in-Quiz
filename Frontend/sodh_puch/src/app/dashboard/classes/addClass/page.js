@@ -4,6 +4,9 @@ import styles from "./page.module.css";
 import axios from "../../../axiosSetup";
 import { useRouter } from "next/navigation";
 export default function AddClass() {
+
+
+
   const [topic, setTopic] = useState("");
   const [description, setDescription] = useState("");
 
@@ -28,6 +31,8 @@ export default function AddClass() {
     });
   
   };
+
+ 
 
   return (
     <div className={styles.maincontainer}>
@@ -56,7 +61,7 @@ export default function AddClass() {
               className={styles.textarea}
             />
           </div>
-          <button type="submit" className={styles.button}>Submit</button>
+          <button type="submit"  className={styles.button}>Submit</button>
         </form>
       </div>
     </div>

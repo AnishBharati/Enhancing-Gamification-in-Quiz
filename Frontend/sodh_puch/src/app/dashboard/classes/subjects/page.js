@@ -88,9 +88,12 @@ export default function Subjects() {
 
   return (
     <div className={styles.maincontainer}>
+
+
       {error ? (
         <p>Error: {error}</p>
       ) : topics.length === 0 ? (
+
         <p>No topics added yet.</p>
       ) : (
         topics.map((topic, index) => (
@@ -100,6 +103,7 @@ export default function Subjects() {
             onClick={() => handleCardClick(index)}
           >
             <div>
+
               <h3 className={styles.item1}>{topic.quiz_class}</h3>
               <p className={styles.item2}>{descriptions[index]}</p>
             </div>
