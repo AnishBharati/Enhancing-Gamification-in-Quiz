@@ -45,7 +45,7 @@ export default function Classes() {
         router.push("/dashboard/classes/subjects");
       })
       .catch((error) => {
-        console.error("Error adding student: ", error);
+        console.error("Error adding students: ", error);
       });
       };
   
