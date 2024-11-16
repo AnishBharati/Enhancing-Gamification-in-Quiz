@@ -23,10 +23,10 @@ export default function Sidebar() {
   };
 
   const handlelogout = () => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     localStorage.removeItem("token", token);
     router.push("/login");
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -52,7 +52,7 @@ export default function Sidebar() {
             <div className={styles.item2} onClick={toggleDropdown}>
               <SiGoogleclassroom className={styles.icon} />
               <span className={styles.text}>
-                Quiz  <IoIosArrowDown className={styles.icon1} />
+                Quiz <IoIosArrowDown className={styles.icon1} />
               </span>
             </div>
 
@@ -65,7 +65,10 @@ export default function Sidebar() {
                   </Link>
                 </div>
                 <div className={styles.item6}>
-                  <Link href="/dashboard/classes/subjects" className={styles.link}>
+                  <Link
+                    href="/dashboard/classes/subjects"
+                    className={styles.link}
+                  >
                     <PiFilesLight className={styles.icon2} />
                     <span className={styles.text}> Subject</span>
                   </Link>
@@ -73,7 +76,11 @@ export default function Sidebar() {
               </>
             )}
             <div className={styles.item7}>
-              <Link onClick={handlelogout} href="login" className={styles.link}>
+              <Link
+                onClick={handlelogout}
+                href="/login"
+                className={styles.link}
+              >
                 <IoLogOutOutline className={styles.icon} />
                 <span className={styles.text}>Logout</span>
               </Link>

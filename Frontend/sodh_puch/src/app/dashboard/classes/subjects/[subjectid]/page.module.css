@@ -1,91 +1,91 @@
 .container {
-    padding: 0.1rem;
-  }
-  
-  .heading {
-    border-top-left-radius: 20px;
-    padding: 2rem 0 2rem 2rem;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1.5rem;
-    background-image: url(/img/2.jpg);
-    display: flex;
-    justify-content: space-between;
-    position: relative; 
-  }
-  
-  .details {
-    border-bottom-left-radius: 20px;
-    padding: 1rem 1rem 2rem 2rem;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1rem;
-    background-image: url(/img/1.jpg);
-  }
+  padding: 0.1rem;
+}
 
+.heading {
+  border-top-left-radius: 20px;
+  padding: 2rem 0 2rem 2rem;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.5rem;
+  background-image: url(/img/2.jpg);
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
 
-  .box{
-    border: 1px solid gray;
-    margin-top: 0.5rem;
-    border-radius: 10px;
-    padding: 1rem;
-    
-  }
-  
-  .icon {
-    padding-right: 1rem;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  .icon:hover {
-    transform: scale(1.2);
-    transition: transform 0.3s ease-in-out; 
-  }
-  
-  .dropdown {
-    position: absolute;
-    
-    right: 10px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); 
-    padding: 0.5rem;
-    margin-right: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    z-index: 1000;
-    opacity: 0; 
-    transform: translateY(-10px);
-    visibility: hidden; 
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s 0.3s; 
-  }
-  
-  .dropdown.show {
-    opacity: 1; 
-    transform: translateY(0); 
-    visibility: visible; 
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-  
-  .dropdown span {
-    cursor: pointer;
-    padding: 0.8rem;
+.details {
+  border-bottom-left-radius: 20px;
+  padding: 1rem 1rem 2rem 2rem;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1rem;
+  background-image: url(/img/1.jpg);
+}
 
-    border-radius: 10px;
-    background-color: #222;
-    color: white;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .dropdown span:hover {
-    background-color: #444; 
-    transform: scale(1.1); 
-    transition: background-color 0.3s ease, transform 0.2s ease; 
-  }
-  
-  .add{
-    margin-bottom: 10px;
-    padding: 0.5rem;
-  }
-  
-  
+.box {
+  border: 1px solid gray;
+  margin-top: 0.5rem;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.icon {
+  padding-right: 1rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.icon:hover {
+  transform: scale(1.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.dropdown {
+  position: absolute;
+
+  right: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(-10px);
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s 0.3s;
+}
+
+.dropdown.show {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown span {
+  cursor: pointer;
+  padding: 0.8rem;
+
+  border-radius: 10px;
+  background-color: #222;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.dropdown span:hover {
+  background-color: #444;
+  transform: scale(1.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add {
+  margin-bottom: 10px;
+  padding: 0.5rem;
+}
+
+.topicContainer {
+  margin-bottom: 16px; /* Add space between each topic */
+}
