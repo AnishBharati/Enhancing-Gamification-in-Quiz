@@ -11,6 +11,21 @@ export default function Subjects() {
   const [error, setError] = useState(null);
   const router = useRouter();
 
+  // Mapping of subjects to their specific image URLs
+  const subjectImages = {
+    Science: "/img/science.jpeg",
+    Economics : "/img/Economics.jpeg",
+    Computer :"/img/Computer.jpeg",
+    English: "/img/English.jpeg",
+    Nepali: "/img/Nepali.jpeg",
+    Math: "/img/Math.jpeg", // Add other subjects as needed
+  };
+
+  const getSubjectImage = (quizClass) => {
+    // Return the subject-specific image or a default one
+    return subjectImages[quizClass] || "/img/default.jpg";
+  };
+
   useEffect(() => {
     const checkAuth = async () => {
       if (!(await isAuthenticated())) {
@@ -36,9 +51,8 @@ export default function Subjects() {
         const data = await response.json();
         const tasks = data.tasks || [];
 
-        // Ensure each topic is an object containing both the id and quiz_class
         const fetchedTopics = tasks.map((task) => ({
-          id: task.id, // Assuming id exists on the task object
+          id: task.id,
           quiz_class: task.quiz_class,
         }));
 
@@ -66,16 +80,13 @@ export default function Subjects() {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id }), // Send the class id to delete
+        body: JSON.stringify({ id }),
       });
 
       if (!response.ok) throw new Error("Failed to delete class");
 
-      const data = await response.json();
-      console.log(data.message); // Optionally handle the success response
       alert("Class deleted successfully!");
-      // Optionally update the UI after deletion
-      setTopics(topics.filter((topic) => topic.id !== id)); // Remove the deleted class from state
+      setTopics(topics.filter((topic) => topic.id !== id));
     } catch (error) {
       console.error("Error deleting class:", error.message);
       alert("Error deleting class: " + error.message);
@@ -88,35 +99,42 @@ export default function Subjects() {
 
   return (
     <div className={styles.maincontainer}>
+      <h1 className={styles.header}>Topics</h1>
       {error ? (
         <p>Error: {error}</p>
       ) : topics.length === 0 ? (
         <p>No topics added yet.</p>
       ) : (
-        topics.map((topic, index) => (
-          <div
-            className={styles.card}
-            key={topic.id} // Use the topic's id as the key
-            onClick={() => handleCardClick(index)}
-          >
-            <div>
-              <h3 className={styles.item1}>{topic.quiz_class}</h3>
-              <p className={styles.item2}>{descriptions[index]}</p>
-            </div>
-            {selectedIndex === index && (
-              <div className={styles.cardOptions}>
-                <Link
-                  href={`/dashboard/classes/subjects/quiz_class?quiz_class=${topic.id}`}
-                >
-                  <button>View the Subject</button>
-                </Link>
-                <button onClick={() => handleDelete(topic.id)}>
-                  Delete the Subject
-                </button>
+        <div className={styles.subjectContainer}>
+          {topics.map((topic, index) => (
+            <div key={topic.id} className={styles.subjectCard}>
+              <div className={styles.cardImage}>
+                <img
+                  src={getSubjectImage(topic.quiz_class)} // Use subject-specific images
+                  alt={topic.quiz_class}
+                />
               </div>
-            )}
-          </div>
-        ))
+              <div className={styles.cardContent}>
+  <h3>{topic.quiz_class}</h3>
+  <p>{descriptions[index]}</p>
+  <div className={styles.cardFooter}>
+    <Link
+      href={`/dashboard/classes/subjects/quiz_class?quiz_class=${topic.id}`}
+    >
+      <button className={styles.viewButton}>View Details</button>
+    </Link>
+    <button
+      className={styles.deleteButton}
+      onClick={() => handleDelete(topic.id)}
+    >
+      Delete
+    </button>
+  </div>
+</div>
+
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

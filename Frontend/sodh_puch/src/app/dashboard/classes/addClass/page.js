@@ -1,13 +1,15 @@
-"use client";
-import { useState } from "react";
-import styles from "./page.module.css";
+import React, { useState } from "react";
+import styles from "./page.module.css"; // Adjust the path as necessary
 import axios from "../../../axiosSetup";
 import { useRouter } from "next/navigation";
-export default function AddClass() {
+import { IoCloseOutline } from "react-icons/io5";
+
+export default function AddClass({ onClose }) {
   const [topic, setTopic] = useState("");
   const [description, setDescription] = useState("");
 
   const router = useRouter();
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -28,39 +30,29 @@ export default function AddClass() {
   };
 
   return (
-    <div className={styles.maincontainer}>
-      <div className={styles.container}>
-        <h2 className={styles.title}>Add Class</h2>
-        <form className={styles.form} onSubmit={handleSubmit}>
-          <div className={styles.field}>
-            <label htmlFor="topic" className={styles.label}>
-              Topic:
-            </label>
-            <input
-              type="text"
-              id="topic"
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              placeholder="Enter topic"
-              className={styles.input}
-              required
-            />
-          </div>
-          <div className={styles.field}>
-            <label htmlFor="description" className={styles.label}>
-              Description:
-            </label>
-            <textarea
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter description"
-              className={styles.textarea}
-            />
-          </div>
-          <button type="submit" className={styles.button}>
-            Submit
-          </button>
+    <div className={styles.modal}>
+      <div className={styles.modalContent}>
+        <span className={styles.close} onClick={onClose}>
+          <IoCloseOutline />
+        </span>
+        <h3>Add Quiz</h3>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <input
+            type="text"
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+            placeholder="Enter Topic"
+            required
+          />
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Enter Description"
+            rows="4"
+            className={styles.textarea}
+            required
+          />
+          <button type="submit">Submit</button>
         </form>
       </div>
     </div>

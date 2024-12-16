@@ -1,130 +1,82 @@
-/* Container for the whole form */
-.container {
-  display: flex;
-  justify-content: center;
+.maincontainer{
   align-items: center;
-  min-height: 90vh;
-  padding: 0 20px;
-  
+ display: none;
+ width: 400px;
+position: fixed;
+margin-left: 25%;
+justify-content: center;
+height: auto;
+
+margin-top: 20px;
+border: 1px solid #ccc;
+border-radius: 8px;
+box-shadow: 0 0 10px rgba(5, 1, 1, 0.836);
 }
 
-.maincontainer {
+.form{
+width: 350px;
+margin-top: 15px;
+display: flex;
+flex-direction: column;
+margin-bottom: 9px;
+gap: 5px;
+}
+.field{
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: 500px; /* Limiting the width of the form */
-  padding: 20px;
-  background-color: black;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  margin: 1rem;
 }
-
-/* Title for the form */
-.title {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  text-align: center;
-
+.label{
+  font-weight: bolder;
+  font-size: larger;
+  margin-bottom: 4px;
 }
-
-/* Basic styling for form fields */
-.field {
-  width: 100%;
-  margin-bottom: 20px;
+.input
+{
+padding: 10px;
+border: 1px solid #ddd;
+border-radius: 4px;
+font-size: 16px;
+width: 100%;
+color: black;
+margin-bottom: 6px;
 }
-
-.label {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 8px;
-
-}
-
-/* Input fields styling */
-.input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-  margin-bottom: 10px;
-  box-sizing: border-box;
-}
-
-.input:focus {
-  outline: none;
-  border-color: #5f0077; /* Focus border color */
-  box-shadow: 0 0 5px rgba(95, 0, 119, 0.5); /* Focus shadow */
-}
-
-/* Flexbox layout for options */
-.option {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-}
-
 .button {
-  padding: 12px;
+  padding: 10px;
   background-color: #5f0077;
   color: white;
   border: none;
   border-radius: 4px;
-  font-size: 16px;
   cursor: pointer;
-  width: 100%;
-  transition: background-color 0.3s;
+  font-size: 16px;
+  margin-bottom: 9px;
+  
 }
 
 .button:hover {
-  background-color: #9b16b9; /* Darker purple when hovered */
+  background-color: #9b16b9;
 }
-
-.button:active {
-  background-color: #3e005d; /* Darkest purple when clicked */
-} 
-/* Header styling */
-.header {
+.option{
   display: flex;
-  justify-content: space-between; /* Distribute the items (close icon and title) */
-  align-items: center;
-  width: 100%;
-  margin-bottom: 20px;
+  gap: 9px;
+  margin-bottom: 9px;
 }
-
-.title {
-  font-size: 24px;
-  font-weight: 600;
-  margin: 0;
+.title{
   text-align: center;
-  color: #fff;
-  flex-grow: 1; /* Ensure title takes available space */
+  margin-bottom: 5px;
+  margin-top: 8px;
 }
+.create{
+ display: flex;
+ justify-content: center;
+margin-top: 25%;
 
-/* Close icon (FaTimes) */
-.closeIcon {
-  font-size: 24px;
-  color: #fff;
-  cursor: pointer;
-  transition: transform 0.2s ease;
+  
 }
-
-.closeIcon:hover {
-  transform: scale(1.1); /* Slight zoom effect on hover */
-}
-
-/* Eye icon (FaEye) */
-.eyeIcon {
-  font-size: 24px;
-  color: #fff;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.eyeIcon:hover {
-  transform: scale(1.1); /* Slight zoom effect on hover */
+.icon{
+  position: relative;
+  right: -300px;
+  font-size: larger;
+ background-color: transparent;
+ border-style: none;
+ color: white;
 }
