@@ -4,13 +4,13 @@ import React, { useEffect, useState } from "react";
 import { isAuthenticated } from "../../(auth)/auth";
 import { IoCloseOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
-import axios from "../../axiosSetup"
+import axios from "../../axiosSetup";
 import AddClass from "./addClass/page.js";
 
 export default function Classes() {
   const [modal, setModal] = useState(false);
   const [joinModal, setJoinModal] = useState(false);
-  const [code, setCode] = useState(""); // Initialize code as an empty string
+  const [code, setCode] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function Classes() {
       }
     };
     checkAuth();
-  }, []); // Removed router dependency if not necessary
+  }, []);
 
   const toggleModal = () => {
     setModal((prev) => !prev);
@@ -31,10 +31,8 @@ export default function Classes() {
   };
 
   const handleSubmit = (e) => {
-
-      e.preventDefault();
-  
-      axios
+    e.preventDefault();
+    axios
       .post("http://localhost:8000/add_student", { code })
       .then((res) => {
         const token = res.data.token;
@@ -47,56 +45,64 @@ export default function Classes() {
       .catch((error) => {
         console.error("Error adding students: ", error);
       });
-      };
-  
+  };
 
   return (
     <div className={styles.container}>
-      <div className={styles.container1}>
-        <span>
-          Design your first Quiz or Join
-          <br />
-        </span>
-        <span>
-          Make your own question bank and solve!
-          <br />
-          It’s quick and easy!
-        </span>
+      {/* Main Heading */}
+      <div className={styles.heading}>
+        <p>Join our daily quizzes and test your knowledge. Or you can create your own quiz and share it with the community.</p>
       </div>
 
-      <div className={styles.container2}>
-        <button className={styles.btn1} onClick={toggleJoinModal}>Join Quiz</button>
-        <button className={styles.btn2} onClick={toggleModal}>
-          Add Quiz
-        </button>
-      </div>
-
-      {modal && (
-        <div className={styles.modal}>
-          <div className={styles.modalContent}>
-            <span className={styles.close} onClick={toggleModal}>
-              <IoCloseOutline />
-            </span>
-            <AddClass />
-          </div>
+      {/* Quiz Cards */}
+      <div className={styles.cardContainer}>
+        {/* Join Quiz Card */}
+        <div className={styles.card}>
+          <img src="/img/join-quiz.jpeg" alt="Join Quiz" className={styles.cardImage} />
+          <h2>Join Quiz</h2>
+          <p>Join our daily quizzes and challenge your knowledge.</p>
+          <button className={styles.btn1} onClick={toggleJoinModal}>Join Quiz</button>
         </div>
-      )}
 
+        {/* Add Quiz Card */}
+        <div className={styles.card}>
+          <img src="/img/add-quiz.jpg" alt="Add Quiz" className={styles.cardImage} />
+          <h2>Add Quiz</h2>
+          <p>Create and share your own quiz with the community.</p>
+          <button className={styles.btn2} onClick={toggleModal}>Add Quiz</button>
+        </div>
+      </div>
+
+      {/* Join Quiz Modal */}
       {joinModal && (
-        <div className={styles.modal}>
+        <div className={styles.modalBackground}>
           <div className={styles.modalContent}>
             <span className={styles.close} onClick={toggleJoinModal}>
               <IoCloseOutline />
             </span>
-            <form onSubmit={handleSubmit}>
+            <h3>Join Quiz</h3>
+            <form onSubmit={handleSubmit} className={styles.form}>
               <input
                 type="text"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 placeholder="Enter code"
+                required
               />
               <button type="submit">Submit</button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Add Quiz Modal */}
+      {modal && (
+        <div className={styles.modalBackground}>
+          <div className={styles.modalContent}>
+            <span className={styles.close} onClick={toggleModal}>
+              <IoCloseOutline />
+            </span>
+            <AddClass onClose={toggleModal} />
           </div>
         </div>
       )}

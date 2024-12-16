@@ -17,6 +17,6 @@ export default function Dashboard() {
     }, [router]);
 
     return (
-        <div className={styles.container}>dashboard</div>
+        <div className={styles.container}></div>
     );
 }
