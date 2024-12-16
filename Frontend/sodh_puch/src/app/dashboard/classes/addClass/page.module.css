@@ -2,14 +2,16 @@
 .container {
     
     padding: 20px;
-    max-width: 400px;
+    max-width: 30rem;
     margin: auto;
     border: 1px solid #ccc;
+    background-color: black;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(5, 1, 1, 0.836);
     flex-direction: column;
     align-items: center;
   justify-items: center;
+  
    
   }
   .maincontainer{
@@ -46,7 +48,7 @@
     border-radius: 4px;
     font-size: 16px;
     width: 100%;
-    color: white;
+    color: black;
   }
   
   .textarea {
