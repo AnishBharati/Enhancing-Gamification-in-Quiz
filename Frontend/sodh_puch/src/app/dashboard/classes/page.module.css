@@ -4,151 +4,209 @@
    font-size: 1rem;
    display: flex;
    flex-direction: column;
-   height: 70vh;
    justify-content: center;
    align-items: center;
-}
-
-/* Background and layout for the first content container */
-.container1 {
-   background-image: url(/img/4.png);
-   height: 45vh;
-   background-position: center;
-   background-repeat: no-repeat;
-   background-size: contain;
-   font-size: 0.9rem;
-   padding: 1rem;
-   display: flex;
-   flex-direction: column;
-   justify-content: space-between;
+ }
+ 
+ /* Heading Section */
+ .heading {
    text-align: center;
-   font-family: 'Courier New', Courier, monospace;
-}
-
-/* Button container */
-.container2 {
+   margin-bottom: 3rem;
+   margin-top: 2rem;
+ }
+ 
+ .heading h1 {
+   font-size: 2.5rem; /* Increased font size */
+   margin-bottom: 0.5rem;
+   font-weight: bold;
+   color: #333;
+   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Added text shadow for decoration */
+ }
+ 
+ .heading p {
+   color: #555;
+   font-size: 1.3rem; /* Slightly larger font size */
+   font-style: italic;
+   margin: 0 1rem;
+ }
+ 
+ /* Card Container */
+ .cardContainer {
    display: flex;
+   justify-content: center;
+   gap: 2rem;
    flex-wrap: wrap;
-   gap: 15px;
-   margin: 2rem;
-   justify-content: center;
-}
-
-/* Button styles with shadow effects */
-.btn1, .btn2 {
-   padding: 0.9rem;
-   border-radius: 1.8rem;
-   color: white;
-   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-   transition: background-color 0.3s, transform 0.2s;
-   cursor: pointer;
-}
-
-.btn1 {
-   background-color: #5f0077;
-   box-shadow: 0 0 10px rgba(176, 71, 202, 0.8);
-}
-
-.btn2 {
-   background-color: #191b1b;
-   box-shadow: 0 0 10px rgba(5, 1, 1, 0.836);
-}
-
-.btn1:hover {
-   background-color: #9b16b9;
-   transform: scale(1.05);
-}
-
-.btn2:hover {
-   background-color: #202e2e;
-   transform: scale(1.05);
-}
-
-/* Modal overlay and content container */
-.modal {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   position: fixed;
-   z-index: 1000;
-   left: 0;
-   top: 0;
-   width: 100%;
-   height: 100%;
-   background-color: rgba(0, 0, 0, 0.5);
-}
-
-/* Modal content box with padding and border-radius */
-.modalContent {
-   background-color: black;
-   width: 90%;
-   max-width: 400px;
-   padding: 20px;
+ }
+ 
+ /* Individual Cards */
+ .card {
+   background: #fdfdfd;
    border-radius: 10px;
    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
    text-align: center;
-   position: relative;
-   animation: fadeIn 0.3s ease-in-out;
+   margin: 1rem;
+   padding: 1.5rem; /* Increased padding */
+   width: 320px; /* Increased card size */
+   transition: transform 0.3s;
+ }
+ 
+ .card:hover {
+   transform: scale(1.08); /* Slightly stronger hover effect */
+ }
+ 
+ .card img {
+   width: 100%;
+   height: 180px; /* Increased image height */
+   object-fit: cover;
+   border-radius: 10px 10px 0 0;
+ }
+ 
+ .card h2 {
+   font-size: 1.7rem; /* Increased heading size */
+   margin: 1rem 0;
+   color: #333;
+   font-weight: bold;
+ }
+ 
+ .card p {
+   color: #555;
+   font-size: 1.1rem; /* Larger description text */
+   margin-bottom: 1.5rem;
+ }
+ 
+ .card button {
+   padding: 0.9rem; /* Larger button size */
+   width: 100%;
+   border: none;
+   border-radius: 5px;
+   color: white;
+   font-size: 1.1rem;
+   cursor: pointer;
+   transition: background-color 0.3s;
+ }
+ 
+ .btn1 {
+   background-color: #5f0077;
+ }
+ 
+ .btn1:hover {
+   background-color: #9b16b9;
+ }
+ 
+ .btn2 {
+   background-color: #191b1b;
+ }
+ 
+ .btn2:hover {
+   background-color: #202e2e;
+ }
+ /* Modal Background */
+.modalBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* Ensure it's on top */
 }
 
-/* Close button positioning in the top right of each modal */
+/* Modal Content Styling */
+.modalContent {
+  position: relative;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  width: 95%;
+  max-width: 450px;
+  text-align: center;
+  animation: slideUp 0.4s ease-in-out;
+  z-index: 1000;
+}
+
+/* Close Button Styling */
 .close {
-   cursor: pointer;
-   position: absolute;
-   top: 20px;
-   right: 10px;
-   font-size: 24px;
-   color: #888888;
-   transition: color 0.2s ease-in-out;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.3s ease-in-out;
 }
 
 .close:hover {
-   color: #ff5c5c;
+  color: #000;
 }
 
-/* Smooth animation for modal appearance */
-@keyframes fadeIn {
-   from {
-      opacity: 0;
-      transform: translateY(-10px);
-   }
-   to {
-      opacity: 1;
-      transform: translateY(0);
-   }
+
+/* Centered Heading */
+.modalContent h3 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #5f0077;
+  text-align: center;
 }
 
-/* Input styling within the modal */
-.modalContent input[type="text"] {
-   width: 100%;
-   padding: 10px;
-   margin: 15px 0;
-   border: 1px solid #ddd;
-   border-radius: 8px;
-   font-size: 16px;
-   outline: none;
-   transition: border-color 0.2s ease-in-out;
+/* Form Layout with Labels */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Space between fields */
+  width: 100%;
+  text-align: left; /* Align labels to the left */
 }
 
-.modalContent input[type="text"]:focus {
-   border-color: #ff5c5c;
+/* Label Styling */
+.form label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
 }
 
-/* Submit button styling in the modal */
+/* Input and Textarea Styling */
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.form input:focus,
+.form textarea:focus {
+  border-color: #5f0077;
+  outline: none;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Submit Button */
 .modalContent button {
-   width: 100%;
-   padding: 10px;
-   background-color: #ff5c5c;
-   color: white;
-   border: none;
-   border-radius: 8px;
-   font-size: 16px;
-   font-weight: bold;
-   cursor: pointer;
-   transition: background-color 0.3s ease;
-   margin-top: 10px;
+  padding: 0.9rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #5f0077;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .modalContent button:hover {
-   background-color: #ff3a3a;
+  background-color: #9b16b9;
 }
