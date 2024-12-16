@@ -73,7 +73,7 @@ export default function Sidebar() {
               </>
             )}
             <div className={styles.item7}>
-              <Link onClick={handlelogout} href="login" className={styles.link}>
+              <Link onClick={handlelogout} href="/login" className={styles.link}>
                 <IoLogOutOutline className={styles.icon} />
                 <span className={styles.text}>Logout</span>
               </Link>
