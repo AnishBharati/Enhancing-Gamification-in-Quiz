@@ -6,7 +6,7 @@
   margin-left: 25%;
 justify-content: center;
 height: auto;
-
+background-color: #222426;
 margin-top: 20px;
 border: 1px solid #ccc;
 border-radius: 8px;
@@ -79,4 +79,13 @@ margin-top: 25%;
    background-color: transparent;
    border-style: none;
    color: white;
+  }
+  .question{
+    background-color: #9b16b9;
+    padding: 22px;
+    margin: 40px;
+    margin-top: 24px;
+    border-radius: 12px;
+    font-size: larger;
+    font-weight: bold;
   }

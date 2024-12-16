@@ -7,12 +7,8 @@ export default function AddQuiz(){
     
     function show()
     {
-        const main= document.getElementById("main");
-        if (main.style.display === "none") {
-            main.style.display = "flex";  // Show the element
-          } else {
-            main.style.display = "none";  // Hide the element
-          }
+        main.style.display = "flex";  // Show the element
+         
     }
 
     function hide(){
@@ -138,6 +134,9 @@ export default function AddQuiz(){
                      <button className={styles.button} onClick={hide} type='submit'>Submit</button>
                     </form>
 
+                    </div>
+                    <div className={styles.question}>
+                        Question
                     </div>
         </div>
     )
