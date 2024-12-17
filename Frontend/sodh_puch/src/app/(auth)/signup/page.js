@@ -1,23 +1,22 @@
-"use client"; // This is a client component
-
+"use client";
 import styles from "./page.module.css";
 import React, { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { isAuthenticated } from "../auth";
-import axios from '../../axiosSetup';
+import axios from "../../axiosSetup";
 
-const Home = () => {
+const Signup = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [fullname, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const router = useRouter();
 
-  useEffect(()=>{
-    if(isAuthenticated()){
-      router.push('/dashboard');
+  useEffect(() => {
+    if (isAuthenticated()) {
+      router.push("/dashboard");
     }
-  })
+  }, []);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -30,108 +29,123 @@ const Home = () => {
       })
       .then((res) => {
         console.log(res);
-        // Clear input fields
         setFullName("");
         setEmail("");
         setUsername("");
         setPassword("");
-        // Redirect to login page
-        router.push('/login');
+        router.push("/login");
       })
       .catch((err) => console.log(err));
   }
 
   return (
     <div className={styles.main}>
-      {/* Left page */}
-      <div className={styles.main2}>
-        <h1 className={styles.left_head}>
-          Challange your work and life,finally
-        </h1>
-        <p className={styles.left_btm}>
-          Become focused, organized, and calm with Sodh Puch.
-          <br />
-          The world's #1 user-friendly Quizzez.
-        </p>
+      {/* Left Section */}
+      <div className={styles.leftSection}>
+        <div>
+          <h1 className={styles.heroTitle}>Quizzes made fun and easy</h1>
+        </div>
+        <div>
+          <p className={styles.heroSubtitle}>
+            Learn something new, test your knowledge, or just have some fun with
+            our easy-to-use quizzes.
+          </p>
+        </div>
       </div>
 
-      {/* Right page */}
-      <div className={styles.main4}>
-        <h1 className={styles.logo}>Sodh Puch</h1>
+      {/* Right Section */}
+      <div className={styles.rightSection}>
+        <h1 className={styles.logo}>Quizzify</h1>
         <div className={styles.form}>
-          <h1 className={styles.fmhd}>SIGNUP</h1>
-          <h3 className={styles.heading}>
-            Use one of the services to continue with Sodh puch
-          </h3>
+          <h1 className={styles.formHeader}>SIGNUP</h1>
+          <p className={styles.formSubHeader}>
+            Use one of the services to continue with Quizzify
+          </p>
 
           {/* Signup Form */}
           <form onSubmit={handleSubmit}>
-            <label htmlFor="fullname">Full Name</label>
+            <label htmlFor="fullname" className={styles.inputLabel}>
+              Full Name
+            </label>
             <input
               type="text"
               id="fullname"
               name="fullname"
+              className={styles.inputField}
               placeholder="Full Name"
               value={fullname}
               required
               onChange={(e) => setFullName(e.target.value)}
             />
 
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email" className={styles.inputLabel}>
+              Email
+            </label>
             <input
               type="email"
               id="email"
               name="email"
+              className={styles.inputField}
               placeholder="Email"
               value={email}
               required
               onChange={(e) => setEmail(e.target.value)}
             />
 
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username" className={styles.inputLabel}>
+              Username
+            </label>
             <input
               type="text"
               id="username"
               name="username"
+              className={styles.inputField}
               placeholder="Username"
               value={username}
               required
               onChange={(e) => setUsername(e.target.value)}
             />
 
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password" className={styles.inputLabel}>
+              Password
+            </label>
             <input
               type="password"
               id="password"
               name="password"
+              className={styles.inputField}
               placeholder="Password"
               value={password}
               required
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <label htmlFor="repassword">Confirm Password</label>
+            <label htmlFor="repassword" className={styles.inputLabel}>
+              Confirm Password
+            </label>
             <input
               type="password"
               id="repassword"
               name="repassword"
+              className={styles.inputField}
               placeholder="Confirm Password"
               required
             />
 
-            <button type="submit" className={styles.pbtn}>
+            <button type="submit" className={styles.submitButton}>
               SIGNUP
             </button>
           </form>
 
-          <p>
-            Already have an account? <a href="/login" className={styles.logine}>Login</a>
+          <p className={styles.redirectText}>
+            Already have an account?{" "}
+            <a href="/login" className={styles.loginLink}>
+              Login
+            </a>
           </p>
         </div>
-
-        <p className={styles.btmtxt}>
-          By continuing, you agree to our <u>Terms of Use</u>
-          <br />
+        <p className={styles.termsText}>
+          By continuing, you agree to our <u>Terms of Use</u> <br />
           Read our <u>Privacy Policy</u>.
         </p>
       </div>
@@ -139,4 +153,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Signup;

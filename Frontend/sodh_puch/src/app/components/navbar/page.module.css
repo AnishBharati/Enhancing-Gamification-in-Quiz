@@ -6,7 +6,8 @@
   background-color: #f8f9fa;
   border-radius:10px ;
   width: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height:10vh;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .logo {
@@ -24,7 +25,7 @@
 }
 
 .nav_links a:hover {
-  color: #0070f3; /* Change text color */
+  color: #9b16b9; /* Change text color */
   transform: translateY(-5px) scale(1.1); /* "Pop-out" effect: moves up and enlarges slightly */
   text-shadow: 0px 4px 6px rgba(0, 112, 243, 0.3); /* Optional glowing text effect */
 }
@@ -44,7 +45,7 @@
 }
 
 .login_btn {
-  background-color: #0070f3;
+  background-color: #5f0077;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
@@ -53,5 +54,5 @@
 }
 
 .login_btn:hover {
-  background-color: #005bb5;
+  background-color: #9b16b9;
 }

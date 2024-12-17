@@ -1,0 +1,126 @@
+/* General Styles */
+.container {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+  /* Navigation Bar */
+  .navbar {
+    display: flex;
+    height: 4.5rem;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .navlinks {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navlinks li {
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .getStarted,
+  .login {
+    background-color: #5f0077;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .getStarted {
+    margin-right: 10px;
+  }
+  
+  .getStarted:hover,
+  .login:hover {
+    background-color: #9b16b9;
+  }
+  .heroSection {
+    position: relative;
+    background-image: url('/img/landing.jpeg'); /* Replace with actual image path */
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    align-items: flex-start; /* Align items at the top */
+    justify-content: center; /* Center horizontally */
+    color: white;
+    text-align: center;
+  }
+  
+  .heroOverlay {
+    background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
+    padding: 18px;
+    border-radius: 10px;
+    max-width: 80%; /* Restrict width to avoid overflow */
+    margin-top: 18px; /* Add spacing from the top */
+  }
+  
+  .heroTitle {
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .heroSubtitle {
+    font-size: 1.2rem;
+    margin-top: 10px;
+  }
+  
+  
+  /* Features Section */
+  .featuresSection {
+    background-color: #fff;
+    padding: 50px 20px;
+    text-align: center;
+  }
+  
+  .featuresTitle {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  .featuresText {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #555;
+  }
+  
+  .getStartedFeatures {
+    background-color: #5f0077;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .getStartedFeatures:hover {
+    background-color: #9b16b9;
+  }
+  
