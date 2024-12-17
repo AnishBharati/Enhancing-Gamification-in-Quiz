@@ -1,0 +1,112 @@
+/* Main Container */
+.container {
+    width: 70%; /* Reduced width */
+    max-width: 800px; /* Adjusted max-width */
+    margin: 20px auto;
+    padding: 20px; /* Reduced padding */
+    background-color: white;
+    border-radius: 15px; /* Smaller radius */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Reduced gap */
+}
+
+/* Title Styling */
+.title {
+    text-align: center;
+    font-size: 2rem; /* Reduced font size */
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px; /* Reduced margin */
+    letter-spacing: 1px;
+}
+
+/* Student List */
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Reduced gap */
+}
+
+/* Individual Student Styling */
+.student {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px; /* Reduced padding */
+    border-radius: 12px; /* Smaller border radius */
+    font-size: 1.1rem; /* Reduced font size */
+    font-weight: bold;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.student:hover {
+    transform: scale(1.03); /* Slightly reduced hover effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* High, Average, Low Marks Styling */
+.high {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.average {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.low {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Rank, Name, and Marks Styling */
+.rank {
+    font-size: 1rem; /* Smaller size for rank */
+    font-weight: bold;
+    color: #333;
+    padding: 8px;
+    background-color: #fff;
+    border-radius: 50%;
+    width: 28px; /* Smaller circle */
+    height: 28px; /* Smaller circle */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Rank-specific Colors */
+.rank.gold {
+    background-color: #FFD700; /* Gold */
+    color: #fff;
+}
+
+.rank.silver {
+    background-color: #C0C0C0; /* Silver */
+    color: #fff;
+}
+
+.rank.bronze {
+    background-color: #CD7F32; /* Bronze */
+    color: #fff;
+}
+
+.name {
+    flex: 1;
+    font-size: 1rem; /* Reduced font size */
+    color: #333;
+    padding-left: 200px;
+}
+
+.marks {
+    margin-left: 15px; /* Reduced margin */
+    font-size: 1rem; /* Reduced font size */
+    color: #333;
+}
