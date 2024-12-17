@@ -1,0 +1,212 @@
+/* Main container styling */
+.container {
+   padding: 1rem;
+   font-size: 1rem;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+ }
+ 
+ /* Heading Section */
+ .heading {
+   text-align: center;
+   margin-bottom: 3rem;
+   margin-top: 2rem;
+ }
+ 
+ .heading h1 {
+   font-size: 2.5rem; /* Increased font size */
+   margin-bottom: 0.5rem;
+   font-weight: bold;
+   color: #333;
+   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Added text shadow for decoration */
+ }
+ 
+ .heading p {
+   color: #555;
+   font-size: 1.3rem; /* Slightly larger font size */
+   font-style: italic;
+   margin: 0 1rem;
+ }
+ 
+ /* Card Container */
+ .cardContainer {
+   display: flex;
+   justify-content: center;
+   gap: 2rem;
+   flex-wrap: wrap;
+ }
+ 
+ /* Individual Cards */
+ .card {
+   background: #fdfdfd;
+   border-radius: 10px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+   text-align: center;
+   margin: 1rem;
+   padding: 1.5rem; /* Increased padding */
+   width: 320px; /* Increased card size */
+   transition: transform 0.3s;
+ }
+ 
+ .card:hover {
+   transform: scale(1.08); /* Slightly stronger hover effect */
+ }
+ 
+ .card img {
+   width: 100%;
+   height: 180px; /* Increased image height */
+   object-fit: cover;
+   border-radius: 10px 10px 0 0;
+ }
+ 
+ .card h2 {
+   font-size: 1.7rem; /* Increased heading size */
+   margin: 1rem 0;
+   color: #333;
+   font-weight: bold;
+ }
+ 
+ .card p {
+   color: #555;
+   font-size: 1.1rem; /* Larger description text */
+   margin-bottom: 1.5rem;
+ }
+ 
+ .card button {
+   padding: 0.9rem; /* Larger button size */
+   width: 100%;
+   border: none;
+   border-radius: 5px;
+   color: white;
+   font-size: 1.1rem;
+   cursor: pointer;
+   transition: background-color 0.3s;
+ }
+ 
+ .btn1 {
+   background-color: #5f0077;
+ }
+ 
+ .btn1:hover {
+   background-color: #9b16b9;
+ }
+ 
+ .btn2 {
+   background-color: #191b1b;
+ }
+ 
+ .btn2:hover {
+   background-color: #202e2e;
+ }
+ /* Modal Background */
+.modalBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* Ensure it's on top */
+}
+
+/* Modal Content Styling */
+.modalContent {
+  position: relative;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  width: 95%;
+  max-width: 450px;
+  text-align: center;
+  animation: slideUp 0.4s ease-in-out;
+  z-index: 1000;
+}
+
+/* Close Button Styling */
+.close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.3s ease-in-out;
+}
+
+.close:hover {
+  color: #000;
+}
+
+
+/* Centered Heading */
+.modalContent h3 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #5f0077;
+  text-align: center;
+}
+
+/* Form Layout with Labels */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Space between fields */
+  width: 100%;
+  text-align: left; /* Align labels to the left */
+}
+
+/* Label Styling */
+.form label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+/* Input and Textarea Styling */
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.form input:focus,
+.form textarea:focus {
+  border-color: #5f0077;
+  outline: none;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Submit Button */
+.modalContent button {
+  padding: 0.9rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #5f0077;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.modalContent button:hover {
+  background-color: #9b16b9;
+}

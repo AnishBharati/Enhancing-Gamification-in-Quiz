@@ -1,0 +1,138 @@
+/* Main Container */
+.quizContainer {
+  margin: 40px auto;
+  padding: 40px;
+  border-radius: 15px;
+  background-color: #f9f9f9; /* Light grey background */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Stronger shadow */
+  width: 90%;
+  max-width: 700px;
+  font-family: "Roboto", sans-serif; /* Modern font */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transition on hover */
+}
+
+.quizContainer:hover {
+  transform: scale(1.02); /* Slightly enlarge on hover */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+/* Title */
+.title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: white; /* Darker text */
+  margin-bottom: 20px;
+  text-transform: uppercase; /* Capitalize quiz title */
+}
+
+/* Question Field */
+.field {
+  margin-bottom: 20px;
+}
+
+.question {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #444; /* Slightly lighter than the title */
+  margin-bottom: 15px;
+}
+
+/* Options Container */
+.optionsContainer {
+  margin-bottom: 30px;
+}
+
+.option {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.radio {
+  margin-right: 12px;
+  transform: scale(1.2); /* Larger radio buttons */
+  cursor: pointer;
+}
+
+.label {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #555; /* Lighter color for options */
+  cursor: pointer;
+  transition: color 0.3s ease; /* Smooth color change on hover */
+}
+
+.label:hover {
+  color: #4caf50; /* Highlight option on hover */
+}
+
+/* Submit Button */
+.submitContainer {
+  text-align: center;
+}
+
+.submitButton {
+  padding: 12px 24px;
+  font-size: 1.3rem;
+  background-color: #4caf50; /* Fresh green */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+  width: 200px; /* Fixed width */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.submitButton:hover {
+  background-color: #45a049; /* Slightly darker green on hover */
+  transform: translateY(-3px); /* Button lifts slightly */
+}
+
+.submitButton:disabled {
+  background-color: #ccc; /* Disabled button */
+  cursor: not-allowed;
+}
+
+/* Completion Message */
+.completionMessage {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #4caf50;
+  margin-top: 30px;
+  animation: fadeIn 1s ease-in-out;
+}
+.finalSubmitButton {
+  background-color: #4caf50; /* Green background */
+  color: white; /* White text */
+  padding: 12px 20px; /* Add padding for size */
+  font-size: 18px; /* Make text larger */
+  font-weight: bold; /* Bold text */
+  border: none; /* Remove default border */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.finalSubmitButton:hover {
+  background-color: #45a049; /* Slightly darker green on hover */
+  transform: scale(1.05); /* Slightly larger on hover */
+}
+
+.finalSubmitButton:active {
+  background-color: #388e3c; /* Even darker green when clicked */
+  transform: scale(0.98); /* Slightly smaller on click */
+}
+
+/* Animation for fadeIn effect */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

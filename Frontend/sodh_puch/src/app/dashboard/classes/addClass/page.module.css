@@ -1,0 +1,94 @@
+/* Modal Background */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it appears above other content */
+}
+
+/* Modal Content */
+.modalContent {
+  position: relative;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  width: 95%;
+  max-width: 450px;
+  text-align: center;
+  animation: slideUp 0.4s ease-in-out; /* Optional animation */
+}
+
+/* Close Button */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #5f0077; /* Close button color */
+}
+
+/* Modal Heading */
+.modalContent h3 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #5f0077;
+}
+
+/* Form Layout */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Space between fields */
+  width: 100%;
+}
+
+/* Input and Textarea Styling */
+.form input,
+.form textarea {
+  width: 100%;
+  padding: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.form input:focus,
+.form textarea:focus {
+  border-color: #5f0077;
+  outline: none;
+}
+
+/* Textarea Specific */
+.textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Submit Button */
+.modalContent button {
+  padding: 0.9rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #5f0077;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.modalContent button:hover {
+  background-color: #9b16b9;
+}
