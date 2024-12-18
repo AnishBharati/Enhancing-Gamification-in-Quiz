@@ -6,6 +6,7 @@
    flex-direction: column;
    justify-content: center;
    align-items: center;
+
  }
  
  /* Heading Section */
@@ -87,6 +88,8 @@
  
  .btn1 {
    background-color: #5f0077;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+
  }
  
  .btn1:hover {
@@ -94,11 +97,13 @@
  }
  
  .btn2 {
-   background-color: #191b1b;
+   background-color: #5f0077;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+
  }
  
  .btn2:hover {
-   background-color: #202e2e;
+   background-color: #9b16b9;
  }
  /* Modal Background */
 .modalBackground {

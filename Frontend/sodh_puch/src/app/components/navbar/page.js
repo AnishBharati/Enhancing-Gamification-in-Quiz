@@ -8,11 +8,11 @@ const Navbar = () => {
       <div className={styles.logo}>QuizTime</div>
       <div className={styles.nav_links}>
         <Link href="/">Home</Link>
-        <Link href="/about">About</Link>
-        <Link href="/contact">Contact</Link>
+        <Link href="/">About</Link>
+        <Link href="/">Contact</Link>
       </div>
       <div className={styles.search_login}>
-        <input type="text" placeholder="Search" className={styles.search_bar} />
+        <input type="text" placeholder="Search Subjects" className={styles.search_bar} />
         <button className={styles.login_btn}>Search</button>
       </div>
     </nav>

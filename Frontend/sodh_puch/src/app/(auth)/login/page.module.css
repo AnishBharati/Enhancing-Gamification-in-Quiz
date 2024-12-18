@@ -1,142 +1,131 @@
-/* page.module.css */
-
 /* Main container */
 .main {
-    display: flex;
-    height: 100vh;
-  }
-  
-  /* Left page container */
-  .main2 {
-    width: 100%;
-    background-image: url("/img/2.jpg");
-    background-size: cover;
-    background-position: center;
-  }
-  
-  /* Background image */
-  .main3 {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-  }
-  
-  /* Right page container */
-  .main4 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #121315;
-    width: 100%;
-    color: white;
-    
-  }
-  
-  /* Form container */
-  .form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 10px;
-    background-color: white;
-    padding: 2rem;
-    height: 50vh;
-    width: 40vh;
-    overflow: auto;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Added box shadow */
-    color: black;
-  }
-  
-  /* Form label */
-  .form label {
-    margin-bottom: 0.5rem;
-    display: inline-block; /* Ensures labels are block elements */
-    text-align: left; /* Aligns text to the left */
-    width: 80%; /* Controls the width of the labels */
-  }
-  
-  /* Form input */
-  .form input {
-    margin-bottom: 1rem;
-    width: 80%;
-    height: 20px; /* Increased height of input boxes */
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 1vw;
-  }
-  
-  /* Login and Continue with Mail buttons */
-  .pbtn,
-  .sbtn {
-    border-radius: 10px;
-    text-align: center;
-    width: 80%; /* Adjusted width to match input boxes */
-    height: 20%; /* Adjusted height to match input boxes */
-    padding: 10px; /* Added padding */
-  }
-  
-  /* Login button */
-  .pbtn {
-    background-color: #121315;
-    height: 40px;
-    color: white;
-    margin-bottom: 1rem;
-  }
-  
-  /* Form heading */
-  .heading {
-    font-weight: lighter;
-    font-size: 0.8rem;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-  }
-  
-  /* Bottom text */
-  .btmtxt {
-    font-weight: lighter;
-    margin-top: 3rem;
-    font-size: 2vh;
-  }
-  
-  /* OR Text */
-  .or {
-    margin: 0.5rem;
-  }
-  
-  .logo {
-    font-size: 4vh;
-    font-weight: lighter;
-    margin-bottom: 5rem;
-  }
-  
-  .fmhd {
-    font-weight: lighter;
-    font-size: 3vh;
-  }
-  
-  .left_head {
-    text-align: center;
-    font-weight: bold;
-    font-family: cursive;
-    font-size: 4vh;
-    padding: 2rem;
-    color: white;
-  }
-  .left_btm {
-    color: black;
-    font-weight: bold;
-    font-size: 2vh;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 30%;
-    margin: 3rem;
-  }
-  .lo {
-    text-decoration: none;
-    color: black;
-  }
-  .signe{
-    text-decoration: underline;
-  }
+  display: flex;
+  height: 100vh;
+  font-family: "Arial", sans-serif;
+  overflow: hidden; /* Prevents scrollbars on the main container */
+}
+
+/* Left Section */
+.leftSection {
+  flex: 1;
+  background-image: url("/img/landing2.jpeg");
+  background-size: cover;
+  background-position: center;
+  color: rgb(145, 112, 167);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
+.heroTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.heroSubtitle {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #050505; /* Lighter color for subtitle text */
+  max-width: 60%;
+  margin-top: auto; /* Aligns to the bottom */
+}
+
+/* Right Section */
+.rightSection {
+  flex: 1;
+  background-color: #e9edf6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.form {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+  overflow-y: auto; /* Allow scroll if needed */
+}
+
+/* Hide the scrollbar but allow scrolling */
+.form::-webkit-scrollbar {
+  display: none;
+}
+
+.formHeader {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.formSubHeader {
+  font-size: 0.8rem;
+  color: gray;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.inputLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.inputField {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #121315;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.submitButton:hover {
+  background-color: #333;
+}
+
+.redirectText {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.loginLink {
+  color: #0070f3;
+  text-decoration: underline;
+}
+
+.termsText {
+  margin-top: 2rem;
+  font-size: 0.7rem;
+  text-align: center;
+  color: black;
+}
