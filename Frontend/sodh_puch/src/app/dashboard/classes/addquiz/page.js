@@ -105,6 +105,7 @@ export default function AddQuiz() {
                     value={option2}
                     onChange={(e) => setOption2(e.target.value)}
                   />
+
                 </div>
                 <div className={styles.option}>
                   <input
@@ -126,6 +127,7 @@ export default function AddQuiz() {
                     onChange={(e) => setOption4(e.target.value)}
                   />
                 </div>
+
               </div>
               <button className={styles.button} type="submit">
                 Submit
