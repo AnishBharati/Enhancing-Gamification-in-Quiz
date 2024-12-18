@@ -67,22 +67,44 @@
 }
 
 /* Rank, Name, and Marks Styling */
-.rank {
-    font-size: 1rem; /* Smaller size for rank */
-    font-weight: bold;
-    color: #333;
-    padding: 8px;
-    background-color: #fff;
-    border-radius: 50%;
-    width: 28px; /* Smaller circle */
-    height: 28px; /* Smaller circle */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+/* Rank Styling with Trophy */
+.trophy {
+    font-size: 1.5rem; /* Adjust size for trophy */
+    margin-right: 10px; /* Space between trophy and rank */
 }
 
-/* Rank-specific Colors */
+/* Rank Styling */
+.rank {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    margin-right: 10px; /* Space between rank and name */
+}
+
+/* Trophy-Specific Ranks */
+.rank .gold {
+    color: #FFD700; /* Gold color */
+}
+
+.rank .silver {
+    color: #C0C0C0; /* Silver color */
+}
+
+.rank .bronze {
+    color: #CD7F32; /* Bronze color */
+}
+
+
+.name {
+    flex: 1;
+    font-size: 1rem;
+    color: #333;
+}
+.marks {
+    font-size: 1rem;
+    color: #333;
+}
+
 .rank.gold {
     background-color: #FFD700; /* Gold */
     color: #fff;
@@ -97,14 +119,28 @@
     background-color: #CD7F32; /* Bronze */
     color: #fff;
 }
-
-.name {
-    flex: 1;
-    font-size: 1rem; /* Reduced font size */
-    color: #333;
-    padding-left: 200px;
+/* Dropdown Container */
+.dropdown {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
 }
 
+.dropdown label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.select {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
 .marks {
     margin-left: 15px; /* Reduced margin */
     font-size: 1rem; /* Reduced font size */
