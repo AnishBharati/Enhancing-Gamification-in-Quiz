@@ -16,7 +16,7 @@ export default function Calender() {
 
     return (
         <div className={styles.container}>
-            <h2 className={styles.title}>Student Marks</h2>
+            <h2 className={styles.title}>LeaderBoard</h2>
             <div className={styles.list}>
                 {sortedStudents.map((student, index) => {
                     const category =
