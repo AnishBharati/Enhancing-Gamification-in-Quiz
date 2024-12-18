@@ -78,11 +78,13 @@ padding: 0.8rem;
 
 .imageCircle,
 .profileImage {
-    width: 140px; /* Increased size */
-    height: 140px; /* Increased size */
+    width: 120px; /* Increased size */
+    height: 120px; /* Increased size */
     border-radius: 50%;
     overflow: hidden;
     margin-bottom: 1rem;
+    box-shadow: 0 15px 15px rgba(0, 0, 0, 0.5); /* Light shadow for separation */
+
 }
 
 .circleImage {
@@ -123,6 +125,7 @@ padding: 0.8rem;
 .icon {
     font-size: 3.5rem; /* Increased icon size */
     color: #5f0077; /* Yellow color for icons */
+    
 }
 
 
@@ -160,6 +163,9 @@ padding: 0.8rem;
     overflow: hidden;
     background-color: #fdd835;
     border: 2px solid #fbc02d;
+    cursor: pointer;
+    box-shadow: 0 15px 15px rgba(0, 0, 0, 0.5); /* Light shadow for separation */
+
 }
 
 .badge img {
@@ -234,3 +240,130 @@ padding: 0.8rem;
 .changePasswordButton:hover{
     background-color: #687271;
 }
+
+
+/* Popup Overlay */
+.popupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it appears above other content */
+}
+
+/* Popup Box */
+.popup {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.9);
+    text-align: center;
+    width: 300px; /* Fixed width */
+}
+
+.popup h3, .popup h4 {
+    margin-bottom: 1.5rem;
+    color: #333333; /* Darker text color */
+}
+
+/* Input Fields */
+.inputField {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Buttons */
+.submitButton, .closeButton, .yesButton, .noButton {
+    padding: 0.7rem 1rem;
+    margin: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.submitButton {
+    background-color: #5f0077;
+    color: white;
+}
+
+.submitButton:hover {
+    background-color: #9b16b9;
+}
+
+.closeButton {
+    background-color: #555555;
+    color: white;
+}
+
+.closeButton:hover {
+    background-color: #687271;
+}
+
+.yesButton {
+    background-color: #28a745; /* Green */
+    color: white;
+}
+
+.yesButton:hover {
+    background-color: #218838;
+}
+
+.noButton {
+    background-color: #dc3545; /* Red */
+    color: white;
+}
+
+.noButton:hover {
+    background-color: #c82333;
+}
+
+/* Success Message Popup */
+.successPopupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.successPopup {
+    background: linear-gradient(to bottom, #f0f4f8, #81a9c9); /* Subtle gradient */
+    color: black;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    animation: fadeIn 0.5s ease-in-out, slideUp 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
