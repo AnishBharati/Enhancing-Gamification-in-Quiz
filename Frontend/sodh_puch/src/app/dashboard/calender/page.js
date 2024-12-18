@@ -27,7 +27,7 @@ export default function Calender() {
         <div className={styles.container}>
             <h2 className={styles.title}>Student Marks</h2>
 
-            {/* Dropdown for Subject Selection */}
+           
             <div className={styles.dropdown}>
                 <label htmlFor="subjects">Select Subject:</label>
                 <select
@@ -44,7 +44,7 @@ export default function Calender() {
                 </select>
             </div>
 
-            {/* Student List */}
+           
             <div className={styles.list}>
                 {sortedStudents.map((student, index) => {
                     const category =
@@ -55,10 +55,9 @@ export default function Calender() {
                             : styles.low;
 
                     let trophy = '';
-                    if (index === 0) trophy = '🏆'; // Gold Trophy
-                    else if (index === 1) trophy = '🥈'; // Silver Medal
-                    else if (index === 2) trophy = '🥉'; // Bronze Medal;
-
+                    if (index === 0) trophy = '🏆'; 
+                    else if (index === 1) trophy = '🥈'; 
+                    else if (index === 2) trophy = '🥉'; 
                     return (
                         <div key={index} className={`${styles.student} ${category}`}>
                             <span className={styles.trophy}>{trophy}</span>

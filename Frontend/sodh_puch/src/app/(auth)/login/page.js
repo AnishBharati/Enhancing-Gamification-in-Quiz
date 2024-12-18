@@ -1,21 +1,20 @@
-"use client"; // This is a client component
-
+"use client";
 import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import axios from "../../axiosSetup";
 import { isAuthenticated } from "../auth";
 
-const Home = () => {
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  useEffect(()=>{
-    if(isAuthenticated()){
-      router.push('/dashboard');
+  useEffect(() => {
+    if (isAuthenticated()) {
+      router.push("/dashboard");
     }
-  })
+  }, []);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -25,7 +24,7 @@ const Home = () => {
         const token = res.data.token; // Get the token from the response
         localStorage.setItem("token", token); // Store the token in localStorage
         console.log("Login successful. Redirecting to dashboard...");
-        router.push("/dashboard"); 
+        router.push("/dashboard");
       })
       .catch((err) => {
         if (err.response && err.response.data && err.response.data.error) {
@@ -38,62 +37,72 @@ const Home = () => {
 
   return (
     <div className={styles.main}>
-      {/* Left page */}
-      <div className={styles.main2}>
-        <h1 className={styles.left_head}>Challange your work and life,finally</h1>
-        <p className={styles.left_btm}>
-          Become focused and organized with Sodh Puch.
-          <br />
-          The world's #1 user-friendly Quizezz.
-        </p>
+      {/* Left Section */}
+      <div className={styles.leftSection}>
+        <div>
+          <h1 className={styles.heroTitle}>Quizzes made fun and easy</h1>
+        </div>
+        <div>
+          <p className={styles.heroSubtitle}>
+            Learn something new, test your knowledge, or just have some fun with
+            our easy-to-use quizzes.
+          </p>
+        </div>
       </div>
 
-      {/* Right page */}
-      <div className={styles.main4}>
-        <h1 className={styles.logo}>Sodh Puch</h1>
+      {/* Right Section */}
+      <div className={styles.rightSection}>
+        <h1 className={styles.logo}>Quizzify</h1>
         <div className={styles.form}>
-          <h1 className={styles.fmhd}>LOG IN</h1>
-          <h3 className={styles.heading}>Use one of the services to continue with Sodh Puch</h3>
+          <h1 className={styles.formHeader}>LOGIN</h1>
+          <p className={styles.formSubHeader}>
+            Use one of the services to continue with Quizzify
+          </p>
 
-          {/* Username Input */}
+          {/* Login Form */}
           <form onSubmit={handleSubmit}>
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username" className={styles.inputLabel}>
+              Username
+            </label>
             <input
               type="text"
               id="username"
               name="username"
+              className={styles.inputField}
               placeholder="Username"
+              value={username}
               required
               onChange={(e) => setUsername(e.target.value)}
             />
 
-            {/* Password Input */}
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password" className={styles.inputLabel}>
+              Password
+            </label>
             <input
               type="password"
               id="password"
               name="password"
+              className={styles.inputField}
               placeholder="Password"
+              value={password}
               required
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            {/* Login Button */}
-            <button type="submit" className={styles.pbtn}>
+            <button type="submit" className={styles.submitButton}>
               LOGIN
             </button>
           </form>
 
-          {/* Sign Up Link */}
-          <p>
-            Don't have an account? <a href="/signup" className={styles.signe}>Sign up</a>
+          <p className={styles.redirectText}>
+            Don't have an account?{" "}
+            <a href="/signup" className={styles.loginLink}>
+              Sign up
+            </a>
           </p>
         </div>
-
-        {/* Terms and Privacy */}
-        <p className={styles.btmtxt}>
-          By continuing, you agree to Our <u>Terms of Use</u>
-          <br />
+        <p className={styles.termsText}>
+          By continuing, you agree to our <u>Terms of Use</u> <br />
           Read our <u>Privacy Policy</u>.
         </p>
       </div>
@@ -101,4 +110,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Login;

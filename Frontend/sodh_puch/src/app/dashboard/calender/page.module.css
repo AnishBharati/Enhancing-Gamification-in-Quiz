@@ -1,42 +1,42 @@
-/* Main Container */
+
 .container {
-    width: 70%; /* Reduced width */
-    max-width: 800px; /* Adjusted max-width */
+    width: 70%; 
+    max-width: 800px; 
     margin: 20px auto;
-    padding: 20px; /* Reduced padding */
+    padding: 20px; 
     background-color: white;
-    border-radius: 15px; /* Smaller radius */
+    border-radius: 15px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Reduced gap */
+    gap: 15px; 
 }
 
-/* Title Styling */
+
 .title {
     text-align: center;
-    font-size: 2rem; /* Reduced font size */
+    font-size: 2rem; 
     font-weight: bold;
     color: #333;
-    margin-bottom: 15px; /* Reduced margin */
+    margin-bottom: 15px; 
     letter-spacing: 1px;
 }
 
-/* Student List */
+
 .list {
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Reduced gap */
+    gap: 8px;
 }
 
-/* Individual Student Styling */
+
 .student {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px; /* Reduced padding */
-    border-radius: 12px; /* Smaller border radius */
-    font-size: 1.1rem; /* Reduced font size */
+    padding: 15px;
+    border-radius: 12px; 
+    font-size: 1.1rem; 
     font-weight: bold;
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
@@ -46,11 +46,11 @@
 }
 
 .student:hover {
-    transform: scale(1.03); /* Slightly reduced hover effect */
+    transform: scale(1.03);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* High, Average, Low Marks Styling */
+
 .high {
     background-color: #d4edda;
     color: #155724;
@@ -66,32 +66,31 @@
     color: #721c24;
 }
 
-/* Rank, Name, and Marks Styling */
-/* Rank Styling with Trophy */
+
 .trophy {
-    font-size: 1.5rem; /* Adjust size for trophy */
-    margin-right: 10px; /* Space between trophy and rank */
+    font-size: 1.5rem; 
+    margin-right: 10px; 
 }
 
-/* Rank Styling */
+
 .rank {
     font-size: 1rem;
     font-weight: bold;
     color: #333;
-    margin-right: 10px; /* Space between rank and name */
+    margin-right: 10px; 
 }
 
-/* Trophy-Specific Ranks */
+
 .rank .gold {
-    color: #FFD700; /* Gold color */
+    color: #FFD700; 
 }
 
 .rank .silver {
-    color: #C0C0C0; /* Silver color */
+    color: #C0C0C0; 
 }
 
 .rank .bronze {
-    color: #CD7F32; /* Bronze color */
+    color: #CD7F32; 
 }
 
 
@@ -106,20 +105,20 @@
 }
 
 .rank.gold {
-    background-color: #FFD700; /* Gold */
+    background-color: #FFD700; 
     color: #fff;
 }
 
 .rank.silver {
-    background-color: #C0C0C0; /* Silver */
+    background-color: #C0C0C0;
     color: #fff;
 }
 
 .rank.bronze {
-    background-color: #CD7F32; /* Bronze */
+    background-color: #CD7F32; 
     color: #fff;
 }
-/* Dropdown Container */
+
 .dropdown {
     display: flex;
     align-items: center;
@@ -142,7 +141,7 @@
     cursor: pointer;
 }
 .marks {
-    margin-left: 15px; /* Reduced margin */
-    font-size: 1rem; /* Reduced font size */
+    margin-left: 15px; 
+    font-size: 1rem;
     color: #333;
 }
