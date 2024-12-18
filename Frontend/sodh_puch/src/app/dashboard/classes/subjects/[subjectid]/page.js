@@ -1,111 +1,115 @@
 "use client";
 import { useState, useEffect } from "react";
 import styles from "./page.module.css";
-import { BiDotsVerticalRounded } from "react-icons/bi";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { IoIosArrowBack } from "react-icons/io";
+import { IoMdAdd } from "react-icons/io";
+import { useRouter } from "next/navigation";
 
 export default function SubjectDetails({ params }) {
-  const [topics, setTopics] = useState([]);
-  const [descriptions, setDescriptions] = useState([]);
-  const [subjectTopics, setSubjectTopics] = useState([]); // State to store all topics
-  const [openDropdownIndex, setOpenDropdownIndex] = useState(null); // Track which dropdown is open
+  const [subjectTopics, setSubjectTopics] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [newTopicName, setNewTopicName] = useState("");
+  const [selectedTopicIndex, setSelectedTopicIndex] = useState(null);
+  const router = useRouter();
 
-  const searchParams = useSearchParams();
-  const topic_id = searchParams.get("quiz_class"); // Retrieve query parameter
+  const subjectid = params?.subjectid;
 
-  // Log topic_id for debugging
-  useEffect(() => {
-    console.log("Topic ID being passed:", topic_id);
-  }, [topic_id]);
+  const handleTopicClick = (index) => {
+    setSelectedTopicIndex(selectedTopicIndex === index ? null : index);
+  };
 
-  // Fetch stored topics and descriptions from localStorage
-  useEffect(() => {
-    const storedTopics = JSON.parse(localStorage.getItem("topics")) || [];
-    const storedDescriptions =
-      JSON.parse(localStorage.getItem("descriptions")) || [];
-    setTopics(storedTopics);
-    setDescriptions(storedDescriptions);
+  const openPopup = () => setShowPopup(true);
 
-    // Fetch quiz topics based on topic_id
-    if (topic_id) {
-      fetchQuizTopics(topic_id);
-    }
-  }, [topic_id]);
+  const closePopup = () => {
+    setShowPopup(false);
+    setNewTopicName("");
+  };
 
-  // Function to fetch quiz topics from the backend
-  const fetchQuizTopics = async (topic_id) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8000/see_topic?quiz_class=${topic_id}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Include JWT token if needed
-          },
-        }
-      );
-      const data = await response.json();
-      if (data.quiz_topics) {
-        // Update state with the array of fetched quiz topics
-        setSubjectTopics(data.quiz_topics);
-      }
-    } catch (error) {
-      console.error("Error fetching quiz topics:", error);
+  const handleAddTopic = () => {
+    if (newTopicName.trim()) {
+      const newTopic = { quiz_topic: newTopicName };
+      setSubjectTopics([...subjectTopics, newTopic]);
+      closePopup();
     }
   };
 
-  // Find the subject and its description from localStorage
-  const subjectid = params?.subjectid;
-  const subjectTopicFromLocalStorage = topics.find(
-    (topic) => topic === subjectid
-  );
-  const subjectDescription = subjectTopicFromLocalStorage
-    ? descriptions[topics.indexOf(subjectTopicFromLocalStorage)]
-    : null;
+  const handleDeleteTopic = (index) => {
+    const updatedTopics = subjectTopics.filter((_, i) => i !== index);
+    setSubjectTopics(updatedTopics);
+  };
 
-  // Toggle dropdown for a specific topic
-  const handleDropdownToggle = (index) => {
-    setOpenDropdownIndex(openDropdownIndex === index ? null : index); // Toggle dropdown for clicked topic
+  const handleAddQuiz = () => {
+    router.push("/dashboard/classes/addquiz");
   };
 
   return (
     <div className={styles.container}>
-      <div>
-        {subjectTopics.length > 0 ? (
-          subjectTopics.map((topic, index) => (
-            <div key={index} className={styles.topicContainer}>
-              {/* Each topic has its own block */}
-              <h2 className={styles.heading}>
-                {topic.quiz_topic} {/* Display individual topic */}
-                <span
-                  className={styles.icon}
-                  onClick={() => handleDropdownToggle(index)} // Toggle the specific dropdown
-                >
-                  <BiDotsVerticalRounded />
-                </span>
-              </h2>
+      {/* Back Button */}
+      <button className={styles.backButton} onClick={() => router.back()}>
+        <IoIosArrowBack size={30} />
+      </button>
 
-              <div
-                className={`${styles.dropdown} ${
-                  openDropdownIndex === index ? styles.show : "" // Show only the clicked dropdown
-                }`}
-              >
-                <Link href="/dashboard/classes/addquiz" className={styles.add}>
-                  <span>Add Quiz</span>
-                </Link>
-                <Link href="/dashboard/classes/subjects" className={styles.add}>
-                  <span>Go Back</span>
-                </Link>
-              </div>
-
-              <p className={styles.details}>{subjectDescription}</p>
-            </div>
-          ))
-        ) : (
-          <p>No topics available.</p>
-        )}
+      {/* Subject Header */}
+      <div className={styles.subjectCard}>
+        <div>
+          <h1 className={styles.subjectName}>{subjectid}</h1>
+          <p className={styles.subjectDescription}>Subject Description</p>
+        </div>
+        <div className={styles.addIcon} onClick={openPopup}>
+          <IoMdAdd size={30} title="Add Chapter" />
+        </div>
       </div>
+
+      {/* Topics */}
+      {subjectTopics.map((topic, index) => (
+        <div
+          key={index}
+          className={styles.topicContainer}
+          onClick={() => handleTopicClick(index)}
+        >
+          <h2 className={styles.heading}>{topic.quiz_topic}</h2>
+          {selectedTopicIndex === index && (
+            <div className={styles.topicOptions}>
+              <button className={styles.addQuizButton} onClick={handleAddQuiz}>
+                Add Quiz
+              </button>
+              <button
+                className={styles.deleteButton}
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent dropdown closure
+                  handleDeleteTopic(index);
+                }}
+              >
+                Delete Chapter
+              </button>
+            </div>
+          )}
+        </div>
+      ))}
+
+      {/* Popup */}
+      {showPopup && (
+        <div className={styles.popupOverlay}>
+          <div className={styles.popupContent}>
+            <h2>Add New Chapter</h2>
+            <input
+              type="text"
+              placeholder="Enter Chapter Name"
+              value={newTopicName}
+              onChange={(e) => setNewTopicName(e.target.value)}
+              className={styles.inputField}
+            />
+            <div className={styles.buttonGroup}>
+              <button onClick={handleAddTopic} className={styles.addButton}>
+                Add
+              </button>
+              <button onClick={closePopup} className={styles.cancelButton}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

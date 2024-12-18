@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styles from "./page.module.css";
 import { FiPlusCircle, FiX } from "react-icons/fi";
 
+
 export default function AddQuiz() {
   const [question, setQuestion] = useState("");
   const [correctanswer, setCorrectanswer] = useState("");
@@ -104,6 +105,7 @@ export default function AddQuiz() {
                     value={option2}
                     onChange={(e) => setOption2(e.target.value)}
                   />
+
                 </div>
                 <div className={styles.option}>
                   <input
@@ -125,6 +127,7 @@ export default function AddQuiz() {
                     onChange={(e) => setOption4(e.target.value)}
                   />
                 </div>
+
               </div>
               <button className={styles.button} type="submit">
                 Submit
