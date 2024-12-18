@@ -1,104 +1,122 @@
+/* Sidebar Container */
 .container {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    background: linear-gradient(to bottom, #f0f4f8, #8daec7); /* Subtle gradient */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
-    padding: 1rem;
-    display: flex;
-    border-radius: 10px;
-    flex-direction: column;
-    align-items: flex-start;
-    transition: all 0.3s ease;
-    font-family: 'Courier New', Courier, monospace;
-  }
-  /* Active Link Styling */
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: linear-gradient(to bottom, #f0f4f8, #8daec7);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+  padding: 1rem;
+  display: flex;
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+  font-family: "Courier New", Courier, monospace;
+}
+
+/* Active Link Styling */
 .active {
-  background-color: #5f0077; /* Active background color */
-  color: white !important; /* Active text color */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Highlight shadow */
+  background-color: #5f0077;
+  color: white !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .active .icon {
-  color: white; /* Active icon color */
+  color: white;
 }
 
-  
-  .item1,
-  .item2,
-  .item3,
-  .item5,
-  .item6,
-  .item7 {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%; /* Ensures full width for hover */
-    margin: 0.6rem 0;
-    padding: 0.8rem 1rem;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    color: #333; /* Default text color */
-  }
-  
-  .item1:hover,
-  .item2:hover,
-  .item3:hover,
-  .item5:hover,
-  .item6:hover,
-  .item7:hover {
-    background-color: #e0e4eb; /* Light grayish-blue hover background */
-    color: #333; /* Text color stays consistent */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Soft hover shadow */
-  }
-  
-  .link {
-    display: flex;
-    align-items: center;
-    width: 100%; /* Ensures the link spans the container */
-    text-decoration: none;
-    color: inherit; /* Ensures text color consistency */
-    font-size: 1rem;
-    font-weight: 500;
-  }
-  
-  .icon {
-    font-size: 1.4rem;
-    margin-right: 10px;
-    color: #5f6368; /* Slightly muted icon color */
-    transition: color 0.3s ease;
-  }
-  
-  .icon1 {
-    font-size: 1.2rem;
-    padding-top: 0.2rem;
-    color: #5f6368; /* Muted dropdown icon color */
-  }
-  
-  .icon2 {
-    font-size: 1.2rem;
-    margin-right: 10px;
-    color: #5f6368;
-  }
-  
+/* Sidebar Items */
+.item1,
+.item2,
+.item3,
+.item5,
+.item6,
+.item7 {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 0.6rem 0;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  color: #333;
+}
+
+.item1:hover,
+.item2:hover,
+.item3:hover,
+.item5:hover,
+.item6:hover,
+.item7:hover {
+  background-color: #e0e4eb;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Dropdown Container with Gradient Line */
+.dropdownContainer {
+  display: flex;
+  flex-direction: column;
+  border-left: 4px solid;
+  border-image: linear-gradient(to bottom, #5f0077, #8a2be2) 1;
+  margin-left: 1.5rem; /* Indentation for dropdown container */
+  padding-left: 0.5rem;
+}
+
+/* Dropdown Items */
+.item5,
+.item6 {
+  padding: 0.6rem 1rem;
+  margin: 0.3rem 0;
+  transition: background-color 0.3s ease;
+  border-radius: 8px;
+}
+
+/* Icons */
+.icon {
+  font-size: 1.4rem;
+  margin-right: 10px;
+  color: #5f6368;
+  transition: color 0.3s ease;
+}
+
+.icon1 {
+  font-size: 1.2rem;
+  color: #5f6368;
+  transition: transform 0.3s ease;
+}
+
+.icon1.rotate {
+  transform: rotate(180deg);
+}
+
+.icon2 {
+  font-size: 1.2rem;
+  margin-right: 10px;
+  color: #5f6368;
+}
+
+/* Links */
+.link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
   .text {
-    white-space: nowrap;
+    display: none;
   }
-  
-  @media (max-width: 768px) {
-    .item4 {
-      display: block;
-    }
-  
-    .text {
-      display: none; /* Hide text on small screens */
-    }
+}
+
+@media (min-width: 768px) {
+  .item4 {
+    display: none;
   }
-  
-  @media (min-width: 768px) {
-    .item4 {
-      display: none; /* Hide menu button on larger screens */
-    }
-  }
-  
+}

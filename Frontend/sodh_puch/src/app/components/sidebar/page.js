@@ -48,7 +48,9 @@ export default function Sidebar() {
           <>
             {/* Dashboard Link */}
             <div
-              className={`${styles.item1} ${isActive("/dashboard") ? styles.active : ""}`}
+              className={`${styles.item1} ${
+                isActive("/dashboard") ? styles.active : ""
+              }`}
             >
               <Link href="/dashboard" className={styles.link}>
                 <MdDashboard className={styles.icon} />
@@ -58,30 +60,39 @@ export default function Sidebar() {
 
             {/* Calendar Link */}
             <div
-              className={`${styles.item3} ${isActive("/dashboard/calender") ? styles.active : ""}`}
+              className={`${styles.item3} ${
+                isActive("/dashboard/calender") ? styles.active : ""
+              }`}
             >
               <Link href="/dashboard/calender" className={styles.link}>
                 <SlCalender className={styles.icon} />
-                <span className={styles.text}>Calendar</span>
+                <span className={styles.text}>LeaderBoard</span>
               </Link>
             </div>
 
             {/* Quiz Dropdown */}
             <div
-              className={`${styles.item2} ${isRouteActive("/dashboard/classes") ? styles.active : ""}`}
+              className={`${styles.item2} ${
+                isRouteActive("/dashboard/classes") ? styles.active : ""
+              }`}
               onClick={toggleDropdown}
             >
               <SiGoogleclassroom className={styles.icon} />
               <span className={styles.text}>
-                Quiz <IoIosArrowDown className={styles.icon1} />
+                Quiz
+                <IoIosArrowDown
+                  className={`${styles.icon1} ${drop ? styles.rotate : ""}`}
+                />
               </span>
             </div>
 
             {/* Dropdown Links */}
             {drop && (
-              <>
+              <div className={styles.dropdownContainer}>
                 <div
-                  className={`${styles.item5} ${isActive("/dashboard/classes") ? styles.active : ""}`}
+                  className={`${styles.item5} ${
+                    isActive("/dashboard/classes") ? styles.active : ""
+                  }`}
                 >
                   <Link href="/dashboard/classes" className={styles.link}>
                     <GoPlus className={styles.icon2} />
@@ -89,14 +100,16 @@ export default function Sidebar() {
                   </Link>
                 </div>
                 <div
-                  className={`${styles.item6} ${isActive("/dashboard/classes/subjects") ? styles.active : ""}`}
+                  className={`${styles.item6} ${
+                    isActive("/dashboard/classes/subjects") ? styles.active : ""
+                  }`}
                 >
                   <Link href="/dashboard/classes/subjects" className={styles.link}>
                     <PiFilesLight className={styles.icon2} />
                     <span className={styles.text}>List</span>
                   </Link>
                 </div>
-              </>
+              </div>
             )}
 
             {/* Logout Link */}
