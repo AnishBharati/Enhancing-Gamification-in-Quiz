@@ -4,6 +4,7 @@ import styles from "./page.module.css";
 import { isAuthenticated } from "../(auth)/auth";
 import { useRouter } from "next/navigation";
 import { RiPoliceBadgeFill } from "react-icons/ri";
+import axios from "../axiosSetup";
 
 export default function Dashboard() {
     const router = useRouter();
@@ -11,18 +12,49 @@ export default function Dashboard() {
     const [showPasswordPopup, setShowPasswordPopup] = useState(false);
     const [showEditProfilePopup, setShowEditProfilePopup] = useState(false);
     const [confirmPasswordPopup, setConfirmPasswordPopup] = useState(false);
-
-    const [username, setUsername] = useState('John');
-    const [surname, setSurname] = useState('Doe');
-    const [email, setEmail] = useState('john.doe@example.com');
+    const [username, setUsername] = useState('');
+    const [fullname, setfullname] = useState('');  // Changed from surname to fullname
+    const [email, setEmail] = useState('');
     const [currentPhoto, setCurrentPhoto] = useState('/img/user.jpg');
     const [newPhoto, setNewPhoto] = useState(null);
-
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
     const [successMessage, setSuccessMessage] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                if (!token) throw new Error("Authentication token not found");
+
+                const response = await fetch("http://localhost:8000/see_details", {
+                    method: "GET",
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (!response.ok) throw new Error("Failed to fetch data");
+
+                const data = await response.json();
+
+                // Assuming the structure you provided, we now access the first item in the data array
+                const userDetails = data.data[0]; // Extract the first object from the data array
+
+                if (userDetails) {
+                    setUsername(userDetails.username);
+                    setEmail(userDetails.email);
+                    setfullname(userDetails.full_name);  // Changed from surname to fullname
+                }
+
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+                alert("Failed to load user details. Please try again later.");
+            }
+        };
+
+        fetchData();
+    }, []);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -33,53 +65,76 @@ export default function Dashboard() {
         checkAuth();
     }, [router]);
 
-    const handleEditProfile = () => {
-        if (!username || !surname || !email) {
-            alert("All fields except photo are required!");
-            return;
-        }
+    const handleEditProfile = (e) => {
+        e.preventDefault();
 
-        // Update current photo only if a new photo is provided
-        if (newPhoto) {
-            setCurrentPhoto(URL.createObjectURL(newPhoto));
-        }
+        axios
+            .post("http://localhost:8000/update_details", { username, fullname, email })  // Changed surname to fullname
+            .then((res) => {
+                const token = res.data.token;
+                if (token) {
+                    localStorage.setItem("token", token);
+                }
+                setShowEditProfilePopup(false);
+                setSuccessMessage(true);
 
-        console.log("Profile updated:", { username, surname, email });
-
-        setShowEditProfilePopup(false);
-        setSuccessMessage(true);
-
-        setTimeout(() => {
-            setSuccessMessage(false);
-        }, 1300);
+                setTimeout(() => {
+                    setSuccessMessage(false);
+                }, 1300);
+            });
     };
 
-    const handlePasswordChange = () => {
-        if (!newPassword || !confirmNewPassword) {
-            alert("Both password fields must be filled!");
+    const handlePasswordChange = (e) => {
+        // if (!newPassword || !confirmNewPassword) {
+        //     alert("Both password fields must be filled!");
+        //     return;
+        // }
+
+        // if (newPassword !== confirmNewPassword) {
+        //     alert("Passwords do not match!");
+        //     return;
+        // }
+
+        // console.log("Password changed to:", newPassword);
+
+        // setShowPasswordPopup(false);
+        // setConfirmPasswordPopup(false);
+
+        // setCurrentPassword('');
+        // setNewPassword('');
+        // setConfirmNewPassword('');
+
+        // setSuccessMessage(true);
+
+        // setTimeout(() => {
+        //     setSuccessMessage(false);
+        // }, 2000);
+        e.preventDefault();
+        if(newPassword !==confirmNewPassword){
+            alert("New password and Confirm Password doesn't match");
             return;
         }
+        axios
+            .post("http://localhost:8000/update_password", {currentPassword, newPassword})
+            .then((res) => {
+                const token = res.data.token;
+                if(token) {
+                    localStorage.setItem("token", token);
+                }
+                setShowPasswordPopup(false);
+                setConfirmPasswordPopup(false);
+                setCurrentPassword('');
+                setNewPassword('');
+                setConfirmNewPassword('');
+                
+                setSuccessMessage(true);
 
-        if (newPassword !== confirmNewPassword) {
-            alert("Passwords do not match!");
-            return;
-        }
-
-        console.log("Password changed to:", newPassword);
-
-        setShowPasswordPopup(false);
-        setConfirmPasswordPopup(false);
-
-        setCurrentPassword('');
-        setNewPassword('');
-        setConfirmNewPassword('');
-
-        setSuccessMessage(true);
-
-        setTimeout(() => {
-            setSuccessMessage(false);
-        }, 2000);
+                setTimeout(() => {
+                    setSuccessMessage(false);
+                }, 2000);
+            })
     };
+
     return (
         <div className={styles.dashboardContainer}>
             {/* Left Section */}
@@ -134,14 +189,14 @@ export default function Dashboard() {
                 </div>
             </div>
 
-           {/* Right Section */}
-           <div className={styles.rightSection}>
+            {/* Right Section */}
+            <div className={styles.rightSection}>
                 <div className={styles.profileImage}>
                     <img src={currentPhoto} alt="User" className={styles.circleImage} />
                 </div>
                 <div className={styles.userInfo}>
-                    <p><strong>Name:</strong> {username}</p>
-                    <p><strong>Surname:</strong> {surname}</p>
+                    <p><strong>Full Name:</strong> {fullname}</p>  {/* Changed from surname to fullname */}
+                    <p><strong>Username:</strong> {username}</p>
                     <p><strong>Email:</strong> {email}</p>
                 </div>
                 <div className={styles.profileButtons}>
@@ -175,9 +230,9 @@ export default function Dashboard() {
                         />
                         <input
                             type="text"
-                            placeholder="Surname"
-                            value={surname}
-                            onChange={(e) => setSurname(e.target.value)}
+                            placeholder="Full Name"
+                            value={fullname}
+                            onChange={(e) => setfullname(e.target.value)}
                             className={styles.inputField}
                             required
                         />

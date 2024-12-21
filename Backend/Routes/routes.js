@@ -23,6 +23,9 @@ const verifyToken = (req, res, next) => {
 };
 router.post("/login", authController.login);
 router.post("/signup", authController.signup);
+router.get("/see_details", authController.seeDetails);
+router.post("/update_details", authController.updateDetails);
+router.post("/update_password", authController.changePassword);
 
 router.post("/add_class", classController.add_quiz_class);
 router.get("/see_class", classController.see_class);
