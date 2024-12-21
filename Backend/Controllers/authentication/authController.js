@@ -1,10 +1,37 @@
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
 const { db } = require("../../database/db");
+const multer = require("multer");
+const path = require("path");
 const secretKey = "your_secret_key";
 
-exports.login = async (req, res) => {
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./uploads/"); // Directory to save uploaded files
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Use timestamp as filename
+  },
+});
 
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB file size limit
+  },
+  fileFilter: (req, file, cb) => {
+    const fileTypes = /jpeg|jpg|png/;
+    const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimeType = fileTypes.test(file.mimetype);
+    if (extname && mimeType) {
+      return cb(null, true);
+    }
+    cb(new Error("Invalid file type, only JPEG, JPG, PNG are allowed."));
+  },
+}).single("photo"); // 'photo' is the key in the form-data
+
+exports.login = async (req, res) => {
   const { username, password } = req.body;
   const sql = "SELECT * FROM user_details WHERE username = ?";
 
@@ -59,10 +86,12 @@ exports.signup = async (req, res) => {
       return res.status(500).json({ error: "Internal Server Error" });
     }
 
-    if (results.length > 0) {
-      const existingUser = results.find(
-        (user) => user.email === email || user.username === username
-      );
+    // Check if there is an existing user with the same email or username
+    const existingUser = results.find(
+      (user) => user.email === email || user.username === username
+    );
+
+    if (existingUser) {
       const message =
         existingUser.email === email
           ? "Email already exists."
@@ -94,8 +123,9 @@ exports.signup = async (req, res) => {
   });
 };
 
+
 exports.seeDetails = async (req, res) => {
-  const {fullname, email, username } = req.body;
+  const { fullname, email, username, photo } = req.body;
 
   const authHeader = req.headers["authorization"];
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -112,10 +142,10 @@ exports.seeDetails = async (req, res) => {
 
     const userId = decoded.id;
 
-    let checkUserIsValid = "SELECT full_name, email, username FROM user_details WHERE id=?";
+    let checkUserIsValid = "SELECT full_name, email, username, photo_url FROM user_details WHERE id=?";
     const queryParams = [userId];
 
-    if (fullname || email || username) {
+    if (fullname || email || username || photo) {
       if (fullname) {
         checkUserIsValid += " AND full_name=?";
         queryParams.push(fullname);
@@ -127,6 +157,10 @@ exports.seeDetails = async (req, res) => {
       if (username) {
         checkUserIsValid += " AND username=?";
         queryParams.push(username);
+      }
+      if(photo) {
+        checkUserIsValid += " AND photo_url=?";
+        queryParams.push(photo)
       }
     }
 
@@ -146,48 +180,61 @@ exports.seeDetails = async (req, res) => {
 };
 
 exports.updateDetails = (req, res) => {
-  const { fullname, email, username } = req.body;
-
-  const authHeader = req.headers["authorization"];
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Unauthorized", message: "JWT token is required"});
-  }
-
-  const token = authHeader.split(" ")[1];
-
-  jwt.verify(token, secretKey, (err, decoded) => {
+  // Handle file upload with multer
+  upload(req, res, (err) => {
     if (err) {
-      console.error("JWT Verification Error: ", err);
-      return res.status(401).json({ error: "Invalid token" });
+      return res.status(400).json({ error: err.message });
     }
 
-    const userId = decoded.id;  // Fixed typo here
+    const { fullname, email, username } = req.body;
+    const photoUrl = req.file ? req.file.path : null; // Get photo URL if file is uploaded
 
-    // Retrieve current user details to verify user exists
-    let sqlSelectUser = "SELECT full_name, email, username FROM user_details WHERE id = ?";
-    db.query(sqlSelectUser, [userId], async (err, result) => {
+    const authHeader = req.headers["authorization"];
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ error: "Unauthorized", message: "JWT token is required" });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    jwt.verify(token, secretKey, (err, decoded) => {
       if (err) {
-        console.error("MySQL Error: ", err);
-        return res.status(500).json({ error: "Internal Server Error" });
+        console.error("JWT Verification Error: ", err);
+        return res.status(401).json({ error: "Invalid token" });
       }
 
-      // If no user is found
-      if (result.length === 0) {
-        return res.status(404).json({ error: "User not found" });
-      }
+      const userId = decoded.id;
 
-      // Prepare update query
-      let sqlUpdateUser = "UPDATE user_details SET full_name = ?, email = ?, username = ? WHERE id = ?";
-      const updateParams = [fullname || result[0].full_name, email || result[0].email, username || result[0].username, userId];
-
-      // If any data is provided (fullname, email, username), update it
-      db.query(sqlUpdateUser, updateParams, (err, updateResult) => {
+      // Retrieve current user details to verify user exists
+      let sqlSelectUser = "SELECT full_name, email, username FROM user_details WHERE id = ?";
+      db.query(sqlSelectUser, [userId], async (err, result) => {
         if (err) {
           console.error("MySQL Error: ", err);
           return res.status(500).json({ error: "Internal Server Error" });
         }
 
-        return res.json({ message: "User details updated successfully" });
+        // If no user is found
+        if (result.length === 0) {
+          return res.status(404).json({ error: "User not found" });
+        }
+
+        // Prepare update query
+        let sqlUpdateUser = "UPDATE user_details SET full_name = ?, email = ?, username = ?, photo_url=? WHERE id = ?";
+        const updateParams = [
+          fullname || result[0].full_name,
+          email || result[0].email,
+          username || result[0].username,
+          photoUrl || result[0].photo_url,
+          userId
+        ];
+
+        db.query(sqlUpdateUser, updateParams, (err, updateResult) => {
+          if (err) {
+            console.error("MySQL Error: ", err);
+            return res.status(500).json({ error: "Internal Server Error" });
+          }
+
+          return res.json({ message: "User details updated successfully" });
+        });
       });
     });
   });
@@ -247,4 +294,3 @@ exports.changePassword = async (req, res) => {
     });
   });
 };
-

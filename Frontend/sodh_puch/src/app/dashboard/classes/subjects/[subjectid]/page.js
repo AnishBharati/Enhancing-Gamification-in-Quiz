@@ -7,15 +7,14 @@ import { useRouter, useParams } from "next/navigation";
 import axios from "../../../../axiosSetup";
 
 export default function SubjectDetails() {
-  const [topics, setTopics] = useState([]);  // Ensure it is initialized as an empty array
+  const [topics, setTopics] = useState([]);  // Ensure this is initialized as an array
   const [showPopup, setShowPopup] = useState(false);
-  const [quizTopic, setquizTopic] = useState("");
+  const [quizTopic, setQuizTopic] = useState(""); // State to store the input for the new topic
   const [selectedTopicIndex, setSelectedTopicIndex] = useState(null);
   const router = useRouter();
   const params = useParams();  // Use `useParams()` to get params from the URL
 
-  // Accessing subjectid from params
-  const subjectid = params?.subjectid;
+  const subjectid = params?.subjectid;  // Accessing subjectid from params
 
   // Handle topic click to toggle options (Add Quiz/Delete)
   const handleTopicClick = (index) => {
@@ -34,6 +33,10 @@ export default function SubjectDetails() {
   const handleAddTopic = (e) => {
     e.preventDefault();
 
+    if (!quizTopic.trim()) {
+      return; // Prevent submitting if quizTopic is empty
+    }
+
     axios
       .post("http://localhost:8000/add_topic", { quizTopic, quizClass: subjectid })
       .then((res) => {
@@ -43,11 +46,14 @@ export default function SubjectDetails() {
         }
 
         // Assuming the response contains the newly added topic
-        const newTopic = res.data.newTopic; // Adjust this based on your actual response
-        setTopics((prevTopics) => [...prevTopics, newTopic]); // Add new topic to state
+        const newTopic = res.data.newTopic;  // Ensure newTopic is returned in the response
+        if (newTopic) {
+          setTopics((prevTopics) => [...prevTopics, newTopic]);  // Add new topic to state
+        }
 
-        setquizTopic(""); // Reset input field
+        setQuizTopic(""); // Reset input field
         closePopup();
+        router.push("/dashboard/classes/subjects");
       })
       .catch((err) => {
         console.error("Error adding topic:", err);
@@ -69,8 +75,9 @@ export default function SubjectDetails() {
         if (!response.ok) throw new Error("Failed to fetch data");
 
         const data = await response.json();
+        const quizTopicsId = data.id || [];
         const quizTopics = data.quiz_topics || []; // Ensure quiz_topics is always an array
-
+        
         // Set the topics state with fetched data
         setTopics(quizTopics);
       } catch (error) {
@@ -82,15 +89,26 @@ export default function SubjectDetails() {
   }, [subjectid]); // Re-fetch when subjectid changes
 
   // Handle deleting a topic
-  const handleDeleteTopic = (index) => {
-    
+  const handleDeleteTopic = (id, e) => {
+    e.preventDefault();
+    axios 
+      .delete("http://localhost:8000/delete_topic", {data: {id}})
+      .then((res) => {
+        const token = res.data.token;
+        if(token) {
+          localStorage.setItem("token", token);
+        }
+        router.push("/dashboard/classes/subjects");
+      })
+      .catch((error) => {
+        console.error("Error in deleting topic: ", error);
+      });
   };
 
   // Handle adding a quiz for a topic
   const handleAddQuiz = () => {
     router.push("/dashboard/classes/addquiz");
   };
-console.log("Topics are ", topics);
 
   return (
     <div className={styles.container}>
@@ -114,7 +132,7 @@ console.log("Topics are ", topics);
       {topics.length > 0 ? (
         topics.map((topic, index) => (
           <div
-            key={topic.id} // Use the unique `id` as the key
+            key={topic.id}  // Ensure topic has a valid 'id' to use as a key
             className={styles.topicContainer}
             onClick={() => handleTopicClick(index)}
           >
@@ -127,8 +145,8 @@ console.log("Topics are ", topics);
                 <button
                   className={styles.deleteButton}
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent dropdown closure
-                    handleDeleteTopic(index);
+                    e.stopPropagation();  // Prevent dropdown closure
+                    handleDeleteTopic(topic.id, e);
                   }}
                 >
                   Delete Chapter
@@ -138,7 +156,7 @@ console.log("Topics are ", topics);
           </div>
         ))
       ) : (
-        <p>No topics available.</p> // Message to show if no topics are present
+        <p>No topics available.</p>  // Message to show if no topics are present
       )}
 
       {/* Popup */}
@@ -150,7 +168,7 @@ console.log("Topics are ", topics);
               type="text"
               placeholder="Enter Chapter Name"
               value={quizTopic}
-              onChange={(e) => setquizTopic(e.target.value)}
+              onChange={(e) => setQuizTopic(e.target.value)}
               className={styles.inputField}
             />
             <div className={styles.buttonGroup}>
