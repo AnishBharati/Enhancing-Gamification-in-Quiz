@@ -4,7 +4,7 @@ const { db } = require("../../database/db");
 const secretKey = "your_secret_key";
 
 exports.add_quiz_topic = (req, res) => {
-  const { quiz_topic, quiz_class } = req.body;
+  const { quizTopic, quizClass } = req.body;
 
   // Extracting the JWT token from the Authorization header
   const authHeader = req.headers["authorization"];
@@ -39,7 +39,7 @@ exports.add_quiz_topic = (req, res) => {
         "INSERT INTO quiz_topic (quiz_class, quiz_topic) VALUES (?, ?)";
       db.query(
         sqlInsertQuizTopic,
-        [quiz_class, quiz_topic],
+        [quizClass, quizTopic],
         (insertErr, result) => {
           if (insertErr) {
             console.error("MySQL Error:", insertErr);
@@ -56,7 +56,7 @@ exports.add_quiz_topic = (req, res) => {
 
 // In the backend route
 exports.see_quiz_topic = (req, res) => {
-  const { quiz_class } = req.query;
+  const { id, quiz_class } = req.query;
 
   // Extract the JWT token from the Authorization header
   const authHeader = req.headers["authorization"];
@@ -77,9 +77,10 @@ exports.see_quiz_topic = (req, res) => {
     const userId = decoded.id; // Extracting the user ID from the token
 
     // SQL query to fetch quiz topics for a specific class
-    const selectQuizTopicQuery = `
+    let selectQuizTopicQuery = `
       SELECT 
-          quiz_topic
+          quiz_topic.id, 
+          quiz_topic.quiz_topic
       FROM 
           quiz_classes
       JOIN 
@@ -89,22 +90,29 @@ exports.see_quiz_topic = (req, res) => {
       WHERE 
           quiz_classes.id = ?;
     `;
+    const queryParams = [quiz_class];
+
+    if (id) {
+      selectQuizTopicQuery += " AND id = ?";
+      queryParams.push(id);
+    }                                           
 
     // Execute the query
-    db.query(selectQuizTopicQuery, [quiz_class], (queryErr, results) => {
+    db.query(selectQuizTopicQuery, queryParams, (queryErr, results) => {
       if (queryErr) {
         console.error("MySQL Error:", queryErr);
         return res.status(500).json({ error: "Internal Server Error" });
       }
 
-      // Return the quiz topics
       if (results.length === 0) {
         return res
           .status(404)
           .json({ message: "No quiz topics found for this class" });
       }
 
+      // Return the quiz topics with their IDs
       return res.status(200).json({ quiz_topics: results });
     });
   });
 };
+

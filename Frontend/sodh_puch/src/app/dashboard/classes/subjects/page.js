@@ -4,6 +4,7 @@ import styles from "./page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { isAuthenticated } from "../../../(auth)/auth";
+
 export default function Subjects() {
   const [topics, setTopics] = useState([]);
   const [descriptions, setDescriptions] = useState([]);
@@ -14,8 +15,8 @@ export default function Subjects() {
   // Mapping of subjects to their specific image URLs
   const subjectImages = {
     Science: "/img/science.jpeg",
-    Economics : "/img/Economics.jpeg",
-    Computer :"/img/Computer.jpeg",
+    Economics: "/img/Economics.jpeg",
+    Computer: "/img/Computer.jpeg",
     English: "/img/English.jpeg",
     Nepali: "/img/Nepali.jpeg",
     Math: "/img/Math.jpeg", // Add other subjects as needed
@@ -115,23 +116,20 @@ export default function Subjects() {
                 />
               </div>
               <div className={styles.cardContent}>
-  <h3>{topic.quiz_class}</h3>
-  <p>{descriptions[index]}</p>
-  <div className={styles.cardFooter}>
-    <Link
-      href={`/dashboard/classes/subjects/quiz_class?quiz_class=${topic.id}`}
-    >
-      <button className={styles.viewButton}>View Details</button>
-    </Link>
-    <button
-      className={styles.deleteButton}
-      onClick={() => handleDelete(topic.id)}
-    >
-      Delete
-    </button>
-  </div>
-</div>
-
+                <h3>{topic.quiz_class}</h3>
+                <p>{descriptions[index]}</p>
+                <div className={styles.cardFooter}>
+                <Link href={`/dashboard/classes/subjects/${topic.id}?id=${topic.id}`}>
+                  <button className={styles.viewButton}>View Details</button>
+                </Link>
+                  <button
+                    className={styles.deleteButton}
+                    onClick={() => handleDelete(topic.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
             </div>
           ))}
         </div>
