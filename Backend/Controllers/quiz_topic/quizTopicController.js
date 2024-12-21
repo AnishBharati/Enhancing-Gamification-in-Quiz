@@ -106,7 +106,7 @@ exports.see_quiz_topic = (req, res) => {
 
       if (results.length === 0) {
         return res
-          .status(404)
+          .status(200)
           .json({ message: "No quiz topics found for this class" });
       }
 
@@ -116,3 +116,45 @@ exports.see_quiz_topic = (req, res) => {
   });
 };
 
+exports.delete_quiz_topic = (req, res) => {
+  const {id} = req.body;
+
+  const authHeader = req.headers["authorization"];
+  if(!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res
+      .status(401)
+      .json({error: "Unauthorized", message: "JWT token is required"});
+  }
+  const token = authHeader.split(" ")[1];
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if(err) {
+      console.error("JWT  Verification Error: ", err);
+      return res.status(401).json({error: "Invalid token"});
+    }
+
+    const userId = decoded.id;
+
+    let sqlSelectTopic = `SELECT * FROM quiz_topic WHERE id=?`;
+    db.query(sqlSelectTopic, [id], (err, data)=> {
+      if (err) {
+        console.error("MySQL Error:", err);
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+
+      if (data.length === 0) {
+        return res.status(404).json({ error: "Topic not found" });
+      }
+      const sqlSelectTopic1 = "DELETE FROM quiz_topic WHERE id=?";
+      db.query(sqlSelectTopic1, [id], (err, result) => {
+        if(err) {
+          console.error("MySQL Error: ", err);
+          return res.status(500).json({error: "Error in deleting topic"});
+        }
+  
+        return res.json({mesage: "Topic deleted successfully"});
+      }) 
+    })
+    
+  })
+}
