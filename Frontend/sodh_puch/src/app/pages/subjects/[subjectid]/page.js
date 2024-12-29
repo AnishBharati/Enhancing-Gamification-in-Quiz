@@ -4,7 +4,7 @@ import styles from "./page.module.css";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 import { useRouter, useParams } from "next/navigation";
-import axios from "../../../../axiosSetup";
+import axios from "../../../axiosSetup";
 
 export default function SubjectDetails() {
   const [topics, setTopics] = useState([]);  // Ensure this is initialized as an array
@@ -107,7 +107,7 @@ export default function SubjectDetails() {
 
   // Handle adding a quiz for a topic
   const handleAddQuiz = () => {
-    router.push("/dashboard/classes/addquiz");
+    router.push(`/pages/subjects/${subjectid}/addquiz`);
   };
 
   return (
