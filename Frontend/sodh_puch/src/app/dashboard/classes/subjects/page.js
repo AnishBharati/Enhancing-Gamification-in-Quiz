@@ -119,9 +119,14 @@ export default function Subjects() {
                 <h3>{topic.quiz_class}</h3>
                 <p>{descriptions[index]}</p>
                 <div className={styles.cardFooter}>
-                <Link href={`/dashboard/classes/subjects/${topic.id}?id=${topic.id}`}>
-                  <button className={styles.viewButton}>View Details</button>
-                </Link>
+                  <Link
+                    href={`/dashboard/classes/subjects/${topic.id}?id=${
+                      topic.id
+                    }&class=${encodeURIComponent(topic.quiz_class)}`}
+                  >
+                    <button className={styles.viewButton}>View Details</button>
+                  </Link>
+
                   <button
                     className={styles.deleteButton}
                     onClick={() => handleDelete(topic.id)}

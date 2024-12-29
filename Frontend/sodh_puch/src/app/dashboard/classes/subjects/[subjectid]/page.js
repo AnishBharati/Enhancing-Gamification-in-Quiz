@@ -5,17 +5,20 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 import { useRouter, useParams } from "next/navigation";
 import axios from "../../../../axiosSetup";
+import { useSearchParams } from "next/navigation";
 
 export default function SubjectDetails() {
-  const [topics, setTopics] = useState([]);  // Ensure this is initialized as an array
+  const [topics, setTopics] = useState([]); // Ensure this is initialized as an array
   const [showPopup, setShowPopup] = useState(false);
   const [quizTopic, setQuizTopic] = useState(""); // State to store the input for the new topic
   const [selectedTopicIndex, setSelectedTopicIndex] = useState(null);
   const router = useRouter();
-  const params = useParams();  // Use `useParams()` to get params from the URL
+  const params = useParams(); // Use `useParams()` to get params from the URL
+  const searchParams = useSearchParams(); // Access query params
 
-  const subjectid = params?.subjectid;  // Accessing subjectid from params
-
+  const subjectid = params?.subjectid; // Accessing subjectid from params
+  const classNamed = searchParams.get("class");
+  const id = searchParams.get("id");
   // Handle topic click to toggle options (Add Quiz/Delete)
   const handleTopicClick = (index) => {
     setSelectedTopicIndex(selectedTopicIndex === index ? null : index);
@@ -38,7 +41,10 @@ export default function SubjectDetails() {
     }
 
     axios
-      .post("http://localhost:8000/add_topic", { quizTopic, quizClass: subjectid })
+      .post("http://localhost:8000/add_topic", {
+        quizTopic,
+        quizClass: subjectid,
+      })
       .then((res) => {
         const token = res.data.token;
         if (token) {
@@ -46,9 +52,9 @@ export default function SubjectDetails() {
         }
 
         // Assuming the response contains the newly added topic
-        const newTopic = res.data.newTopic;  // Ensure newTopic is returned in the response
+        const newTopic = res.data.newTopic; // Ensure newTopic is returned in the response
         if (newTopic) {
-          setTopics((prevTopics) => [...prevTopics, newTopic]);  // Add new topic to state
+          setTopics((prevTopics) => [...prevTopics, newTopic]); // Add new topic to state
         }
 
         setQuizTopic(""); // Reset input field
@@ -67,17 +73,20 @@ export default function SubjectDetails() {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Authentication token not found");
 
-        const response = await fetch(`http://localhost:8000/see_topic?quiz_class=${subjectid}`, {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await fetch(
+          `http://localhost:8000/see_topic?quiz_class=${subjectid}`,
+          {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
         if (!response.ok) throw new Error("Failed to fetch data");
 
         const data = await response.json();
         const quizTopicsId = data.id || [];
         const quizTopics = data.quiz_topics || []; // Ensure quiz_topics is always an array
-        
+
         // Set the topics state with fetched data
         setTopics(quizTopics);
       } catch (error) {
@@ -91,11 +100,11 @@ export default function SubjectDetails() {
   // Handle deleting a topic
   const handleDeleteTopic = (id, e) => {
     e.preventDefault();
-    axios 
-      .delete("http://localhost:8000/delete_topic", {data: {id}})
+    axios
+      .delete("http://localhost:8000/delete_topic", { data: { id } })
       .then((res) => {
         const token = res.data.token;
-        if(token) {
+        if (token) {
           localStorage.setItem("token", token);
         }
         router.push("/dashboard/classes/subjects");
@@ -106,8 +115,14 @@ export default function SubjectDetails() {
   };
 
   // Handle adding a quiz for a topic
-  const handleAddQuiz = () => {
-    router.push("/dashboard/classes/addquiz");
+  const handleAddQuiz = (quizTopic) => {
+    router.push(
+      `/dashboard/classes/addquiz?topic=${encodeURIComponent(
+        quizTopic
+      )}&className=${encodeURIComponent(classNamed)}`
+    );
+
+    // router.push("/dashboard/classes/addquiz");
   };
 
   return (
@@ -120,7 +135,7 @@ export default function SubjectDetails() {
       {/* Subject Header */}
       <div className={styles.subjectCard}>
         <div>
-          <h1 className={styles.subjectName}>{subjectid}</h1>
+          <h1 className={styles.subjectName}>{classNamed}</h1>
           <p className={styles.subjectDescription}>Subject Description</p>
         </div>
         <div className={styles.addIcon} onClick={openPopup}>
@@ -132,20 +147,23 @@ export default function SubjectDetails() {
       {topics.length > 0 ? (
         topics.map((topic, index) => (
           <div
-            key={topic.id}  // Ensure topic has a valid 'id' to use as a key
+            key={topic.id} // Ensure topic has a valid 'id' to use as a key
             className={styles.topicContainer}
             onClick={() => handleTopicClick(index)}
           >
             <h2 className={styles.heading}>{topic.quiz_topic}</h2>
             {selectedTopicIndex === index && (
               <div className={styles.topicOptions}>
-                <button className={styles.addQuizButton} onClick={handleAddQuiz}>
+                <button
+                  className={styles.addQuizButton}
+                  onClick={() => handleAddQuiz(topic.quiz_topic)}
+                >
                   Add Quiz
                 </button>
                 <button
                   className={styles.deleteButton}
                   onClick={(e) => {
-                    e.stopPropagation();  // Prevent dropdown closure
+                    e.stopPropagation(); // Prevent dropdown closure
                     handleDeleteTopic(topic.id, e);
                   }}
                 >
@@ -156,7 +174,7 @@ export default function SubjectDetails() {
           </div>
         ))
       ) : (
-        <p>No topics available.</p>  // Message to show if no topics are present
+        <p>No topics available.</p> // Message to show if no topics are present
       )}
 
       {/* Popup */}

@@ -39,5 +39,5 @@ router.delete("/delete_topic", classController_topic.delete_quiz_topic);
 router.post("/add_question", classController_question.add_question);
 router.post("/check", classController_question.check_answer);
 router.post("/see_quiz", classController_question.seeQuiz);
-
+router.delete("/delete_question", classController_question.delete_question);
 module.exports = router;
