@@ -203,7 +203,7 @@ export default function Dashboard() {
             {/* Right Section */}
             <div className={styles.rightSection}>
                 <div className={styles.profileImage}>
-                    <img src={currentPhoto} alt="User" className={styles.circleImage} />
+                    <img src={currentPhoto} alt="User"  className={styles.circleImage} />
                 </div>
                 <div className={styles.userInfo}>
                     <p><strong>Full Name:</strong> {fullname}</p>

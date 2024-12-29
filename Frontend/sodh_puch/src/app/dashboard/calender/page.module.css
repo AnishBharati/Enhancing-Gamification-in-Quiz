@@ -4,7 +4,7 @@
     max-width: 800px; /* Adjusted max-width */
     margin: 20px auto;
     padding: 20px; /* Reduced padding */
-    background-color: white;
+    background-color: #6a5acd;
     border-radius: 15px; /* Smaller radius */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
@@ -17,7 +17,7 @@
     text-align: center;
     font-size: 2rem; /* Reduced font size */
     font-weight: bold;
-    color: #333;
+    color: #0f0f0f;
     margin-bottom: 15px; /* Reduced margin */
     letter-spacing: 1px;
 }
