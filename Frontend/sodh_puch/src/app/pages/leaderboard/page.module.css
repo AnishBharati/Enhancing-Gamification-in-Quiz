@@ -1,5 +1,48 @@
 /* Main Container */
-.container {
+
+/* main page content do not edit it */
+
+.maincontainer{
+    background-color: white;
+}
+
+.container{
+    display: flex;
+    gap: 10px;
+   background-color: white; 
+}
+
+.menu{
+    height: 14vh;
+padding: 0.8rem;
+    width: 100%; 
+    background: linear-gradient(to bottom, #8daec7, #f0f4f8); /* Subtle gradient */
+  
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9); /* Added box shadow */
+
+}
+.content1{
+    flex: 0.5;
+    color: white;
+    padding: 1rem;
+    background-color: white;
+    background: linear-gradient(to bottom, #8daec7, #f0f4f8); /* Subtle gradient */
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Added box shadow */
+
+}
+.content2{
+    flex: 4;
+    background-color: white;   ;
+    border-radius:  20px;
+    color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Added box shadow */
+    background: linear-gradient(to bottom, #f0f4f8, #8daec7); /* Subtle gradient */
+
+
+}
+.containeer {
     width: 70%; /* Reduced width */
     max-width: 800px; /* Adjusted max-width */
     margin: 20px auto;

@@ -1,13 +1,15 @@
 "use client";
-import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "../../axiosSetup";
 import { isAuthenticated } from "../auth";
+import axios from "../../../axiosSetup";
 
-const Login = () => {
+const Signup = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [fullname, setFullName] = useState("");
+  const [email, setEmail] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -19,20 +21,21 @@ const Login = () => {
   function handleSubmit(event) {
     event.preventDefault();
     axios
-      .post("http://localhost:8000/login", { username, password })
-      .then((res) => {
-        const token = res.data.token; // Get the token from the response
-        localStorage.setItem("token", token); // Store the token in localStorage
-        console.log("Login successful. Redirecting to dashboard...");
-        router.push("/dashboard");
+      .post("http://localhost:8000/signup", {
+        fullname,
+        email,
+        username,
+        password,
       })
-      .catch((err) => {
-        if (err.response && err.response.data && err.response.data.error) {
-          alert(err.response.data.error); // Show alert for error message from backend
-        } else {
-          alert("An error occurred. Please try again."); // Generic error alert
-        }
-      });
+      .then((res) => {
+        console.log(res);
+        setFullName("");
+        setEmail("");
+        setUsername("");
+        setPassword("");
+        router.push("/login");
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -54,13 +57,41 @@ const Login = () => {
       <div className={styles.rightSection}>
         <h1 className={styles.logo}>Quizzify</h1>
         <div className={styles.form}>
-          <h1 className={styles.formHeader}>LOGIN</h1>
+          <h1 className={styles.formHeader}>SIGNUP</h1>
           <p className={styles.formSubHeader}>
             Use one of the services to continue with Quizzify
           </p>
 
-          {/* Login Form */}
+          {/* Signup Form */}
           <form onSubmit={handleSubmit}>
+            <label htmlFor="fullname" className={styles.inputLabel}>
+              Full Name
+            </label>
+            <input
+              type="text"
+              id="fullname"
+              name="fullname"
+              className={styles.inputField}
+              placeholder="Full Name"
+              value={fullname}
+              required
+              onChange={(e) => setFullName(e.target.value)}
+            />
+
+            <label htmlFor="email" className={styles.inputLabel}>
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              className={styles.inputField}
+              placeholder="Email"
+              value={email}
+              required
+              onChange={(e) => setEmail(e.target.value)}
+            />
+
             <label htmlFor="username" className={styles.inputLabel}>
               Username
             </label>
@@ -89,15 +120,27 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
 
+            <label htmlFor="repassword" className={styles.inputLabel}>
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              id="repassword"
+              name="repassword"
+              className={styles.inputField}
+              placeholder="Confirm Password"
+              required
+            />
+
             <button type="submit" className={styles.submitButton}>
-              LOGIN
+              SIGNUP
             </button>
           </form>
 
           <p className={styles.redirectText}>
-            Don't have an account?{" "}
-            <a href="/signup" className={styles.loginLink}>
-              Sign up
+            Already have an account?{" "}
+            <a href="/pages/login" className={styles.loginLink}>
+              Login
             </a>
           </p>
         </div>
@@ -110,4 +153,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
