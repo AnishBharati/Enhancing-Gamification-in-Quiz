@@ -24,7 +24,7 @@ export default function Calender() {
     };
 
     return (
-        <div className={styles.container}>
+        <div className={styles.containeer}>
             <h2 className={styles.title}>Student Marks</h2>
 
             {/* Dropdown for Subject Selection */}

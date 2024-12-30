@@ -28,7 +28,7 @@ export default function Sidebar() {
   const handleLogout = () => {
     const token = localStorage.getItem("token");
     localStorage.removeItem("token", token);
-    router.push("/login");
+    router.push("/pages/login");
   };
 
   // Helper functions for active link styles
@@ -49,10 +49,10 @@ export default function Sidebar() {
             {/* Dashboard Link */}
             <div
               className={`${styles.item1} ${
-                isActive("/dashboard") ? styles.active : ""
+                isActive("/pages/dashboard") ? styles.active : ""
               }`}
             >
-              <Link href="/dashboard" className={styles.link}>
+              <Link href="/pages/dashboard" className={styles.link}>
                 <MdDashboard className={styles.icon} />
                 <span className={styles.text}>Dashboard</span>
               </Link>
@@ -61,10 +61,10 @@ export default function Sidebar() {
             {/* Calendar Link */}
             <div
               className={`${styles.item3} ${
-                isActive("/dashboard/calender") ? styles.active : ""
+                isActive("/pages/leaderboard") ? styles.active : ""
               }`}
             >
-              <Link href="/dashboard/calender" className={styles.link}>
+              <Link href="/pages/leaderboard" className={styles.link}>
                 <SlCalender className={styles.icon} />
                 <span className={styles.text}>LeaderBoard</span>
               </Link>
@@ -73,7 +73,7 @@ export default function Sidebar() {
             {/* Quiz Dropdown */}
             <div
               className={`${styles.item2} ${
-                isRouteActive("/dashboard/classes") ? styles.active : ""
+                isRouteActive("/pages/classes") ? styles.active : ""
               }`}
               onClick={toggleDropdown}
             >
@@ -91,20 +91,20 @@ export default function Sidebar() {
               <div className={styles.dropdownContainer}>
                 <div
                   className={`${styles.item5} ${
-                    isActive("/dashboard/classes") ? styles.active : ""
+                    isActive("/pages/classes") ? styles.active : ""
                   }`}
                 >
-                  <Link href="/dashboard/classes" className={styles.link}>
+                  <Link href="/pages/classes" className={styles.link}>
                     <GoPlus className={styles.icon2} />
                     <span className={styles.text}>Add</span>
                   </Link>
                 </div>
                 <div
                   className={`${styles.item6} ${
-                    isActive("/dashboard/classes/subjects") ? styles.active : ""
+                    isActive("/pages/subjects") ? styles.active : ""
                   }`}
                 >
-                  <Link href="/dashboard/classes/subjects" className={styles.link}>
+                  <Link href="/pages/subjects" className={styles.link}>
                     <PiFilesLight className={styles.icon2} />
                     <span className={styles.text}>List</span>
                   </Link>
@@ -114,7 +114,7 @@ export default function Sidebar() {
 
             {/* Logout Link */}
             <div className={styles.item7}>
-              <Link onClick={handleLogout} href="/login" className={styles.link}>
+              <Link onClick={handleLogout} href="/pages/login" className={styles.link}>
                 <IoLogOutOutline className={styles.icon} />
                 <span className={styles.text}>Logout</span>
               </Link>

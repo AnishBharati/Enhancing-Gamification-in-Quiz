@@ -4,6 +4,7 @@ import styles from "./page.module.css";
 import { isAuthenticated } from "../(auth)/auth";
 import { useRouter } from "next/navigation";
 import { RiPoliceBadgeFill } from "react-icons/ri";
+import axios from "../../axiosSetup";
 
 export default function Dashboard() {
     const router = useRouter();
@@ -11,19 +12,54 @@ export default function Dashboard() {
     const [showPasswordPopup, setShowPasswordPopup] = useState(false);
     const [showEditProfilePopup, setShowEditProfilePopup] = useState(false);
     const [confirmPasswordPopup, setConfirmPasswordPopup] = useState(false);
-
-    const [username, setUsername] = useState('John');
-    const [surname, setSurname] = useState('Doe');
-    const [email, setEmail] = useState('john.doe@example.com');
-    const [currentPhoto, setCurrentPhoto] = useState('/img/user.jpg');
+    const [username, setUsername] = useState('');
+    const [fullname, setFullname] = useState('');
+    const [email, setEmail] = useState('');
+    const [currentPhoto, setCurrentPhoto] = useState('/img/user.jpg'); // Default photo
     const [newPhoto, setNewPhoto] = useState(null);
-
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
     const [successMessage, setSuccessMessage] = useState(false);
 
+    // Fetch user details on initial load
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                if (!token) throw new Error("Authentication token not found");
+
+                const response = await fetch("http://localhost:8000/see_details", {
+                    method: "GET",
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (!response.ok) throw new Error("Failed to fetch data");
+
+                const data = await response.json();
+
+                // Extract the first user data
+                const userDetails = data.data[0];
+                if (userDetails) {
+                    setUsername(userDetails.username);
+                    setEmail(userDetails.email);
+                    setFullname(userDetails.full_name);
+                    
+                    // Set the full URL for photo (adjusting for the path returned by the server)
+                    setCurrentPhoto(userDetails.photo_url ? `http://localhost:8000/${userDetails.photo_url}` : '/img/user.jpg');
+                }
+
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+                alert("Failed to load user details. Please try again later.");
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    // Check authentication when page loads
     useEffect(() => {
         const checkAuth = async () => {
             if (!await isAuthenticated()) {
@@ -33,53 +69,83 @@ export default function Dashboard() {
         checkAuth();
     }, [router]);
 
-    const handleEditProfile = () => {
-        if (!username || !surname || !email) {
-            alert("All fields except photo are required!");
-            return;
-        }
+    // Handle profile edit and photo upload
+    const handleEditProfile = async (e) => {
+        e.preventDefault();
 
-        // Update current photo only if a new photo is provided
+        // Create a new FormData object to send both text and file data
+        const formData = new FormData();
+        formData.append("username", username);
+        formData.append("fullname", fullname);
+        formData.append("email", email);
+
         if (newPhoto) {
-            setCurrentPhoto(URL.createObjectURL(newPhoto));
+            formData.append("photo", newPhoto); // Attach the photo file
         }
 
-        console.log("Profile updated:", { username, surname, email });
+        try {
+            // Send POST request with formData using axios
+            const response = await axios.put("http://localhost:8000/update_details", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data", // Ensure it's set to send files
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
 
-        setShowEditProfilePopup(false);
-        setSuccessMessage(true);
+            // Handle success response
+            const token = response.data.token;
+            if (token) {
+                localStorage.setItem("token", token);
+            }
 
-        setTimeout(() => {
-            setSuccessMessage(false);
-        }, 1300);
+            setShowEditProfilePopup(false);
+            setSuccessMessage(true);
+
+            // Hide the success message after 1.3 seconds
+            setTimeout(() => {
+                setSuccessMessage(false);
+            }, 1300);
+
+            router.push("/dashboard");
+        } catch (error) {
+            console.error("Error updating profile: ", error);
+            alert("Failed to update profile. Please try again.");
+        }
     };
 
-    const handlePasswordChange = () => {
-        if (!newPassword || !confirmNewPassword) {
-            alert("Both password fields must be filled!");
-            return;
-        }
-
+    // Handle password change request
+    const handlePasswordChange = (e) => {
+        e.preventDefault();
         if (newPassword !== confirmNewPassword) {
-            alert("Passwords do not match!");
+            alert("New password and Confirm Password don't match");
             return;
         }
 
-        console.log("Password changed to:", newPassword);
+        axios
+            .post("http://localhost:8000/update_password", { currentPassword, newPassword })
+            .then((res) => {
+                const token = res.data.token;
+                if (token) {
+                    localStorage.setItem("token", token);
+                }
+                setShowPasswordPopup(false);
+                setConfirmPasswordPopup(false);
+                setCurrentPassword('');
+                setNewPassword('');
+                setConfirmNewPassword('');
+                setSuccessMessage(true);
 
-        setShowPasswordPopup(false);
-        setConfirmPasswordPopup(false);
-
-        setCurrentPassword('');
-        setNewPassword('');
-        setConfirmNewPassword('');
-
-        setSuccessMessage(true);
-
-        setTimeout(() => {
-            setSuccessMessage(false);
-        }, 2000);
+                // Hide the success message after 2 seconds
+                setTimeout(() => {
+                    setSuccessMessage(false);
+                }, 2000);
+            })
+            .catch((error) => {
+                console.error("Error changing password: ", error);
+                alert("Failed to change password. Please try again.");
+            });
     };
+
     return (
         <div className={styles.dashboardContainer}>
             {/* Left Section */}
@@ -134,14 +200,14 @@ export default function Dashboard() {
                 </div>
             </div>
 
-           {/* Right Section */}
-           <div className={styles.rightSection}>
+            {/* Right Section */}
+            <div className={styles.rightSection}>
                 <div className={styles.profileImage}>
                     <img src={currentPhoto} alt="User" className={styles.circleImage} />
                 </div>
                 <div className={styles.userInfo}>
-                    <p><strong>Name:</strong> {username}</p>
-                    <p><strong>Surname:</strong> {surname}</p>
+                    <p><strong>Full Name:</strong> {fullname}</p>
+                    <p><strong>Username:</strong> {username}</p>
                     <p><strong>Email:</strong> {email}</p>
                 </div>
                 <div className={styles.profileButtons}>
@@ -175,9 +241,9 @@ export default function Dashboard() {
                         />
                         <input
                             type="text"
-                            placeholder="Surname"
-                            value={surname}
-                            onChange={(e) => setSurname(e.target.value)}
+                            placeholder="Full Name"
+                            value={fullname}
+                            onChange={(e) => setFullname(e.target.value)}
                             className={styles.inputField}
                             required
                         />
@@ -201,15 +267,12 @@ export default function Dashboard() {
                                 className={styles.fileInput}
                             />
                         </div>
-                        <button
-                            className={styles.submitButton}
-                            onClick={handleEditProfile}
-                        >
-                            Save
+                        <button onClick={handleEditProfile} className={styles.saveButton}>
+                            Save Changes
                         </button>
                         <button
-                            className={styles.closeButton}
                             onClick={() => setShowEditProfilePopup(false)}
+                            className={styles.closeButton}
                         >
                             Close
                         </button>
@@ -217,7 +280,7 @@ export default function Dashboard() {
                 </div>
             )}
 
-            {/* Change Password Popup */}
+            {/* Password Change Popup */}
             {showPasswordPopup && (
                 <div className={styles.popupOverlay}>
                     <div className={styles.popup}>
@@ -228,6 +291,7 @@ export default function Dashboard() {
                             value={currentPassword}
                             onChange={(e) => setCurrentPassword(e.target.value)}
                             className={styles.inputField}
+                            required
                         />
                         <input
                             type="password"
@@ -235,6 +299,7 @@ export default function Dashboard() {
                             value={newPassword}
                             onChange={(e) => setNewPassword(e.target.value)}
                             className={styles.inputField}
+                            required
                         />
                         <input
                             type="password"
@@ -242,51 +307,17 @@ export default function Dashboard() {
                             value={confirmNewPassword}
                             onChange={(e) => setConfirmNewPassword(e.target.value)}
                             className={styles.inputField}
+                            required
                         />
-                        <button
-                            className={styles.submitButton}
-                            onClick={() => setConfirmPasswordPopup(true)}
-                        >
-                            Submit
+                        <button onClick={handlePasswordChange} className={styles.saveButton}>
+                            Change Password
                         </button>
                         <button
-                            className={styles.closeButton}
                             onClick={() => setShowPasswordPopup(false)}
+                            className={styles.closeButton}
                         >
                             Close
                         </button>
-                    </div>
-                </div>
-            )}
-
-            {/* Confirm Password Change Popup */}
-            {confirmPasswordPopup && (
-                <div className={styles.popupOverlay}>
-                    <div className={styles.popup}>
-                        <h4>Are you sure you want to change the password?</h4>
-                        <div className={styles.confirmButtons}>
-                            <button
-                                className={styles.yesButton}
-                                onClick={handlePasswordChange}
-                            >
-                                Yes
-                            </button>
-                            <button
-                                className={styles.noButton}
-                                onClick={() => setConfirmPasswordPopup(false)}
-                            >
-                                No
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Success Message */}
-            {successMessage && (
-                <div className={styles.successPopupOverlay}>
-                    <div className={styles.successPopup}>
-                        <h4>Profile edited Successfully!</h4>
                     </div>
                 </div>
             )}

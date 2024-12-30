@@ -1,13 +1,13 @@
 require("dotenv").config();
-
 const express = require("express");
 const colors = require("colors");
 const { db, isConnected } = require("./database/db");
 const routes = require("./Routes/routes");
+const path = require("path");
 const cors = require("cors");
 
 const app = express();
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
 
 app.use(
