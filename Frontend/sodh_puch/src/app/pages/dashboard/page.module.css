@@ -9,7 +9,7 @@
 }
 .menu{
     height: 14vh;
-padding: 0.8rem;
+    padding: 0.8rem;
     width: 100%; 
     background: linear-gradient(to bottom, #6a5acd, #6a5acd);
   
@@ -281,11 +281,17 @@ padding: 0.8rem;
     border-radius: 5px;
     font-size: 1rem;
 }
-
+.fileLabel{
+    color:black;
+}
+.fileInput{
+   margin: 1rem;
+   align-items: center;
+}
 /* Buttons */
-.submitButton, .closeButton, .yesButton, .noButton {
+.submitButton, .closeButton, .yesButton, .noButton  {
     padding: 0.7rem 1rem;
-    margin: 0.5rem;
+    margin: 0.2rem;
     border: none;
     border-radius: 5px;
     font-size: 1rem;
