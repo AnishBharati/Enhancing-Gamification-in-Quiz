@@ -142,7 +142,7 @@ exports.seeDetails = async (req, res) => {
 
     const userId = decoded.id;
 
-    let checkUserIsValid = "SELECT full_name, email, username, photo_url FROM user_details WHERE id=?";
+    let checkUserIsValid = "SELECT full_name, email, username, photo_url, quiz_points, exp_points FROM user_details WHERE id=?";
     const queryParams = [userId];
 
     if (fullname || email || username || photo) {
@@ -161,6 +161,14 @@ exports.seeDetails = async (req, res) => {
       if(photo) {
         checkUserIsValid += " AND photo_url=?";
         queryParams.push(photo)
+      }
+      if(quiz_points) {
+        checkUserIsValid += " AND quiz_points=?";
+        queryParams.push(quiz_points)
+      }
+      if(exp_points) {
+        checkUserIsValid += " AND exp_points=?";
+        queryParams.push(exp_points)
       }
     }
 
@@ -294,3 +302,59 @@ exports.changePassword = async (req, res) => {
     });
   });
 };
+
+exports.getLeaderBoard = async (req, res) => {
+  const id = req.query.id;
+
+  const authHeader = req.headers["authorization"];
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Unauthorized", message: "JWT token is required" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      console.error("JWT Verification Error: ", err);
+      return res.status(401).json({ error: "Invalid token" });
+    }
+    const userId = decoded.id;
+
+    const selectClassCode = "SELECT * FROM quiz_classes WHERE id = ?";
+    db.query(selectClassCode, [id], async(err, result) => {
+      if (err) {
+        console.error("MySQL Error: ", err);
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+
+      if (result.length === 0) {
+        return res.status(404).json({ error: "No Class Found" });
+      }
+
+      const code = result[0].code;
+      const selectClass = "SELECT students_id FROM quiz_classes WHERE code = ?";
+      db.query(selectClass, [code], async(err, result) => {
+        if (err) {
+          console.error("MySQL Error: ", err);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+
+        if (result.length === 0) {
+          return res.status(204).json({ error: "No Student Found" });
+        }
+        console.log("Data is: ", result);
+        const studentIds = result[1].students_id.split(',');        
+        const checkUser = "SELECT id, full_name, exp_points FROM user_details WHERE id = ?";
+        db.query(checkUser, [studentIds], (err, result) => {
+          if (err) {
+            console.error("MySQL Error: ", err);
+            return res.status(500).json({ error: "Internal Server Error" });
+          }
+
+          return res.status(200).json({userDetails: result});
+        })
+      })
+    })
+  });
+}

@@ -82,17 +82,31 @@ exports.delete_quiz_class = (req, res) => {
       if (data.length === 0) {
         return res.status(404).json({ error: "Class not found" });
       }
+      const teacherId = data[0].teacher_id;
+      const code = data[0].code;
 
-      // Proceed to delete the class
-      const sqlDeleteClass = "DELETE FROM quiz_classes WHERE id=?";
-      db.query(sqlDeleteClass, [id], (err, result) => {
+      if(teacherId == userId) {
+        const sqlSelectAllClasses = "DELETE FROM quiz_classes WHERE code=?";
+        db.query(sqlSelectAllClasses, [code], (err, data) => {
+          if (err) {
+            console.error("MySQL Error:", err);
+            return res.status(500).json({ error: "Internal Server Error" });
+          }
+
+          return res.json({ message: "Class deleted successfully by teacher" });
+        })
+      } else {
+        const sqlDeleteClass = "DELETE FROM quiz_classes WHERE id=?";
+        db.query(sqlDeleteClass, [id], (err, result) => {
         if (err) {
           console.error("MySQL Error:", err);
           return res.status(500).json({ error: "Error deleting class" });
         }
 
-        return res.json({ message: "Class deleted successfully" });
+        return res.json({ message: "Class deleted successfully for one student" });
       });
+      }
+      
     });
   });
 };
@@ -177,8 +191,6 @@ exports.addStudents = (req, res) => {
   });
 };
 
-
-
 exports.see_class = (req, res) => {
   const { id, quiz_class, description } = req.body;
 
@@ -198,33 +210,96 @@ exports.see_class = (req, res) => {
     }
 
     const userId = decoded.id;
-
-    let sqlSelectClass = "SELECT id, quiz_class, description FROM quiz_classes WHERE teacher_id = ? OR students_id = ?";
-    const queryParams = [userId, userId];
-
-    if (id || quiz_class || description) {
-      if(id) {
-        sqlSelectClass += " AND id = ?";
-        queryParams.push(id);
-      }
-      if (quiz_class) {
-        sqlSelectClass += " AND title = ?";
-        queryParams.push(quiz_class);
-      }
-      if (description) {
-        sqlSelectClass += " AND description = ?";
-        queryParams.push(description);
-      }
-    }
-
-    db.query(sqlSelectClass, queryParams, (err, result) => {
+    // Query to fetch class based on the user (either as teacher or student)
+    let sqlSelectClass = "SELECT * FROM quiz_classes WHERE teacher_id = ? OR FIND_IN_SET(?, students_id)";
+    
+    db.query(sqlSelectClass, [userId, userId], (err, result) => {
       if (err) {
         console.error("MySQL Error:", err);
         return res.status(500).json({ error: "Internal Server Error" });
       }
 
-      return res.json({ tasks: result });
+      // If no class is found, return an appropriate message
+      if (result.length === 0) {
+        return res.status(404).json({ error: "No classes found for the user" });
+      }
+
+      // Assume we're checking only the first result for teacherId and code
+      const teacherId = result[0].teacher_id;
+
+      // If the user is a teacher, filter classes by the code
+      if (teacherId == userId) {
+        let sqlSelectClassFromCode = "SELECT id, quiz_class, description, code FROM quiz_classes";
+        let queryParams = [];
+
+        // Optionally, we can add conditions for id, quiz_class, or description
+        if (id || quiz_class || description) {
+          sqlSelectClassFromCode += " WHERE 1=1";
+          if (id) {
+            sqlSelectClassFromCode += " AND id = ?";
+            queryParams.push(id);
+          }
+          if (quiz_class) {
+            sqlSelectClassFromCode += " AND quiz_class = ?";
+            queryParams.push(quiz_class);
+          }
+          if (description) {
+            sqlSelectClassFromCode += " AND description = ?";
+            queryParams.push(description);
+          }
+        }
+
+        // Query to get classes for teacher without restricting by 'code'
+        db.query(sqlSelectClassFromCode, queryParams, (err, results) => {
+          if (err) {
+            console.error("MySQL Error:", err);
+            return res.status(500).json({ error: "Internal Server Error" });
+          }
+
+          // Now we will filter out rows with the same 'code', showing only one per unique 'code'
+          const uniqueClasses = [];
+          const seenCodes = new Set();
+
+          results.forEach(row => {
+            if (!seenCodes.has(row.code)) {
+              seenCodes.add(row.code);
+              uniqueClasses.push(row);
+            }
+          });
+
+          return res.json({ tasks: uniqueClasses });
+        });
+
+      } else {
+        // If the user is a student, filter by students_id
+        const sqlSelectClassForStudent = "SELECT id, quiz_class, description FROM quiz_classes WHERE FIND_IN_SET(?, students_id)";
+        let queryParams = [userId];
+
+        // Apply additional filters based on the request
+        if (id || quiz_class || description) {
+          if (id) {
+            sqlSelectClassForStudent += " AND id = ?";
+            queryParams.push(id);
+          }
+          if (quiz_class) {
+            sqlSelectClassForStudent += " AND quiz_class = ?";
+            queryParams.push(quiz_class);
+          }
+          if (description) {
+            sqlSelectClassForStudent += " AND description = ?";
+            queryParams.push(description);
+          }
+        }
+
+        // Query to get classes for student
+        db.query(sqlSelectClassForStudent, queryParams, (err, results) => {
+          if (err) {
+            console.error("MySQL Error:", err);
+            return res.status(500).json({ error: "Internal Server Error" });
+          }
+          return res.json({ tasks: results });
+        });
+      }
     });
   });
 };
-
