@@ -14,7 +14,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (isAuthenticated()) {
-      router.push("/dashboard");
+      router.push("/pages/dashboard");
     }
   }, []);
 
@@ -33,7 +33,7 @@ const Signup = () => {
         setEmail("");
         setUsername("");
         setPassword("");
-        router.push("/login");
+        router.push("/pages/login");
       })
       .catch((err) => console.log(err));
   }
