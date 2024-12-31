@@ -16,7 +16,7 @@ export default function Classes() {
   useEffect(() => {
     const checkAuth = async () => {
       if (!(await isAuthenticated())) {
-        router.push('/login');
+        router.push('/pages/login');
       }
     };
     checkAuth();
@@ -40,7 +40,7 @@ export default function Classes() {
           localStorage.setItem("token", token);
         }
         setCode('');
-        router.push("/dashboard/classes/subjects");
+        router.push("/pages/subjects");
       })
       .catch((error) => {
         console.error("Error adding students: ", error);

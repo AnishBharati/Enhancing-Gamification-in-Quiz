@@ -8,7 +8,7 @@ import { isAuthenticated } from "../(auth)/auth";
 export default function Subjects() {
   const [topics, setTopics] = useState([]);
   const [descriptions, setDescriptions] = useState([]);
-  const [selectedIndex, setSelectedIndex] = useState(null);
+  // const [selectedIndex, setSelectedIndex] = useState(null);
   const [error, setError] = useState(null);
   const router = useRouter();
 
@@ -23,14 +23,13 @@ export default function Subjects() {
   };
 
   const getSubjectImage = (quizClass) => {
-    // Return the subject-specific image or a default one
     return subjectImages[quizClass] || "/img/default.jpg";
   };
 
   useEffect(() => {
     const checkAuth = async () => {
       if (!(await isAuthenticated())) {
-        router.push("/login");
+        router.push("/pages/login");
       }
     };
     checkAuth();
