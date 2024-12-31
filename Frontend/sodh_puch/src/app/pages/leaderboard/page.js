@@ -2,28 +2,10 @@
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
-const students = [
-    { name: 'John Doe', marks: 95 },
-    { name: 'Jane Smith', marks: 75 },
-    { name: 'Bob Johnson', marks: 45 },
-    { name: 'Alice Brown', marks: 20 },
-    { name: 'Tom White', marks: 50 },
-    { name: 'Tom Shite', marks: 98 },
-    { name: 'M White', marks: 99 },
-];
-
-const subjects = ["Math", "Science", "Socials", "Other"];
-
 export default function Calendar() {
-    const [selectedSubject, setSelectedSubject] = useState(subjects[0]);
     const [topics, setTopics] = useState([]);
     const [error, setError] = useState(null);  // Added state for error handling
-
-    const sortedStudents = [...students].sort((a, b) => b.marks - a.marks).slice(0, 5);
-
-    const handleSubjectChange = (event) => {
-        setSelectedSubject(event.target.value);
-    };
+    const [studentName, setStudentName] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -57,7 +39,6 @@ export default function Calendar() {
     }, []);
 
     const handleOptionClick = async (id) => {
-        // console.log("Id clicked is: ", id);
         try {
             const token = localStorage.getItem("token");
             if (!token) throw new Error("Authentication token not found");
@@ -66,18 +47,28 @@ export default function Calendar() {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    // No need for Content-Type here because we're not sending a body
                 },
             });
     
             // Check if the response is successful
             if (!response.ok) {
-                throw new Error("Failed to fetch leaderboard");
+                const errorData = await response.json();
+                const errorMessage = errorData.message || "Failed to fetch leaderboard";
+                throw new Error(errorMessage);  // Throw the message from the response
             }
     
             const data = await response.json();
-            console.log(data);  // Handle the response data here, e.g., updating the UI
-            
+            const studentDetails = data.userDetails || [];
+
+            // setStudentName(studentDetails);
+            const parsedStudentDetails = studentDetails.map((student) => ({
+                ...student,
+                exp_points: Number(student.exp_points), // Ensure exp_points is treated as a number
+            }));
+                            
+            setStudentName(parsedStudentDetails); 
+            console.log("Students are: ", data.userDetails);
+    
         } catch (error) {
             console.error("Error Showing Leaderboard:", error.message);
             alert("Error in Showing LeaderBoard: " + error.message);
@@ -94,8 +85,6 @@ export default function Calendar() {
                 <label htmlFor="subjects">Select Subject:</label>
                 <select
                     id="subjects"
-                    value={selectedSubject}
-                    onChange={handleSubjectChange}
                     className={styles.select}
                 >
                     {topics.length > 0 ? (
@@ -115,29 +104,33 @@ export default function Calendar() {
 
             {/* Student List */}
             <div className={styles.list}>
-                {sortedStudents.map((student, index) => {
-                    const category =
-                        student.marks >= 85
-                            ? styles.high
-                            : student.marks >= 50
-                            ? styles.average
-                            : styles.low;
-
+                {studentName
+                    .sort((a, b) => b.exp_points - a.exp_points) // Sort students by exp_points in descending order
+                    .slice(0, 5) // Get top 5 students
+                    .map((student, index) => {
                     let trophy = '';
-                    if (index === 0) trophy = '🏆'; // Gold Trophy
-                    else if (index === 1) trophy = '🥈'; // Silver Medal
-                    else if (index === 2) trophy = '🥉'; // Bronze Medal;
+                    if (index === 0) trophy = '🏆'; // Gold Trophy for 1st
+                    else if (index === 1) trophy = '🥈'; // Silver Medal for 2nd
+                    else if (index === 2) trophy = '🥉'; // Bronze Medal for 3rd
+
+                    // Set category based on exp_points
+                    const category =
+                        student.exp_points >= 85
+                        ? styles.high
+                        : student.exp_points >= 50
+                        ? styles.average
+                        : styles.low;
 
                     return (
-                        <div key={index} className={`${styles.student} ${category}`}>
-                            <span className={styles.trophy}>{trophy}</span>
-                            <span className={styles.rank}>{index + 1}</span>
-                            <span className={styles.name}>{student.name}</span>
-                            <span className={styles.marks}>{student.marks}</span>
+                        <div key={student.id} className={`${styles.student} ${category}`}>
+                        <span className={styles.trophy}>{trophy}</span>
+                        <span className={styles.rank}>{index + 1}</span>
+                        <span className={styles.name}>{student.full_name}</span>
+                        <span className={styles.marks}>{student.exp_points}</span>
                         </div>
                     );
-                })}
+                    })}
             </div>
         </div>
     );
-}
+};
