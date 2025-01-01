@@ -20,6 +20,8 @@ export default function Dashboard() {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
+    const [quizPoint, setQuizPoint] = useState("");
+    const[expPoint, setExpPoint] = useState("");
 
     const [successMessage, setSuccessMessage] = useState(false);
 
@@ -48,6 +50,8 @@ export default function Dashboard() {
                     
                     // Set the full URL for photo (adjusting for the path returned by the server)
                     setCurrentPhoto(userDetails.photo_url ? `http://localhost:8000/${userDetails.photo_url}` : '/img/user.jpg');
+                    setQuizPoint(userDetails.quiz_points);
+                    setExpPoint(userDetails.exp_points);
                 }
 
             } catch (error) {
@@ -63,7 +67,7 @@ export default function Dashboard() {
     useEffect(() => {
         const checkAuth = async () => {
             if (!await isAuthenticated()) {
-                router.push('/login');
+                router.push('/pages/login');
             }
         };
         checkAuth();
@@ -163,12 +167,12 @@ export default function Dashboard() {
                     <div className={styles.statItem}>
                         <RiPoliceBadgeFill className={styles.icon} />
                         <p>Quiz Points</p>
-                        <p>10</p>
+                        <p>{quizPoint}</p>
                     </div>
                     <div className={styles.statItem}>
                         <RiPoliceBadgeFill className={styles.icon} />
                         <p>EXP Points</p>
-                        <p>100</p>
+                        <p>{expPoint}</p>
                     </div>
                 </div>
                 <h3 className={styles.badgesTitle}>Badges Unlocked</h3>

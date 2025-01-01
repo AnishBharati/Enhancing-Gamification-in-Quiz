@@ -11,10 +11,7 @@ const Navbar = () => {
         <Link href="/">About</Link>
         <Link href="/">Contact</Link>
       </div>
-      <div className={styles.search_login}>
-        <input type="text" placeholder="Search Subjects" className={styles.search_bar} />
-        <button className={styles.login_btn}>Search</button>
-      </div>
+     
     </nav>
   );
 };
