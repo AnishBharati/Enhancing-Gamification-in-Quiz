@@ -20,21 +20,22 @@ export default function AddQuiz() {
   const router = useRouter();
   const searchParams = useSearchParams(); // Access query params
 
-  const topic = searchParams.get("topic");
-  const className = searchParams.get("className");
+  const topic = searchParams.get("class");
+  const id = searchParams.get("id");
+  const classid = useSearchParams().get("classid");
 
   useEffect(() => {
     if (topic) {
       setQuizTopic(topic.toUpperCase()); // Set quiz_topic to topic in uppercase
     }
-    setClassId("8"); // Default classId
+    setClassId(id); // Default classId
   }, [topic]);
 
   // Fetch quiz questions on component load
   useEffect(() => {
-    if (quiz_topic) {
+    if (id) {
       axios
-        .post("http://localhost:8000/see_quiz", { quizTopicID: quiz_topic })
+        .post("http://localhost:8000/see_quiz", { quizTopicID: id })
         .then((response) => {
           setQuizQuestions(response.data.questions || []);
         })
@@ -43,13 +44,13 @@ export default function AddQuiz() {
           console.error(err);
         });
     }
-  }, [quiz_topic]);
+  }, [id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
       .post("http://localhost:8000/add_question", {
-        quiz_topic,
+        quiz_topic: id,
         Question,
         correct_option,
         Option1,
@@ -57,7 +58,7 @@ export default function AddQuiz() {
         Option3,
         Option4,
         correct_option,
-        classId,
+        classId: classid,
       })
       .then((res) => {
         console.log(res);

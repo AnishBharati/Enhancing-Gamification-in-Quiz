@@ -113,9 +113,9 @@ export default function Dashboard() {
       // Hide the success message after 1.3 seconds
       setTimeout(() => {
         setSuccessMessage(false);
-      }, 1300);
+      }, 1500);
 
-      router.push("/dashboard");
+      router.push("/pages/dashboard");
     } catch (error) {
       console.error("Error updating profile: ", error);
       alert("Failed to update profile. Please try again.");
@@ -289,7 +289,7 @@ export default function Dashboard() {
                 className={styles.fileInput}
               />
             </div>
-            <button onClick={handleEditProfile} className={styles.saveButton}>
+            <button onClick={handleEditProfile} className={styles.submitButton}>
               Save Changes
             </button>
             <button
@@ -333,7 +333,7 @@ export default function Dashboard() {
             />
             <button
               onClick={handlePasswordChange}
-              className={styles.saveButton}
+              className={styles.submitButton}
             >
               Change Password
             </button>
@@ -343,6 +343,14 @@ export default function Dashboard() {
             >
               Close
             </button>
+          </div>
+        </div>
+      )}
+      {successMessage && (
+        <div className={styles.successPopupOverlay}>
+          <div className={styles.successPopup}>
+            <h3>Success!</h3>
+            <p>Your changes have been saved successfully.</p>
           </div>
         </div>
       )}

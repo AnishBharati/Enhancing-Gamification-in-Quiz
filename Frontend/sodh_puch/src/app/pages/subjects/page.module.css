@@ -1,6 +1,41 @@
+
+.main{
+  background: linear-gradient(to bottom, #4b0082, #6a5acd);
+}
+.container1{
+  display: flex;
+  background: linear-gradient(to bottom, #4b0082, #6a5acd);
+}
+.menu{
+  height: 14vh;
+  padding: 0.8rem;
+  width: 100%; 
+  background: linear-gradient(to bottom, #6a5acd, #6a5acd);
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.9); /* Added box shadow */
+
+}
+.content1{
+  flex: 0.5;
+  color: white;
+  padding: 1rem;
+  background-color: white;
+  background: linear-gradient(to bottom, #6a5acd, #6a5acd);
+
+  box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
+
+}
+.content2{
+  flex: 4;
+  border-radius:  20px;
+  color: white;
+  box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
+  background: linear-gradient(to bottom, #4b0082, #6a5acd);
+
+}
 .maincontainer {
   margin: 2rem;
-  background: linear-gradient(to bottom, #f0f4f8, #8daec7); /* Subtle gradient */
+  background-color: #6a5acd;
   border-radius: 10px;
 }
 
@@ -8,7 +43,7 @@
   font-size: 2.5rem;
   font-weight: bold;
   margin: 1rem 0 2rem 1rem;
-  color: #333;
+  color: #fff;
 }
 
 .subjectContainer {
@@ -36,7 +71,7 @@
   width: 100%;
   height: 150px;
   object-fit: cover;
-  border: 6px solid #3d3c3d; /* Add a stroke around the image */
+  border: 6px solid #fbc02d; /* Add a stroke around the image */
   border-radius: 8px; /* Match the card's border radius for consistency */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for depth */
 }

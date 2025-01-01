@@ -6,6 +6,7 @@ import { IoMdAdd } from "react-icons/io";
 import { useRouter, useParams } from "next/navigation";
 import axios from "../../../axiosSetup";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 export default function SubjectDetails() {
   const [topics, setTopics] = useState([]); // Ensure this is initialized as an array
@@ -60,7 +61,7 @@ export default function SubjectDetails() {
 
         setQuizTopic(""); // Reset input field
         closePopup();
-        router.push("/dashboard/classes/subjects");
+        router.push("/pages/subjects");
       })
       .catch((err) => {
         console.error("Error adding topic:", err);
@@ -73,7 +74,7 @@ export default function SubjectDetails() {
       try {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Authentication token not found");
-
+        console.log("Id is", id);
         const response = await fetch(
           `http://localhost:8000/see_topic?quiz_class=${subjectid}`,
           {
@@ -108,7 +109,7 @@ export default function SubjectDetails() {
         if (token) {
           localStorage.setItem("token", token);
         }
-        router.push("/dashboard/classes/subjects");
+        router.push("/pages/subjects");
       })
       .catch((error) => {
         console.error("Error in deleting topic: ", error);
@@ -149,12 +150,15 @@ export default function SubjectDetails() {
             <h2 className={styles.heading}>{topic.quiz_topic}</h2>
             {selectedTopicIndex === index && (
               <div className={styles.topicOptions}>
-                <button
-                  className={styles.addQuizButton}
-                  onClick={handleAddQuiz}
+                <Link
+                  href={`/pages/subjects/${subjectid}/addquiz?id=${
+                    topic.id
+                  }&classid=${subjectid}&class=${encodeURIComponent(
+                    topic.quiz_topic
+                  )}`}
                 >
-                  Add Quiz
-                </button>
+                  <button className={styles.addQuizButton}>Add Quiz</button>
+                </Link>
                 <button
                   className={styles.deleteButton}
                   onClick={(e) => {
