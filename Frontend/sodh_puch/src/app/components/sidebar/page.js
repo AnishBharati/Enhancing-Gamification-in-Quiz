@@ -109,6 +109,18 @@ export default function Sidebar() {
                     <span className={styles.text}>List</span>
                   </Link>
                 </div>
+
+                <div
+                  className={`${styles.item6} ${
+                    isActive("/pages/students") ? styles.active : ""
+                  }`}
+                >
+                  <Link href="/pages/students" className={styles.link}>
+                    <PiFilesLight className={styles.icon2} />
+                    <span className={styles.text}>Students</span>
+                  </Link>
+                </div>
+
               </div>
             )}
 

@@ -20,6 +20,8 @@ export default function Dashboard() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [quizPoint, setQuizPoint] = useState("");
+  const [expPoint, setExpPoint] = useState("");
 
   const [successMessage, setSuccessMessage] = useState(false);
 

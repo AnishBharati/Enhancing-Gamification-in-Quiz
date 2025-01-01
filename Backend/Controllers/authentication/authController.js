@@ -142,7 +142,7 @@ exports.seeDetails = async (req, res) => {
 
     const userId = decoded.id;
 
-    let checkUserIsValid = "SELECT full_name, email, username, photo_url FROM user_details WHERE id=?";
+    let checkUserIsValid = "SELECT full_name, email, username, photo_url, quiz_points, exp_points FROM user_details WHERE id=?";
     const queryParams = [userId];
 
     if (fullname || email || username || photo) {
@@ -161,6 +161,14 @@ exports.seeDetails = async (req, res) => {
       if(photo) {
         checkUserIsValid += " AND photo_url=?";
         queryParams.push(photo)
+      }
+      if(quiz_points) {
+        checkUserIsValid += " AND quiz_points=?";
+        queryParams.push(quiz_points)
+      }
+      if(exp_points) {
+        checkUserIsValid += " AND exp_points=?";
+        queryParams.push(exp_points)
       }
     }
 
@@ -290,6 +298,82 @@ exports.changePassword = async (req, res) => {
         }
 
         return res.json({ message: "User password updated successfully" });
+      });
+    });
+  });
+};
+
+exports.getLeaderBoard = (req, res) => {
+  const id = req.query.id;
+  const authHeader = req.headers["authorization"];
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Unauthorized", message: "JWT token is required" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      console.error("JWT Verification Error: ", err);
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    const userId = decoded.id;
+
+    // Query to get quiz class info
+    const selectClassCode = "SELECT * FROM quiz_classes WHERE id = ?";
+    db.query(selectClassCode, [id], (err, classResult) => {
+      if (err) {
+        console.error("MySQL Error: ", err);
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+
+      if (classResult.length === 0) {
+        return res.status(404).json({ error: "No Class Found" });
+      }
+
+      const code = classResult[0].code;
+      const selectClass = "SELECT students_id FROM quiz_classes WHERE code = ?";
+      db.query(selectClass, [code], (err, classDetails) => {
+        if (err) {
+          console.error("MySQL Error: ", err);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+
+        console.log("Class Details: ", classDetails);
+
+        // Check if there are any students in the class from index 1 onward
+        if (classDetails.length <= 1 || !classDetails[1] || !classDetails[1].students_id) {
+          return res.status(200).json({ message: "No students found" });
+        }
+
+        // Skip index 0 and start from index 1 (excluding the first record)
+        const studentsData = classDetails.slice(1);  // Remove the first element
+
+        // Collect student IDs (split by commas if present)
+        const studentIds = studentsData.reduce((acc, classEntry) => {
+          if (classEntry.students_id) {
+            const ids = classEntry.students_id.split(',').filter(id => id);
+            acc.push(...ids);
+          }
+          return acc;
+        }, []);
+
+        if (studentIds.length === 0) {
+          return res.status(200).json({ message: "No students found" });
+        }
+
+        // Query user details for each student in the class
+        const checkUser = "SELECT id, full_name, exp_points FROM user_details WHERE id IN (?)";
+        db.query(checkUser, [studentIds], (err, userDetails) => {
+          if (err) {
+            console.error("MySQL Error: ", err);
+            return res.status(500).json({ error: "Internal Server Error" });
+          }
+
+          return res.status(200).json({ userDetails });
+        });
       });
     });
   });
