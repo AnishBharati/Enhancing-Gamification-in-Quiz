@@ -4,7 +4,7 @@ import styles from "./page.module.css";
 import { isAuthenticated } from "../(auth)/auth";
 import { useRouter } from "next/navigation";
 import { RiPoliceBadgeFill } from "react-icons/ri";
-import axios from "../axiosSetup";
+import axios from "../../axiosSetup";
 
 export default function Dashboard() {
   const router = useRouter();

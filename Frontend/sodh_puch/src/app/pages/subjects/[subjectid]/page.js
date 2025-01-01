@@ -4,7 +4,7 @@ import styles from "./page.module.css";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 import { useRouter, useParams } from "next/navigation";
-import axios from "../../../../axiosSetup";
+import axios from "../../../axiosSetup";
 import { useSearchParams } from "next/navigation";
 
 export default function SubjectDetails() {
@@ -19,6 +19,7 @@ export default function SubjectDetails() {
   const subjectid = params?.subjectid; // Accessing subjectid from params
   const classNamed = searchParams.get("class");
   const id = searchParams.get("id");
+
   // Handle topic click to toggle options (Add Quiz/Delete)
   const handleTopicClick = (index) => {
     setSelectedTopicIndex(selectedTopicIndex === index ? null : index);
@@ -115,14 +116,8 @@ export default function SubjectDetails() {
   };
 
   // Handle adding a quiz for a topic
-  const handleAddQuiz = (quizTopic) => {
-    router.push(
-      `/dashboard/classes/addquiz?topic=${encodeURIComponent(
-        quizTopic
-      )}&className=${encodeURIComponent(classNamed)}`
-    );
-
-    // router.push("/dashboard/classes/addquiz");
+  const handleAddQuiz = () => {
+    router.push(`/pages/subjects/${subjectid}/addquiz`);
   };
 
   return (
@@ -156,7 +151,7 @@ export default function SubjectDetails() {
               <div className={styles.topicOptions}>
                 <button
                   className={styles.addQuizButton}
-                  onClick={() => handleAddQuiz(topic.quiz_topic)}
+                  onClick={handleAddQuiz}
                 >
                   Add Quiz
                 </button>

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { isAuthenticated } from "../../../(auth)/auth";
+import { isAuthenticated } from "../(auth)/auth";
 
 export default function Subjects() {
   const [topics, setTopics] = useState([]);
@@ -94,9 +94,9 @@ export default function Subjects() {
     }
   };
 
-  const handleCardClick = (index) => {
-    setSelectedIndex(selectedIndex === index ? null : index);
-  };
+  // const handleCardClick = (index) => {
+  //   setSelectedIndex(selectedIndex === index ? null : index);
+  // };
 
   return (
     <div className={styles.maincontainer}>
@@ -120,13 +120,12 @@ export default function Subjects() {
                 <p>{descriptions[index]}</p>
                 <div className={styles.cardFooter}>
                   <Link
-                    href={`/dashboard/classes/subjects/${topic.id}?id=${
+                    href={`/pages/subjects/${topic.id}?id=${
                       topic.id
                     }&class=${encodeURIComponent(topic.quiz_class)}`}
                   >
                     <button className={styles.viewButton}>View Details</button>
                   </Link>
-
                   <button
                     className={styles.deleteButton}
                     onClick={() => handleDelete(topic.id)}

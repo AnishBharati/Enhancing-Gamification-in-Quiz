@@ -1,5 +1,5 @@
-import Navbar from "../components/navbar/page"
-import Sidebar from "../components/sidebar/page"
+import Navbar from "../../components/navbar/page"
+import Sidebar from "../../components/sidebar/page"
 import styles from "./page.module.css"
 
 export default function layout ({children}){

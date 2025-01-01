@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import { FiPlusCircle, FiX } from "react-icons/fi";
 import { useRouter, useSearchParams } from "next/navigation";
-import axios from "../../../axiosSetup";
+import axios from "../../../../axiosSetup";
 
 export default function AddQuiz() {
   const [Question, setQuestion] = useState("");

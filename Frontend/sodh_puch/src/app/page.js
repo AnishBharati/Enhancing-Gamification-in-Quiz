@@ -8,12 +8,12 @@ export default function Home() {
 
   // Function to handle navigation to sign-up
   const handleGetStarted = () => {
-    router.push("/signup"); // Replace with your actual sign-up route
+    router.push("/pages/signup"); // Replace with your actual sign-up route
   };
 
   // Function to handle navigation to login
   const handleLogin = () => {
-    router.push("/login"); // Replace with your actual login route
+    router.push("/pages/login"); // Replace with your actual login route
   };
 
   return (
@@ -29,7 +29,10 @@ export default function Home() {
               <li>Create</li>
               <li>Learn</li>
               <li>
-                <button className={styles.getStarted} onClick={handleGetStarted}>
+                <button
+                  className={styles.getStarted}
+                  onClick={handleGetStarted}
+                >
                   Get Started
                 </button>
               </li>
