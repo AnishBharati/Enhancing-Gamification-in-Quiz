@@ -53,7 +53,7 @@ export default function SubjectDetails() {
 
         setQuizTopic(""); // Reset input field
         closePopup();
-        router.push("/dashboard/classes/subjects");
+        router.push("/pages/subjects");
       })
       .catch((err) => {
         console.error("Error adding topic:", err);
@@ -98,7 +98,7 @@ export default function SubjectDetails() {
         if(token) {
           localStorage.setItem("token", token);
         }
-        router.push("/dashboard/classes/subjects");
+        router.push("/pages/subjects");
       })
       .catch((error) => {
         console.error("Error in deleting topic: ", error);

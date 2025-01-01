@@ -22,7 +22,7 @@ export default function AddClass({ onClose }) {
         }
         setTopic("");
         setDescription("");
-        router.push("/pages/subjects");
+        router.push("/pages/classes/subjects");
       })
       .catch((error) => {
         console.error("Error adding class: ", error);

@@ -42,7 +42,7 @@ export default function Calendar() {
         try {
             const token = localStorage.getItem("token");
             if (!token) throw new Error("Authentication token not found");
-    
+            
             const response = await fetch(`http://localhost:8000/get_leaderboard?id=${id}`, {
                 method: "GET",
                 headers: {
@@ -122,8 +122,8 @@ export default function Calendar() {
                         : styles.low;
 
                     return (
-                        <div key={student.id} className={`${styles.student} ${category}`}>
-                        <span className={styles.trophy}>{trophy}</span>
+<div key={student.id} className={`${styles.student} ${category}`}>
+<span className={styles.trophy}>{trophy}</span>
                         <span className={styles.rank}>{index + 1}</span>
                         <span className={styles.name}>{student.full_name}</span>
                         <span className={styles.marks}>{student.exp_points}</span>

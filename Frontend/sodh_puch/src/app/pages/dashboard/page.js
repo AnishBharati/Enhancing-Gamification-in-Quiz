@@ -108,9 +108,9 @@ export default function Dashboard() {
             // Hide the success message after 1.3 seconds
             setTimeout(() => {
                 setSuccessMessage(false);
-            }, 1300);
+            }, 1500);
 
-            router.push("/dashboard");
+            router.push("/pages/dashboard");
         } catch (error) {
             console.error("Error updating profile: ", error);
             alert("Failed to update profile. Please try again.");
@@ -207,7 +207,7 @@ export default function Dashboard() {
             {/* Right Section */}
             <div className={styles.rightSection}>
                 <div className={styles.profileImage}>
-                    <img src={currentPhoto} alt="User" className={styles.circleImage} />
+                    <img src={currentPhoto} alt="User"  className={styles.circleImage} />
                 </div>
                 <div className={styles.userInfo}>
                     <p><strong>Full Name:</strong> {fullname}</p>
@@ -271,7 +271,7 @@ export default function Dashboard() {
                                 className={styles.fileInput}
                             />
                         </div>
-                        <button onClick={handleEditProfile} className={styles.saveButton}>
+                        <button onClick={handleEditProfile} className={styles.submitButton}>
                             Save Changes
                         </button>
                         <button
@@ -313,7 +313,7 @@ export default function Dashboard() {
                             className={styles.inputField}
                             required
                         />
-                        <button onClick={handlePasswordChange} className={styles.saveButton}>
+                        <button onClick={handlePasswordChange} className={styles.submitButton}>
                             Change Password
                         </button>
                         <button
@@ -325,6 +325,15 @@ export default function Dashboard() {
                     </div>
                 </div>
             )}
+            {successMessage && (
+    <div className={styles.successPopupOverlay}>
+        <div className={styles.successPopup}>
+            <h3>Success!</h3>
+            <p>Your changes have been saved successfully.</p>
+        </div>
+    </div>
+)}
+
         </div>
     );
 }
