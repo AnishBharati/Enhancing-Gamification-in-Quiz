@@ -42,7 +42,7 @@ export default function Calendar() {
         try {
             const token = localStorage.getItem("token");
             if (!token) throw new Error("Authentication token not found");
-    
+            
             const response = await fetch(`http://localhost:8000/get_leaderboard?id=${id}`, {
                 method: "GET",
                 headers: {

@@ -27,6 +27,7 @@ router.get("/see_details", authController.seeDetails);
 router.put("/update_details", authController.updateDetails);
 router.post("/update_password", authController.changePassword);
 router.get("/get_leaderboard", authController.getLeaderBoard);
+router.get("/get_student_details", authController.getStudentDetails);
 
 router.post("/add_class", classController.add_quiz_class);
 router.get("/see_class", classController.see_class);
