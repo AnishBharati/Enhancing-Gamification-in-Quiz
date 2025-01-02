@@ -122,8 +122,8 @@ export default function Calendar() {
                         : styles.low;
 
                     return (
-                        <div key={student.id} className={`${styles.student} ${category}`}>
-                        <span className={styles.trophy}>{trophy}</span>
+<div key={student.id} className={`${styles.student} ${category}`}>
+<span className={styles.trophy}>{trophy}</span>
                         <span className={styles.rank}>{index + 1}</span>
                         <span className={styles.name}>{student.full_name}</span>
                         <span className={styles.marks}>{student.exp_points}</span>

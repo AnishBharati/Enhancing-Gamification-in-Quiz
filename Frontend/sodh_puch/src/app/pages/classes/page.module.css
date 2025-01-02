@@ -1,3 +1,39 @@
+
+.main{
+  background: linear-gradient(to bottom, #4b0082, #6a5acd);
+}
+.container1{
+  display: flex;
+  background: linear-gradient(to bottom, #4b0082, #6a5acd);
+}
+.menu{
+  height: 14vh;
+  padding: 0.8rem;
+  width: 100%; 
+  background: linear-gradient(to bottom, #6a5acd, #6a5acd);
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.9); /* Added box shadow */
+
+}
+.content1{
+  flex: 0.5;
+  color: white;
+  padding: 1rem;
+  background-color: white;
+  background: linear-gradient(to bottom, #6a5acd, #6a5acd);
+
+  box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
+
+}
+.content2{
+  flex: 4;
+  border-radius:  20px;
+  color: white;
+  box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
+  background: linear-gradient(to bottom, #4b0082, #6a5acd);
+
+}
+
 /* Main container styling */
 .container {
    padding: 1rem;
@@ -14,6 +50,7 @@
    text-align: center;
    margin-bottom: 3rem;
    margin-top: 2rem;
+   color: #fff;
  }
  
  .heading h1 {
@@ -25,7 +62,7 @@
  }
  
  .heading p {
-   color: #555;
+   color: #fff;
    font-size: 1.3rem; /* Slightly larger font size */
    font-style: italic;
    margin: 0 1rem;

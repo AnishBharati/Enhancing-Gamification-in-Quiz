@@ -22,7 +22,9 @@ const upload = multer({
   },
   fileFilter: (req, file, cb) => {
     const fileTypes = /jpeg|jpg|png/;
-    const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+    const extname = fileTypes.test(
+      path.extname(file.originalname).toLowerCase()
+    );
     const mimeType = fileTypes.test(file.mimetype);
     if (extname && mimeType) {
       return cb(null, true);
@@ -123,13 +125,14 @@ exports.signup = async (req, res) => {
   });
 };
 
-
 exports.seeDetails = async (req, res) => {
   const { fullname, email, username, photo } = req.body;
 
   const authHeader = req.headers["authorization"];
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Unauthorized", message: "JWT token is required" });
+    return res
+      .status(401)
+      .json({ error: "Unauthorized", message: "JWT token is required" });
   }
 
   const token = authHeader.split(" ")[1];
@@ -142,7 +145,8 @@ exports.seeDetails = async (req, res) => {
 
     const userId = decoded.id;
 
-    let checkUserIsValid = "SELECT full_name, email, username, photo_url, quiz_points, exp_points FROM user_details WHERE id=?";
+    let checkUserIsValid =
+      "SELECT full_name, email, username, photo_url, quiz_points, exp_points FROM user_details WHERE id=?";
     const queryParams = [userId];
 
     if (fullname || email || username || photo) {
@@ -158,17 +162,17 @@ exports.seeDetails = async (req, res) => {
         checkUserIsValid += " AND username=?";
         queryParams.push(username);
       }
-      if(photo) {
+      if (photo) {
         checkUserIsValid += " AND photo_url=?";
-        queryParams.push(photo)
+        queryParams.push(photo);
       }
-      if(quiz_points) {
+      if (quiz_points) {
         checkUserIsValid += " AND quiz_points=?";
-        queryParams.push(quiz_points)
+        queryParams.push(quiz_points);
       }
-      if(exp_points) {
+      if (exp_points) {
         checkUserIsValid += " AND exp_points=?";
-        queryParams.push(exp_points)
+        queryParams.push(exp_points);
       }
     }
 
@@ -199,7 +203,9 @@ exports.updateDetails = (req, res) => {
 
     const authHeader = req.headers["authorization"];
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ error: "Unauthorized", message: "JWT token is required" });
+      return res
+        .status(401)
+        .json({ error: "Unauthorized", message: "JWT token is required" });
     }
 
     const token = authHeader.split(" ")[1];
@@ -213,7 +219,8 @@ exports.updateDetails = (req, res) => {
       const userId = decoded.id;
 
       // Retrieve current user details to verify user exists
-      let sqlSelectUser = "SELECT full_name, email, username FROM user_details WHERE id = ?";
+      let sqlSelectUser =
+        "SELECT full_name, email, username FROM user_details WHERE id = ?";
       db.query(sqlSelectUser, [userId], async (err, result) => {
         if (err) {
           console.error("MySQL Error: ", err);
@@ -226,13 +233,14 @@ exports.updateDetails = (req, res) => {
         }
 
         // Prepare update query
-        let sqlUpdateUser = "UPDATE user_details SET full_name = ?, email = ?, username = ?, photo_url=? WHERE id = ?";
+        let sqlUpdateUser =
+          "UPDATE user_details SET full_name = ?, email = ?, username = ?, photo_url=? WHERE id = ?";
         const updateParams = [
           fullname || result[0].full_name,
           email || result[0].email,
           username || result[0].username,
           photoUrl || result[0].photo_url,
-          userId
+          userId,
         ];
 
         db.query(sqlUpdateUser, updateParams, (err, updateResult) => {
@@ -253,7 +261,9 @@ exports.changePassword = async (req, res) => {
 
   const authHeader = req.headers["authorization"];
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Unauthorized", message: "JWT token is required" });
+    return res
+      .status(401)
+      .json({ error: "Unauthorized", message: "JWT token is required" });
   }
 
   const token = authHeader.split(" ")[1];
@@ -267,7 +277,8 @@ exports.changePassword = async (req, res) => {
     const userId = decoded.id;
 
     // Fetch user password from the database
-    let sqlSelectUserPassword = "SELECT password FROM user_details WHERE id = ?";
+    let sqlSelectUserPassword =
+      "SELECT password FROM user_details WHERE id = ?";
     db.query(sqlSelectUserPassword, [userId], async (err, result) => {
       if (err) {
         console.error("MySQL Error: ", err);
@@ -279,7 +290,10 @@ exports.changePassword = async (req, res) => {
       }
 
       // Verify the current password
-      const isPasswordValid = await argon2.verify(result[0].password, currentPassword);
+      const isPasswordValid = await argon2.verify(
+        result[0].password,
+        currentPassword
+      );
       if (!isPasswordValid) {
         return res.status(400).json({ error: "Current password is incorrect" });
       }
@@ -288,7 +302,8 @@ exports.changePassword = async (req, res) => {
       const hashedPassword = await argon2.hash(newPassword);
 
       // Update the password in the database
-      const sqlUpdatePassword = "UPDATE user_details SET password = ? WHERE id = ?";
+      const sqlUpdatePassword =
+        "UPDATE user_details SET password = ? WHERE id = ?";
       const updateParams = [hashedPassword, userId];
 
       db.query(sqlUpdatePassword, updateParams, (err, updatePassword) => {
@@ -308,7 +323,9 @@ exports.getLeaderBoard = (req, res) => {
   const authHeader = req.headers["authorization"];
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Unauthorized", message: "JWT token is required" });
+    return res
+      .status(401)
+      .json({ error: "Unauthorized", message: "JWT token is required" });
   }
 
   const token = authHeader.split(" ")[1];
@@ -340,17 +357,21 @@ exports.getLeaderBoard = (req, res) => {
         }
 
         // Check if there are any students in the class from index 1 onward
-        if (classDetails.length <= 1 || !classDetails[1] || !classDetails[1].students_id) {
+        if (
+          classDetails.length <= 1 ||
+          !classDetails[1] ||
+          !classDetails[1].students_id
+        ) {
           return res.status(200).json({ message: "No students found" });
         }
 
         // Skip index 0 and start from index 1 (excluding the first record)
-        const studentsData = classDetails.slice(1);  // Remove the first element
+        const studentsData = classDetails.slice(1); // Remove the first element
 
         // Collect student IDs (split by commas if present)
         const studentIds = studentsData.reduce((acc, classEntry) => {
           if (classEntry.students_id) {
-            const ids = classEntry.students_id.split(',').filter(id => id);
+            const ids = classEntry.students_id.split(",").filter((id) => id);
             acc.push(...ids);
           }
           return acc;
@@ -361,7 +382,8 @@ exports.getLeaderBoard = (req, res) => {
         }
 
         // Query user details for each student in the class
-        const checkUser = "SELECT id, full_name, exp_points FROM user_details WHERE id IN (?)";
+        const checkUser =
+          "SELECT id, full_name, exp_points FROM user_details WHERE id IN (?)";
         db.query(checkUser, [studentIds], (err, userDetails) => {
           if (err) {
             console.error("MySQL Error: ", err);
