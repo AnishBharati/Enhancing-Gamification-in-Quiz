@@ -127,6 +127,11 @@ export default function SubjectDetails() {
       <button className={styles.backButton} onClick={() => router.back()}>
         <IoIosArrowBack size={30} />
       </button>
+      <Link
+        href={`/pages/subjects/${subjectid}/see_asked_question?classid=${subjectid}`}
+      >
+        <button>See asked question</button>
+      </Link>
 
       {/* Subject Header */}
       <div className={styles.subjectCard}>

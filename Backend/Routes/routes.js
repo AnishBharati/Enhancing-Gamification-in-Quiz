@@ -48,5 +48,8 @@ router.delete("/delete_question", classController_question.delete_question);
 router.post("/add_ask_question", askedQuestionController.add_ask_question);
 router.put("/update_ask_question", askedQuestionController.update_ask_question);
 router.get("/see_ask_question", askedQuestionController.see_ask_question);
-router.delete("/delete_ask_question", askedQuestionController.delete_ask_question);
+router.delete(
+  "/delete_ask_question",
+  askedQuestionController.delete_ask_question
+);
 module.exports = router;
