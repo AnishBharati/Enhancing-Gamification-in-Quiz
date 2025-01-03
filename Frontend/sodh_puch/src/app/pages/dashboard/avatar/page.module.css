@@ -1,0 +1,158 @@
+.imageCircle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #fbc02d;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.circleImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageCircle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.popup {
+  background-color: #6a5acd;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: slideDown 0.3s ease;
+}
+
+.popup h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #fff;
+  font-size: 2rem;
+}
+
+.popup p {
+  text-align: center;
+  color: #fff;
+  margin: 1rem;
+  font-size: 1rem;
+}
+
+.shop {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.avatarItem {
+  text-align: center;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.avatarItem img {
+  width: 100%;
+  height: auto;
+  max-width: 150px;
+  border-radius: 1rem;
+  border: 1px solid #fbc02d;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.avatarItem img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.locked img {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.successPopupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.3);
+
+}
+.notification {
+  background: linear-gradient(to bottom, #f0f4f8, #81a9c9); /* Subtle gradient */
+  color: black;
+  padding: 2rem;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out, slideUp 0.5s ease-in-out;
+}
+
+.lockedText {
+  color: red;
+}
+
+.lockedText {
+  font-size: 12px;
+  color: red;
+}
+
+.closeButton {
+  background-color: #5f0077;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.closeButton:hover {
+  background-color: #9b16b9;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+      transform: translateY(-10px);
+  }
+  to {
+      transform: translateY(0);
+  }
+}
