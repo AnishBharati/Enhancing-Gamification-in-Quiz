@@ -4,22 +4,22 @@ import styles from "./page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { isAuthenticated } from "../(auth)/auth";
+import axios from "../../axiosSetup";
 
 export default function Subjects() {
   const [topics, setTopics] = useState([]);
   const [descriptions, setDescriptions] = useState([]);
-  // const [selectedIndex, setSelectedIndex] = useState(null);
+  const [teacherData, setTeacherData] = useState({}); // New state to store teacher data for each classId
   const [error, setError] = useState(null);
   const router = useRouter();
 
-  // Mapping of subjects to their specific image URLs
   const subjectImages = {
     Science: "/img/science.jpeg",
     Economics: "/img/Economics.jpeg",
     Computer: "/img/Computer.jpeg",
     English: "/img/English.jpeg",
     Nepali: "/img/Nepali.jpeg",
-    Math: "/img/Math.jpeg", // Add other subjects as needed
+    Math: "/img/Math.jpeg",
   };
 
   const getSubjectImage = (quizClass) => {
@@ -29,11 +29,27 @@ export default function Subjects() {
   useEffect(() => {
     const checkAuth = async () => {
       if (!(await isAuthenticated())) {
-        router.push("/pages/login");
+        router.push("/pages/login"); // Fixed login path
       }
     };
     checkAuth();
   }, [router]);
+
+  // Fetch teacher data for a given classId
+  const fetchTeacherData = async (classId) => {
+    try {
+      const response = await axios.get(`http://localhost:8000/get_teacher?id=${classId}`);
+      setTeacherData((prevData) => ({
+        ...prevData,
+        [classId]: {
+          userId: response.data.userId,
+          teacherId: response.data.data, // Assuming this is correct
+        },
+      }));
+    } catch (error) {
+      console.error("Error fetching teacher:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,6 +76,11 @@ export default function Subjects() {
 
         setTopics(fetchedTopics);
         setDescriptions(fetchedDescriptions);
+
+        // Fetch teacher data for each classId
+        tasks.forEach((task) => {
+          fetchTeacherData(task.id);
+        });
       } catch (error) {
         console.error("Error fetching data:", error);
         setError(error.message);
@@ -67,7 +88,7 @@ export default function Subjects() {
     };
 
     fetchData();
-  }, []);
+  }, []); // This effect is fine to run once at component mount
 
   const handleDelete = async (id) => {
     try {
@@ -93,10 +114,6 @@ export default function Subjects() {
     }
   };
 
-  // const handleCardClick = (index) => {
-  //   setSelectedIndex(selectedIndex === index ? null : index);
-  // };
-
   return (
     <div className={styles.maincontainer}>
       <h1 className={styles.header}>Topics</h1>
@@ -110,7 +127,7 @@ export default function Subjects() {
             <div key={topic.id} className={styles.subjectCard}>
               <div className={styles.cardImage}>
                 <img
-                  src={getSubjectImage(topic.quiz_class)} // Use subject-specific images
+                  src={getSubjectImage(topic.quiz_class)}
                   alt={topic.quiz_class}
                 />
               </div>
@@ -118,15 +135,22 @@ export default function Subjects() {
                 <h3>{topic.quiz_class}</h3>
                 <p>{descriptions[index]}</p>
                 <div className={styles.cardFooter}>
-                <Link href={`/pages/subjects/${topic.id}?id=${topic.id}`}>
-                  <button className={styles.viewButton}>View Details</button>
-                </Link>
-                  <button
-                    className={styles.deleteButton}
-                    onClick={() => handleDelete(topic.id)}
+                  <Link
+                    href={`/pages/subjects/${topic.id}?id=${
+                      topic.id
+                    }&class=${encodeURIComponent(topic.quiz_class)}`}
                   >
-                    Delete
-                  </button>
+                    <button className={styles.viewButton}>View Details</button>
+                  </Link>
+                  {/* Check if teacherId matches userId to show the delete option */}
+                  {teacherData[topic.id] && teacherData[topic.id].teacherId == teacherData[topic.id].userId && (
+                    <button
+                      className={styles.deleteButton}
+                      onClick={() => handleDelete(topic.id)}
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

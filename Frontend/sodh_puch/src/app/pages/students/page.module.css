@@ -87,3 +87,132 @@ padding: 0.8rem;
 .ask:hover {
     background-color: #0056b3;
 }
+
+
+
+.form{
+  width: 350px;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 9px;
+  gap: 5px;
+  
+  }
+  .field{
+    display: flex;
+    
+    flex-direction: column;
+  }
+  .label{
+    font-weight: bolder;
+    font-size: larger;
+    margin-bottom: 4px;
+    color:#333333 ;
+  
+  }
+  .input
+  {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
+  color: black;
+  margin-bottom: 6px;
+  }
+  .button {
+    padding: 10px;
+    background-color: #5f0077;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 9px;
+    
+  }
+  
+  .button:hover {
+    background-color: #9b16b9;
+  }
+  .option{
+    display: flex;
+    gap: 9px;
+    margin-bottom: 9px;
+  }
+  .title{
+    text-align: center;
+    margin-bottom: 5px;
+    margin-top: 8px;
+    color: #333333;
+   
+  }
+  .create{
+   display: flex;
+   justify-content: center;
+  margin-top: 25%;
+  
+    
+  }
+  .icon{
+    position: relative;
+    right: -300px;
+    font-size: larger;
+   background-color: transparent;
+   border-style: none;
+   color: #333333;
+   cursor: pointer;
+   padding-top: 2px;
+  }
+  .icon:hover{
+    color: black;
+  }
+  
+  .modalBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; 
+  }
+  
+  
+  .modalContent {
+    position: relative;
+    background-color: white;
+    background: linear-gradient(to bottom, #8daec7, #f0f4f8); /* Subtle gradient */
+  
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    width: 95%;
+    max-width: 450px;
+    text-align: center;
+    animation: slideUp 0.4s ease-in-out;
+    z-index: 1000;
+  }
+  
+  
+  .close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #555;
+    transition: color 0.3s ease-in-out;
+    background: none;
+    border: none;
+  }
+  
+  .close:hover {
+    color: #000;
+  }
+  

@@ -29,7 +29,10 @@ export default function Home() {
               <li>Create</li>
               <li>Learn</li>
               <li>
-                <button className={styles.getStarted} onClick={handleGetStarted}>
+                <button
+                  className={styles.getStarted}
+                  onClick={handleGetStarted}
+                >
                   Get Started
                 </button>
               </li>

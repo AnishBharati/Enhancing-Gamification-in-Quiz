@@ -191,7 +191,7 @@ exports.seeQuiz = (req, res) => {
 
     const userId = decoded.id;
     const sqlSelectQuestions = `
-      SELECT  Question, Option1, Option2, Option3, Option4 
+      SELECT id, Question, Option1, Option2, Option3, Option4 
       FROM quiz_questions 
       WHERE quiz_topic = ?`;
     db.query(sqlSelectQuestions, [quizTopicID], (err, data) => {
@@ -199,6 +199,7 @@ exports.seeQuiz = (req, res) => {
         return res.status(500).json({ error: err.message });
       }
       const questionsArray = data.map((row) => ({
+        id: row.id,
         question: row.Question,
         options: [row.Option1, row.Option2, row.Option3, row.Option4],
       }));
@@ -227,6 +228,55 @@ exports.seeQuiz = (req, res) => {
 
       // Sending the array of questions as JSON response
       // return res.status(200).json({ questions: questionsArray });
+    });
+  });
+};
+exports.delete_question = (req, res) => {
+  const { question_id } = req.body;
+
+  // Extracting the JWT token from the Authorization header
+  const authHeader = req.headers["authorization"];
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res
+      .status(401)
+      .json({ error: "Unauthorized", message: "JWT token is required" });
+  }
+
+  const token = authHeader.split(" ")[1]; // Extracting the token from the Bearer scheme
+
+  // Verifying the JWT token
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      console.error("JWT Verification Error:", err);
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    const userId = decoded.id;
+
+    // Check if the question exists
+    const sqlSelectQuestion = "SELECT * FROM quiz_questions WHERE id = ?";
+    db.query(sqlSelectQuestion, [question_id], (err, data) => {
+      if (err) {
+        console.error("Database Query Error:", err);
+        return res.status(500).json({ error: err.message });
+      }
+
+      if (data.length === 0) {
+        return res.status(404).json({ message: "Question not found" });
+      }
+
+      // Now remove the teacher's permission check and directly delete the question
+      const sqlDeleteQuestion = "DELETE FROM quiz_questions WHERE id = ?";
+      db.query(sqlDeleteQuestion, [question_id], (err) => {
+        if (err) {
+          console.error("Database Deletion Error:", err);
+          return res.status(500).json({ error: err.message });
+        }
+
+        res.status(200).json({
+          message: "Question deleted successfully",
+        });
+      });
     });
   });
 };
