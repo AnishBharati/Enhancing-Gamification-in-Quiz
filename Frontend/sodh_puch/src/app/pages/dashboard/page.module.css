@@ -11,7 +11,7 @@
     height: 14vh;
     padding: 0.8rem;
     width: 100%; 
-    background: linear-gradient(to bottom, #6a5acd, #6a5acd);
+    background: linear-gradient(to bottom, #8daec7, #f0f4f8); /* Subtle gradient */
   
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.9); /* Added box shadow */
@@ -21,18 +21,16 @@
     flex: 0.5;
     color: white;
     padding: 1rem;
-    background-color: white;
-    background: linear-gradient(to bottom, #6a5acd, #6a5acd);
-
-    box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
+    background: linear-gradient(to bottom, #8daec7, #f0f4f8); /* Subtle gradient */
+    box-shadow: 0 8px 20px rgba(127, 118, 133, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
 
 }
 .content2{
     flex: 4;
     border-radius:  20px;
     color: white;
-    box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
-    background: linear-gradient(to bottom, #4b0082, #6a5acd);
+    box-shadow: 0 8px 20px rgba(160, 156, 163, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
+    background: linear-gradient(to bottom, #8daec7, #f0f4f8); /* Subtle gradient */
 
 
 }
@@ -45,8 +43,7 @@
     gap: 3rem; /* Increased gap for better separation */
     padding: 2rem;
     height: 100vh;
-    border: 1px solid #6a5acd; /* Added border for separation */
-    background: linear-gradient(to bottom, #6a5acd, #6a5acd);
+    background: linear-gradient(to bottom, #8daec7, #f0f4f8); /* Subtle gradient */
 }
 
 .leftSection {
@@ -74,13 +71,13 @@
     box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
 }
 
-.imageCircle,
+
 .profileImage {
     width: 120px; /* Increased size */
     height: 120px; /* Increased size */
     border-radius: 50%;
     overflow: hidden;
-    border: 5px solid #fbc02d;
+    border: 3px solid #fbc02d;
 
     margin-bottom: 1rem;
     box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
@@ -163,7 +160,7 @@
     border-radius: 50%;
     overflow: hidden;
     background-color: #fdd835;
-    border: 5px solid #fbc02d;
+    border: 3px solid #fbc02d;
     cursor: pointer;
     box-shadow: 0 15px 15px rgba(0, 0, 0, 0.5); /* Light shadow for separation */
 
@@ -351,6 +348,7 @@
     background: linear-gradient(to bottom, #f0f4f8, #81a9c9); /* Subtle gradient */
     color: black;
     padding: 2rem;
+    font-size: 1.1rem;
     border-radius: 10px;
     text-align: center;
     animation: fadeIn 0.5s ease-in-out, slideUp 0.5s ease-in-out;
@@ -373,4 +371,6 @@
         transform: translateY(0);
     }
 }
-
+.rightSection h1{
+    margin-bottom: 1rem;
+}

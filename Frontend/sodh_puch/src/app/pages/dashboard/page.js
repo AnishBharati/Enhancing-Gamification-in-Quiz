@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from "react";
 import styles from "./page.module.css";
+import Avatar from "./avatar/page";
 import { isAuthenticated } from "../(auth)/auth";
 import { useRouter } from "next/navigation";
 import { RiPoliceBadgeFill } from "react-icons/ri";
@@ -22,7 +23,6 @@ export default function Dashboard() {
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [quizPoint, setQuizPoint] = useState("");
     const[expPoint, setExpPoint] = useState("");
-
     const [successMessage, setSuccessMessage] = useState(false);
 
     // Fetch user details on initial load
@@ -62,7 +62,7 @@ export default function Dashboard() {
 
         fetchData();
     }, []);
-
+    
     // Check authentication when page loads
     useEffect(() => {
         const checkAuth = async () => {
@@ -73,6 +73,14 @@ export default function Dashboard() {
         checkAuth();
     }, [router]);
 
+    const getUserLevel = (expPoints) =>{
+        if (expPoints >= 1600) return 5;
+        if (expPoints >= 800) return 4;
+        if (expPoints >= 400) return 3;
+        if (expPoints >= 200) return 2;
+        if (expPoints >= 100) return 1;
+        return 0;
+    }
     // Handle profile edit and photo upload
     const handleEditProfile = async (e) => {
         e.preventDefault();
@@ -105,10 +113,10 @@ export default function Dashboard() {
             setShowEditProfilePopup(false);
             setSuccessMessage(true);
 
-            // Hide the success message after 1.3 seconds
+            // Hide the success message after 1.5 seconds
             setTimeout(() => {
                 setSuccessMessage(false);
-            }, 1500);
+            }, 2000);
 
             router.push("/pages/dashboard");
         } catch (error) {
@@ -149,21 +157,21 @@ export default function Dashboard() {
                 alert("Failed to change password. Please try again.");
             });
     };
+  
 
     return (
         <div className={styles.dashboardContainer}>
             {/* Left Section */}
             <div className={styles.leftSection}>
-                <div className={styles.imageCircle}>
-                    <img src="/img/lvl5.jpeg" alt="Dashboard Icon" className={styles.circleImage} />
-                </div>
+
+          <Avatar quizPoint={quizPoint}/> 
                 <h2 className={styles.dashboardText}>Dashboard</h2>
                 <div className={styles.statsRow}>
                     <div className={styles.statItem}>
                         <RiPoliceBadgeFill className={styles.icon} />
                         <p>User Level</p>
-                        <p>Level 5</p>
-                    </div>
+                        <p>Level {getUserLevel(expPoint)}</p>
+                        </div>
                     <div className={styles.statItem}>
                         <RiPoliceBadgeFill className={styles.icon} />
                         <p>Quiz Points</p>
@@ -206,6 +214,9 @@ export default function Dashboard() {
 
             {/* Right Section */}
             <div className={styles.rightSection}>
+                <h1>
+                    User Details
+                </h1>
                 <div className={styles.profileImage}>
                     <img src={currentPhoto} alt="User"  className={styles.circleImage} />
                 </div>
