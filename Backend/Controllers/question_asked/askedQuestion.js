@@ -168,7 +168,10 @@ exports.update_ask_question = async (req, res) => {
                       .status(500)
                       .json({ error: "Internal Server Error" });
                   }
-                  return res.status(200).json({ updated: result });
+                  return res
+                    .status(200)
+                    .json({ updated: result })
+                    .json({ message: "Updated Successfully" });
                 }
               );
               break;
