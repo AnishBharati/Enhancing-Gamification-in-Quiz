@@ -305,7 +305,7 @@ exports.see_class = (req, res) => {
 };
 
 exports.checkTeacher = (req, res) => {
-  const {id} = req.body;
+  const {id} = req.query;
 
   const authHeader = req.headers["authorization"];
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
