@@ -211,7 +211,7 @@ exports.see_class = (req, res) => {
 
     const userId = decoded.id;
     // Query to fetch class based on the user (either as teacher or student)
-    let sqlSelectClass = "SELECT * FROM quiz_classes WHERE teacher_id = ? OR FIND_IN_SET(?, students_id)";
+    let sqlSelectClass = "SELECT * FROM quiz_classes WHERE teacher_id = ? OR students_id = ?";
     
     db.query(sqlSelectClass, [userId, userId], (err, result) => {
       if (err) {
@@ -229,8 +229,8 @@ exports.see_class = (req, res) => {
 
       // If the user is a teacher, filter classes by the code
       if (teacherId == userId) {
-        let sqlSelectClassFromCode = "SELECT id, quiz_class, description, code FROM quiz_classes";
-        let queryParams = [];
+        let sqlSelectClassFromCode = "SELECT id, quiz_class, description, code FROM quiz_classes WHERE teacher_id=?";
+        let queryParams = [userId];
 
         // Optionally, we can add conditions for id, quiz_class, or description
         if (id || quiz_class || description) {
@@ -267,12 +267,14 @@ exports.see_class = (req, res) => {
             }
           });
 
+          console.log("From Teachers: ", uniqueClasses);
+          
           return res.json({ tasks: uniqueClasses });
         });
 
       } else {
         // If the user is a student, filter by students_id
-        const sqlSelectClassForStudent = "SELECT id, quiz_class, description FROM quiz_classes WHERE FIND_IN_SET(?, students_id)";
+        let sqlSelectClassForStudent = "SELECT id, quiz_class, description FROM quiz_classes WHERE students_id=?";
         let queryParams = [userId];
 
         // Apply additional filters based on the request
