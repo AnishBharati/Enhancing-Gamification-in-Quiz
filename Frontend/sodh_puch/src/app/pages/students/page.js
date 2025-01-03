@@ -1,8 +1,8 @@
 "use client";
 import { FiPlusCircle, FiX } from "react-icons/fi";
-
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
+import axios from "../../axiosSetup";
 
 export default function Students() {
    const [question, setQuestion] = useState("");
@@ -12,6 +12,7 @@ export default function Students() {
     const [option3, setOption3] = useState("");
     const [option4, setOption4] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [classId, setClassId] = useState("");
   
     const handleSubmit = (e) => {
       e.preventDefault();
@@ -80,22 +81,43 @@ export default function Students() {
             fetchData();
         }, []);
 
-    const handleAskQuestion = (studentName) => {
-        alert(`You are asking a question to ${studentName}`);
-    };
+    const handleAskQuestion = (askedtoid) => {
+        setIsModalOpen(true);
 
+        axios
+          .post(`http://localhost:8000/add_ask_question`, {
+            asked_to: askedtoid,
+            Question: question,
+            Option1: option1,
+            Option2: option2,
+            Option3: option3,
+            Option4: option4,
+            classId: classId
+          }).then((res) => {
+            console.log(res);
+
+            setQuestion("");
+            setOption1("");
+            setOption2("");
+            setOption3("");
+            setOption4("");
+          })
+          .catch((err) => console.log(err));
+
+        setIsModalOpen(false);
+    };
     const handleOptionClick = async (id) => {
         try {
             const token = localStorage.getItem("token");
             if (!token) throw new Error("Authentication token not found");
             
-            const response = await fetch(`http://localhost:8000/get_leaderboard?id=${id}`, {
+            const response = await fetch(`http://localhost:8000/get_people_details?id=${id}`, {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-    
+            setClassId(id);
             // Check if the response is successful
             if (!response.ok) {
                 const errorData = await response.json();
@@ -177,18 +199,6 @@ export default function Students() {
                 />
               </div>
               <div className={styles.field}>
-                <label className={styles.label} htmlFor="correctanswer">
-                  Correct Answer:
-                </label>
-                <input
-                  className={styles.input}
-                  type="text"
-                  id="correctanswer"
-                  placeholder="Correct Answer"
-                  required
-                  value={correctanswer}
-                  onChange={(e) => setCorrectanswer(e.target.value)}
-                />
               </div>
               <div className={styles.field}>
                 <label htmlFor="option1" className={styles.label}>
@@ -238,7 +248,7 @@ export default function Students() {
 
               </div>
               <button className={styles.button} type="submit">
-                Submit
+                Ask
               </button>
             </form>
           </div>

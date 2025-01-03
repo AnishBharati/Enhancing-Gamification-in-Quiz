@@ -75,7 +75,7 @@ export default function AddQuiz() {
       .catch((err) => console.log(err));
 
     // Close modal
-    setIsModalOpen(false);
+    // setIsModalOpen(false);
   };
   const handleDeleteQuestion = (id, e) => {
     e.preventDefault();

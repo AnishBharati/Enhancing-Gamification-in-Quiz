@@ -397,7 +397,7 @@ exports.getLeaderBoard = (req, res) => {
   });
 };
 
-exports.getStudentDetails = (req, res) => {
+exports.getPeopleDetails = (req, res) => {
   const id = req.query.id;
   const authHeader = req.headers["authorization"];
 
@@ -428,7 +428,7 @@ exports.getStudentDetails = (req, res) => {
       }
 
       const code = classResult[0].code;
-      const selectClass = "SELECT students_id FROM quiz_classes WHERE code = ?";
+      const selectClass = "SELECT teacher_id, students_id FROM quiz_classes WHERE code = ?";
       db.query(selectClass, [code], (err, classDetails) => {
         if (err) {
           console.error("MySQL Error: ", err);
@@ -442,7 +442,7 @@ exports.getStudentDetails = (req, res) => {
 
         // Skip index 0 and start from index 1 (excluding the first record)
         const studentsData = classDetails.slice(1);  // Remove the first element
-
+        const teacherId = classDetails[1].teacher_id;
         // Collect student IDs (split by commas if present)
         let studentIds = studentsData.reduce((acc, classEntry) => {
           if (classEntry.students_id) {
@@ -451,7 +451,6 @@ exports.getStudentDetails = (req, res) => {
           }
           return acc;
         }, []);
-
         // Remove the authenticated user's ID from the list
         studentIds = studentIds.filter(id => id !== userId);
         
@@ -459,9 +458,14 @@ exports.getStudentDetails = (req, res) => {
           return res.status(200).json({ message: "No students found" });
         }
 
+        const idsToCheck = studentIds.length > 0 ? studentIds : [];
+        if (teacherId && !idsToCheck.includes(teacherId)) {
+          idsToCheck.push(teacherId);
+        }
+
         // Query user details for each student in the class
         const checkUser = "SELECT id, full_name, exp_points FROM user_details WHERE id IN (?)";
-        db.query(checkUser, [studentIds], (err, userDetails) => {
+        db.query(checkUser, [idsToCheck], (err, userDetails) => {
           if (err) {
             console.error("MySQL Error: ", err);
             return res.status(500).json({ error: "Internal Server Error" });

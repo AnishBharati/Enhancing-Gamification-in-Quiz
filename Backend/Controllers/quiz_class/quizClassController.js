@@ -266,8 +266,6 @@ exports.see_class = (req, res) => {
               uniqueClasses.push(row);
             }
           });
-
-          console.log("From Teachers: ", uniqueClasses);
           
           return res.json({ tasks: uniqueClasses });
         });
@@ -305,3 +303,36 @@ exports.see_class = (req, res) => {
     });
   });
 };
+
+exports.checkTeacher = (req, res) => {
+  const {id} = req.body;
+
+  const authHeader = req.headers["authorization"];
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res
+      .status(401)
+      .json({ error: "Unauthorized", message: "JWT token is required" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      console.error("JWT Verification Error: ", err);
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    const userId = decoded.id;
+
+    const checkTeacherid = "SELECT * FROM quiz_classes WHERE id = ?";
+    db.query(checkTeacherid, [id], (err, result) => {
+      if (err) {
+        console.error("MySQL Error:", err);
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+      teacherId = result[0].teacher_id;
+
+      return res.status(200).json({data: teacherId, userId});
+    })
+  });
+}
