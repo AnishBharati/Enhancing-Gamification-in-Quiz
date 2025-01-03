@@ -34,22 +34,31 @@ exports.add_quiz_topic = (req, res) => {
         return res.status(500).json({ error: "Internal Server Error" });
       }
 
-      // Insert a new quiz quiz_topic with the verified user ID
-      const sqlInsertQuizTopic =
-        "INSERT INTO quiz_topic (quiz_class, quiz_topic) VALUES (?, ?)";
-      db.query(
-        sqlInsertQuizTopic,
-        [quizClass, quizTopic],
-        (insertErr, result) => {
-          if (insertErr) {
-            console.error("MySQL Error:", insertErr);
-            return res.status(500).json({ error: "Internal Server Error" });
-          }
-
-          // Respond with success message
-          return res.json({ message: "Topic is Added" });
+      const classCode = "SELECT * FROM quiz_classes WHERE id = ?";
+      db.query(classCode, [quizClass], (err, result) => {
+        if (err) {
+          console.error("MySQL Error:", err);
+          return res.status(500).json({ error: "Internal Server Error" });
         }
-      );
+
+        code = result[0].code;
+         // Insert a new quiz quiz_topic with the verified user ID
+      const sqlInsertQuizTopic =
+      "INSERT INTO quiz_topic (quiz_class, quiz_topic) VALUES (?, ?)";
+        db.query(
+          sqlInsertQuizTopic,
+          [code, quizTopic],
+          (insertErr, result) => {
+            if (insertErr) {
+              console.error("MySQL Error:", insertErr);
+              return res.status(500).json({ error: "Internal Server Error" });
+            }
+
+            // Respond with success message
+            return res.json({ message: "Topic is Added" });
+          }
+        );
+      })
     });
   });
 };
@@ -76,43 +85,57 @@ exports.see_quiz_topic = (req, res) => {
 
     const userId = decoded.id; // Extracting the user ID from the token
 
-    // SQL query to fetch quiz topics for a specific class
-    let selectQuizTopicQuery = `
-      SELECT 
-          quiz_topic.id, 
-          quiz_topic.quiz_topic
-      FROM 
-          quiz_classes
-      JOIN 
-          quiz_topic
-      ON 
-          quiz_classes.id = quiz_topic.quiz_class
-      WHERE 
-          quiz_classes.id = ?;
-    `;
-    const queryParams = [quiz_class];
 
-    if (id) {
-      selectQuizTopicQuery += " AND id = ?";
-      queryParams.push(id);
-    }                                           
-
-    // Execute the query
-    db.query(selectQuizTopicQuery, queryParams, (queryErr, results) => {
-      if (queryErr) {
+    const checkCode = "SELECT * FROM quiz_classes where id = ?";
+    db.query(checkCode, [quiz_class], (err, result) => {
+      if (err) {
         console.error("MySQL Error:", queryErr);
         return res.status(500).json({ error: "Internal Server Error" });
       }
 
-      if (results.length === 0) {
-        return res
-          .status(200)
-          .json({ message: "No quiz topics found for this class" });
+      if(result.length == 0) {
+        return res.status(204).json({message: "No Class Found"})
       }
 
-      // Return the quiz topics with their IDs
-      return res.status(200).json({ quiz_topics: results });
-    });
+      code = result[0].code;
+
+      // SQL query to fetch quiz topics for a specific class
+    let selectQuizTopicQuery = `
+    SELECT 
+        quiz_topic.id, 
+        quiz_topic.quiz_topic
+    FROM 
+        quiz_classes
+    JOIN 
+        quiz_topic
+    ON 
+        quiz_classes.id = quiz_topic.quiz_class
+    WHERE 
+        quiz_classes.code = ?;
+  `;
+  const queryParams = [code];
+
+  if (id) {
+    selectQuizTopicQuery += " AND id = ?";
+    queryParams.push(id);
+  }  
+
+  db.query(selectQuizTopicQuery, queryParams, (queryErr, results) => {
+    if (queryErr) {
+      console.error("MySQL Error:", queryErr);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+
+    if (results.length === 0) {
+      return res
+        .status(200)
+        .json({ message: "No quiz topics found for this class" });
+    }
+
+    // Return the quiz topics with their IDs
+    return res.status(200).json({ quiz_topics: results });
+  });
+    }) 
   });
 };
 

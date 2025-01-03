@@ -13,7 +13,7 @@ export default function Students() {
     const [option4, setOption4] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [classId, setClassId] = useState("");
-  
+    const [studentId, setStudentId] = useState("")
     const handleSubmit = (e) => {
       e.preventDefault();
       console.log("Question:", question);
