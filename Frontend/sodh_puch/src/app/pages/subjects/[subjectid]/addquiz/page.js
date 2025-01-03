@@ -62,6 +62,7 @@ export default function AddQuiz() {
       })
       .then((res) => {
         console.log(res);
+        window.location.reload(); // Reload the current page
 
         // Reset input fields
         setQuestion("");
@@ -91,7 +92,7 @@ export default function AddQuiz() {
       })
       .then((res) => {
         console.log(res);
-        router.push("/dashboard/classes/addquiz"); // Redirect after successful deletion
+        window.location.reload(); // Reload the current page // Redirect after successful deletion
       })
       .catch((error) => {
         console.error("Error in deleting question:", error);
@@ -104,6 +105,15 @@ export default function AddQuiz() {
 
   return (
     <div>
+      <button
+        onClick={() =>
+          router.push(
+            `/pages/subjects/${classid}/seeQuiz?id=${id}&classid=${classid}&class=${topic}`
+          )
+        }
+      >
+        See Quiz
+      </button>{" "}
       <h1 className={styles.title}>Quiz Topic: {quiz_topic}</h1>
       <h1 className={styles.title}>
         CREATE QUIZ{" "}
@@ -111,7 +121,6 @@ export default function AddQuiz() {
           <FiPlusCircle />
         </button>
       </h1>
-
       {/* Modal for adding new questions */}
       {isModalOpen && (
         <div className={styles.modalBackground}>
@@ -200,10 +209,8 @@ export default function AddQuiz() {
           </div>
         </div>
       )}
-
       {/* Error message */}
       {error && <p className={styles.error}>{error}</p>}
-
       {/* Displaying fetched quiz questions */}
       <div className={styles.quizContainer}>
         {quizQuestions.map((question, index) => (
@@ -214,7 +221,6 @@ export default function AddQuiz() {
                 <li key={idx}>{option}</li>
               ))}
             </ul>
-
             {/* Pass the question's id to the delete handler */}
             <button
               className={styles.deleteButton}

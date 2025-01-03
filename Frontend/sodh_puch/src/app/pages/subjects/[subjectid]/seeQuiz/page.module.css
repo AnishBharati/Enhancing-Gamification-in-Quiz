@@ -126,6 +126,13 @@
   background-color: #388e3c; /* Even darker green when clicked */
   transform: scale(0.98); /* Slightly smaller on click */
 }
+.questionNumber {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333; /* Dark gray for light backgrounds */
+  /* Or, use color: white; for dark backgrounds */
+  margin-bottom: 10px;
+}
 
 /* Animation for fadeIn effect */
 @keyframes fadeIn {
