@@ -10,7 +10,7 @@
   height: 14vh;
   padding: 0.8rem;
   width: 100%; 
-  background: linear-gradient(to bottom, #6a5acd, #6a5acd);
+  background: linear-gradient(to bottom, #8daec7, #f0f4f8); /* Subtle gradient */
   text-align: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.9); /* Added box shadow */
 
@@ -20,7 +20,7 @@
   color: white;
   padding: 1rem;
   background-color: white;
-  background: linear-gradient(to bottom, #6a5acd, #6a5acd);
+  background: linear-gradient(to bottom, #8daec7, #f0f4f8); /* Subtle gradient */
 
   box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
 
@@ -30,7 +30,7 @@
   border-radius:  20px;
   color: white;
   box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
-  background: linear-gradient(to bottom, #4b0082, #6a5acd);
+  background: linear-gradient(to bottom, #8daec7, #f0f4f8); /* Subtle gradient */
 
 }
 
@@ -62,7 +62,7 @@
  }
  
  .heading p {
-   color: #fff;
+   color: #333;
    font-size: 1.3rem; /* Slightly larger font size */
    font-style: italic;
    margin: 0 1rem;

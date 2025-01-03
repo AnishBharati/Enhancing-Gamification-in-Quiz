@@ -13,6 +13,7 @@ export default function SubjectDetails() {
   const [showPopup, setShowPopup] = useState(false);
   const [quizTopic, setQuizTopic] = useState(""); // State to store the input for the new topic
   const [selectedTopicIndex, setSelectedTopicIndex] = useState(null);
+  const [teacherData, setTeacherData] = useState(null); // Store teacher data
   const router = useRouter();
   const params = useParams(); // Use `useParams()` to get params from the URL
   const searchParams = useSearchParams(); // Access query params
@@ -67,6 +68,23 @@ export default function SubjectDetails() {
         console.error("Error adding topic:", err);
       });
   };
+
+  const fetchTeacherData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/get_teacher?id=${id}`);
+      // Assuming this response has userId and teacherId
+      setTeacherData({
+        userId: response.data.userId,
+        teacherId: response.data.data, // Assuming this is the teacher's ID
+      });
+    } catch (error) {
+      console.error("Error fetching teacher:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTeacherData(); // Fetch teacher data when component mounts
+  }, [id]); // Only fetch once per subject id
 
   // Fetch existing topics from the backend
   useEffect(() => {
@@ -139,9 +157,12 @@ export default function SubjectDetails() {
           <h1 className={styles.subjectName}>{classNamed}</h1>
           <p className={styles.subjectDescription}>Subject Description</p>
         </div>
-        <div className={styles.addIcon} onClick={openPopup}>
-          <IoMdAdd size={30} title="Add Chapter" />
-        </div>
+        {/* Only show the Add Chapter button if teacherData is available and teacherId matches userId */}
+        {teacherData && teacherData.teacherId == teacherData.userId && (
+          <div className={styles.addIcon} onClick={openPopup}>
+            <IoMdAdd size={30} title="Add Chapter" />
+          </div>
+        )}
       </div>
 
       {/* Topics */}
@@ -154,26 +175,34 @@ export default function SubjectDetails() {
           >
             <h2 className={styles.heading}>{topic.quiz_topic}</h2>
             {selectedTopicIndex === index && (
-              <div className={styles.topicOptions}>
+              teacherData && teacherData.teacherId == teacherData.userId ? (
+                <div className={styles.topicOptions}>
+                  <Link
+                    href={`/pages/subjects/${subjectid}/addquiz?id=${topic.id}&classid=${subjectid}&class=${encodeURIComponent(
+                      topic.quiz_topic
+                    )}`}
+                  >
+                    <button className={styles.addQuizButton}>Add Quiz</button>
+                  </Link>
+                  <button
+                    className={styles.deleteButton}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent dropdown closure
+                      handleDeleteTopic(topic.id, e);
+                    }}
+                  >
+                    Delete Chapter
+                  </button>
+                </div>
+              ) : (
                 <Link
-                  href={`/pages/subjects/${subjectid}/addquiz?id=${
-                    topic.id
-                  }&classid=${subjectid}&class=${encodeURIComponent(
+                  href={`/pages/subjects/${subjectid}/seeQuiz?id=${topic.id}&classid=${subjectid}&class=${encodeURIComponent(
                     topic.quiz_topic
                   )}`}
                 >
-                  <button className={styles.addQuizButton}>Add Quiz</button>
+                  <button className={styles.addQuizButton}>Do Quiz</button>
                 </Link>
-                <button
-                  className={styles.deleteButton}
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent dropdown closure
-                    handleDeleteTopic(topic.id, e);
-                  }}
-                >
-                  Delete Chapter
-                </button>
-              </div>
+              )
             )}
           </div>
         ))
