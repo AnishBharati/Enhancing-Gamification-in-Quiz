@@ -150,7 +150,7 @@ export default function SubjectDetails() {
       <Link
         href={`/pages/subjects/${subjectid}/see_asked_question?classid=${subjectid}`}
       >
-        <button>See asked question</button>
+        <button className={styles.btn}>See asked question</button>
       </Link>
 
       {/* Subject Header */}
