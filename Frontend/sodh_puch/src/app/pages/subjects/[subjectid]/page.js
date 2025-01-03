@@ -207,7 +207,16 @@ export default function SubjectDetails() {
                     topic.quiz_topic
                   )}`}
                 >
-                  <button className={styles.addQuizButton}>Do Quiz</button>
+                  <button
+                    className={styles.addQuizButton}
+                    onClick={() =>
+                      router.push(
+                        `/pages/subjects/${classid}/seeQuiz?id=${id}&classid=${classid}&class=${topic}`
+                      )
+                    }
+                  >
+                    Do Quiz
+                  </button>
                 </Link>
               ))}
           </div>
