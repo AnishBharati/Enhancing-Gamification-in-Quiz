@@ -336,6 +336,8 @@ exports.getLeaderBoard = (req, res) => {
       return res.status(401).json({ error: "Invalid token" });
     }
 
+    console.log("In leaderboard");
+
     // Query to get quiz class info
     const selectClassCode = "SELECT * FROM quiz_classes WHERE id = ?";
     db.query(selectClassCode, [id], (err, classResult) => {
@@ -402,7 +404,9 @@ exports.getPeopleDetails = (req, res) => {
   const authHeader = req.headers["authorization"];
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Unauthorized", message: "JWT token is required" });
+    return res
+      .status(401)
+      .json({ error: "Unauthorized", message: "JWT token is required" });
   }
 
   const token = authHeader.split(" ")[1];
@@ -428,7 +432,8 @@ exports.getPeopleDetails = (req, res) => {
       }
 
       const code = classResult[0].code;
-      const selectClass = "SELECT teacher_id, students_id FROM quiz_classes WHERE code = ?";
+      const selectClass =
+        "SELECT teacher_id, students_id FROM quiz_classes WHERE code = ?";
       db.query(selectClass, [code], (err, classDetails) => {
         if (err) {
           console.error("MySQL Error: ", err);
@@ -436,24 +441,28 @@ exports.getPeopleDetails = (req, res) => {
         }
 
         // Check if there are any students in the class from index 1 onward
-        if (classDetails.length <= 1 || !classDetails[1] || !classDetails[1].students_id) {
+        if (
+          classDetails.length <= 1 ||
+          !classDetails[1] ||
+          !classDetails[1].students_id
+        ) {
           return res.status(200).json({ message: "No students found" });
         }
 
         // Skip index 0 and start from index 1 (excluding the first record)
-        const studentsData = classDetails.slice(1);  // Remove the first element
+        const studentsData = classDetails.slice(1); // Remove the first element
         const teacherId = classDetails[1].teacher_id;
         // Collect student IDs (split by commas if present)
         let studentIds = studentsData.reduce((acc, classEntry) => {
           if (classEntry.students_id) {
-            const ids = classEntry.students_id.split(',').filter(id => id);
+            const ids = classEntry.students_id.split(",").filter((id) => id);
             acc.push(...ids);
           }
           return acc;
         }, []);
         // Remove the authenticated user's ID from the list
-        studentIds = studentIds.filter(id => id !== userId);
-        
+        studentIds = studentIds.filter((id) => id !== userId);
+
         if (studentIds.length === 0) {
           return res.status(200).json({ message: "No students found" });
         }
@@ -464,7 +473,8 @@ exports.getPeopleDetails = (req, res) => {
         }
 
         // Query user details for each student in the class
-        const checkUser = "SELECT id, full_name, exp_points FROM user_details WHERE id IN (?)";
+        const checkUser =
+          "SELECT id, full_name, exp_points FROM user_details WHERE id IN (?)";
         db.query(checkUser, [idsToCheck], (err, userDetails) => {
           if (err) {
             console.error("MySQL Error: ", err);

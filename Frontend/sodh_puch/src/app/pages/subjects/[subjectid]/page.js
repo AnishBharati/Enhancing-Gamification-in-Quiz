@@ -71,7 +71,9 @@ export default function SubjectDetails() {
 
   const fetchTeacherData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/get_teacher?id=${id}`);
+      const response = await axios.get(
+        `http://localhost:8000/get_teacher?id=${id}`
+      );
       // Assuming this response has userId and teacherId
       setTeacherData({
         userId: response.data.userId,
@@ -145,6 +147,11 @@ export default function SubjectDetails() {
       <button className={styles.backButton} onClick={() => router.back()}>
         <IoIosArrowBack size={30} />
       </button>
+      <Link
+        href={`/pages/subjects/${subjectid}/see_asked_question?classid=${subjectid}`}
+      >
+        <button>See asked question</button>
+      </Link>
 
       {/* Subject Header */}
       <div className={styles.subjectCard}>
@@ -169,14 +176,17 @@ export default function SubjectDetails() {
             onClick={() => handleTopicClick(index)}
           >
             <h2 className={styles.heading}>{topic.quiz_topic}</h2>
-            {selectedTopicIndex === index && (
-              teacherData && teacherData.teacherId == teacherData.userId ? (
+            {selectedTopicIndex === index &&
+              (teacherData && teacherData.teacherId == teacherData.userId ? (
                 <div className={styles.topicOptions}>
                   <Link
-                    href={`/pages/subjects/${subjectid}/addquiz?id=${topic.id}&classid=${subjectid}&class=${encodeURIComponent(
+                    href={`/pages/subjects/${subjectid}/addquiz?id=${
+                      topic.id
+                    }&classid=${subjectid}&class=${encodeURIComponent(
                       topic.quiz_topic
                     )}`}
                   >
+                    {/*Adding Quiz */}
                     <button className={styles.addQuizButton}>Add Quiz</button>
                   </Link>
                   <button
@@ -191,14 +201,15 @@ export default function SubjectDetails() {
                 </div>
               ) : (
                 <Link
-                  href={`/pages/subjects/${subjectid}/seeQuiz?id=${topic.id}&classid=${subjectid}&class=${encodeURIComponent(
+                  href={`/pages/subjects/${subjectid}/seeQuiz?id=${
+                    topic.id
+                  }&classid=${subjectid}&class=${encodeURIComponent(
                     topic.quiz_topic
                   )}`}
                 >
                   <button className={styles.addQuizButton}>Do Quiz</button>
                 </Link>
-              )
-            )}
+              ))}
           </div>
         ))
       ) : (

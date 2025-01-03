@@ -58,7 +58,9 @@ exports.delete_quiz_class = (req, res) => {
 
   const authHeader = req.headers["authorization"];
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Unauthorized", message: "JWT token is required" });
+    return res
+      .status(401)
+      .json({ error: "Unauthorized", message: "JWT token is required" });
   }
 
   const token = authHeader.split(" ")[1];
@@ -85,7 +87,7 @@ exports.delete_quiz_class = (req, res) => {
       const teacherId = data[0].teacher_id;
       const code = data[0].code;
 
-      if(teacherId == userId) {
+      if (teacherId == userId) {
         const sqlSelectAllClasses = "DELETE FROM quiz_classes WHERE code=?";
         db.query(sqlSelectAllClasses, [code], (err, data) => {
           if (err) {
@@ -94,19 +96,20 @@ exports.delete_quiz_class = (req, res) => {
           }
 
           return res.json({ message: "Class deleted successfully by teacher" });
-        })
+        });
       } else {
         const sqlDeleteClass = "DELETE FROM quiz_classes WHERE id=?";
         db.query(sqlDeleteClass, [id], (err, result) => {
-        if (err) {
-          console.error("MySQL Error:", err);
-          return res.status(500).json({ error: "Error deleting class" });
-        }
+          if (err) {
+            console.error("MySQL Error:", err);
+            return res.status(500).json({ error: "Error deleting class" });
+          }
 
-        return res.json({ message: "Class deleted successfully for one student" });
-      });
+          return res.json({
+            message: "Class deleted successfully for one student",
+          });
+        });
       }
-      
     });
   });
 };
@@ -143,13 +146,16 @@ exports.addStudents = (req, res) => {
       }
 
       // Check all rows for existing student or teacher
-      const isUserAlreadyAdded = data.some(row => {
+      const isUserAlreadyAdded = data.some((row) => {
         const teacherId = row.teacher_id;
         let studentIds = [];
 
         // Parse students_id to ensure it's an array of IDs
         if (row.students_id) {
-          if (typeof row.students_id === "string" && row.students_id.includes(",")) {
+          if (
+            typeof row.students_id === "string" &&
+            row.students_id.includes(",")
+          ) {
             studentIds = row.students_id.split(","); // comma-separated format
           } else if (typeof row.students_id === "string") {
             try {
@@ -161,7 +167,9 @@ exports.addStudents = (req, res) => {
               studentIds = [row.students_id]; // single ID as string
             }
           } else {
-            studentIds = Array.isArray(row.students_id) ? row.students_id : [row.students_id]; // already an array or single ID
+            studentIds = Array.isArray(row.students_id)
+              ? row.students_id
+              : [row.students_id]; // already an array or single ID
           }
         }
 
@@ -179,14 +187,18 @@ exports.addStudents = (req, res) => {
       const sqlInsertStudentId =
         "INSERT INTO quiz_classes (quiz_class, description, teacher_id, students_id, code) SELECT quiz_class, description, teacher_id, ?, code FROM quiz_classes WHERE id = ?";
 
-      db.query(sqlInsertStudentId, [userId, classId], (insertErr, insertResult) => {
-        if (insertErr) {
-          console.error("MySQL Insert Error: ", insertErr);
-          return res.status(500).json({ error: "Internal Server Error" });
-        }
+      db.query(
+        sqlInsertStudentId,
+        [userId, classId],
+        (insertErr, insertResult) => {
+          if (insertErr) {
+            console.error("MySQL Insert Error: ", insertErr);
+            return res.status(500).json({ error: "Internal Server Error" });
+          }
 
-        return res.json({ message: "Student is added successfully" });
-      });
+          return res.json({ message: "Student is added successfully" });
+        }
+      );
     });
   });
 };
@@ -210,102 +222,74 @@ exports.see_class = (req, res) => {
     }
 
     const userId = decoded.id;
-    // Query to fetch class based on the user (either as teacher or student)
-    let sqlSelectClass = "SELECT * FROM quiz_classes WHERE teacher_id = ? OR students_id = ?";
-    
+
+    // First, retrieve all classes where the user is either a teacher or a student
+    let sqlSelectClass =
+      "SELECT * FROM quiz_classes WHERE teacher_id = ? OR students_id = ?";
+
     db.query(sqlSelectClass, [userId, userId], (err, result) => {
       if (err) {
         console.error("MySQL Error:", err);
         return res.status(500).json({ error: "Internal Server Error" });
       }
 
-      // If no class is found, return an appropriate message
       if (result.length === 0) {
         return res.status(404).json({ error: "No classes found for the user" });
       }
 
-      // Assume we're checking only the first result for teacherId and code
-      const teacherId = result[0].teacher_id;
-
-      // If the user is a teacher, filter classes by the code
-      if (teacherId == userId) {
-        let sqlSelectClassFromCode = "SELECT id, quiz_class, description, code FROM quiz_classes WHERE teacher_id=?";
-        let queryParams = [userId];
-
-        // Optionally, we can add conditions for id, quiz_class, or description
-        if (id || quiz_class || description) {
-          sqlSelectClassFromCode += " WHERE 1=1";
-          if (id) {
-            sqlSelectClassFromCode += " AND id = ?";
-            queryParams.push(id);
-          }
-          if (quiz_class) {
-            sqlSelectClassFromCode += " AND quiz_class = ?";
-            queryParams.push(quiz_class);
-          }
-          if (description) {
-            sqlSelectClassFromCode += " AND description = ?";
-            queryParams.push(description);
-          }
+      // Filter and apply any additional search criteria (id, quiz_class, description)
+      let queryParams = [];
+      let sqlConditions = " WHERE teacher_id = ? OR students_id = ?";
+      if (id || quiz_class || description) {
+        sqlConditions += " AND 1=1";
+        if (id) {
+          sqlConditions += " AND id = ?";
+          queryParams.push(id);
         }
+        if (quiz_class) {
+          sqlConditions += " AND quiz_class = ?";
+          queryParams.push(quiz_class);
+        }
+        if (description) {
+          sqlConditions += " AND description = ?";
+          queryParams.push(description);
+        }
+      }
 
-        // Query to get classes for teacher without restricting by 'code'
-        db.query(sqlSelectClassFromCode, queryParams, (err, results) => {
+      // Add logic for filtering classes where the user is the teacher or student
+      let sqlFinalClassQuery =
+        "SELECT DISTINCT id, quiz_class, description, code FROM quiz_classes " +
+        sqlConditions;
+
+      db.query(
+        sqlFinalClassQuery,
+        [userId, userId, ...queryParams],
+        (err, finalResults) => {
           if (err) {
             console.error("MySQL Error:", err);
             return res.status(500).json({ error: "Internal Server Error" });
           }
 
-          // Now we will filter out rows with the same 'code', showing only one per unique 'code'
+          // Filter out duplicate classes based on unique 'code' (if multiple entries exist for the same class)
           const uniqueClasses = [];
           const seenCodes = new Set();
 
-          results.forEach(row => {
+          finalResults.forEach((row) => {
             if (!seenCodes.has(row.code)) {
               seenCodes.add(row.code);
               uniqueClasses.push(row);
             }
           });
-          
+
           return res.json({ tasks: uniqueClasses });
-        });
-
-      } else {
-        // If the user is a student, filter by students_id
-        let sqlSelectClassForStudent = "SELECT id, quiz_class, description FROM quiz_classes WHERE students_id=?";
-        let queryParams = [userId];
-
-        // Apply additional filters based on the request
-        if (id || quiz_class || description) {
-          if (id) {
-            sqlSelectClassForStudent += " AND id = ?";
-            queryParams.push(id);
-          }
-          if (quiz_class) {
-            sqlSelectClassForStudent += " AND quiz_class = ?";
-            queryParams.push(quiz_class);
-          }
-          if (description) {
-            sqlSelectClassForStudent += " AND description = ?";
-            queryParams.push(description);
-          }
         }
-
-        // Query to get classes for student
-        db.query(sqlSelectClassForStudent, queryParams, (err, results) => {
-          if (err) {
-            console.error("MySQL Error:", err);
-            return res.status(500).json({ error: "Internal Server Error" });
-          }
-          return res.json({ tasks: results });
-        });
-      }
+      );
     });
   });
 };
 
 exports.checkTeacher = (req, res) => {
-  const {id} = req.query;
+  const { id } = req.query;
 
   const authHeader = req.headers["authorization"];
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -332,7 +316,7 @@ exports.checkTeacher = (req, res) => {
       }
       teacherId = result[0].teacher_id;
 
-      return res.status(200).json({data: teacherId, userId});
-    })
+      return res.status(200).json({ data: teacherId, userId });
+    });
   });
-}
+};
