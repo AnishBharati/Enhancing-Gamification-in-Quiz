@@ -150,10 +150,12 @@ exports.update_ask_question = async (req, res) => {
             idsToCheck.push(teacherId);
           }
 
-          console.log("Student Id: ", idsToCheck);
-
           let userFound = false;
+          let responseSent = false; // Flag to track if the response has already been sent
           for (let i = 0; i < idsToCheck.length; i++) {
+            console.log(idsToCheck.length);
+            console.log(idsToCheck[i]);
+
             if (idsToCheck[i] == askedto) {
               userFound = true;
               const updateData =
@@ -168,17 +170,18 @@ exports.update_ask_question = async (req, res) => {
                       .status(500)
                       .json({ error: "Internal Server Error" });
                   }
-                  return res
-                    .status(200)
-                    .json({ updated: result })
-                    .json({ message: "Updated Successfully" });
+
+                  // Send the response only if it's not sent already
+                  if (!responseSent) {
+                    responseSent = true; // Mark that the response has been sent
+                    return res.status(200).json({
+                      updated: result,
+                      message: "Updated Successfully",
+                    });
+                  }
                 }
               );
-              break;
-            } else {
-              return res
-                .status(204)
-                .json({ message: "You are not asked any question" });
+              break; // Exit the loop after the first match is found and processed
             }
           }
 
