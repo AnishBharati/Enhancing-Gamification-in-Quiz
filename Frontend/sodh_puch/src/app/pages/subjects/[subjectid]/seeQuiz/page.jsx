@@ -3,20 +3,23 @@ import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import axios from "../../../../axiosSetup";
 import { useSearchParams } from "next/navigation";
-
+import { useRouter } from "next/navigation";
 export default function ViewQuiz() {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [score, setScore] = useState(0);
-  const [token, setToken] = useState(null); // Use state for the token
-  const [showCompletionMessage, setShowCompletionMessage] = useState(false); // New state for completion message
+  const [token, setToken] = useState(null);
+  const [showCompletionMessage, setShowCompletionMessage] = useState(false);
+
+  // Timer state
+  const [timeLeft, setTimeLeft] = useState(0.3 * 60); // 10 minutes in seconds
 
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const classid = searchParams.get("classid");
-
+  const router = useRouter();
   // Load token from localStorage on the client side
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -46,6 +49,23 @@ export default function ViewQuiz() {
         .catch((error) => console.error("Error fetching quiz:", error));
     }
   }, [token, id]);
+
+  // Timer logic: decrease time every second
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timerId = setInterval(() => {
+        setTimeLeft((prevTime) => prevTime - 1);
+      }, 1000);
+      return () => clearInterval(timerId);
+    } else {
+      // Automatically submit when time runs out
+      handleSubmit();
+      setShowCompletionMessage(true); // Show the completion message
+      setTimeout(() => {
+        router.push("/pages/subjects");
+      }, 3000); // 3 seconds delay before redirecting
+    }
+  }, [timeLeft]);
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
@@ -83,6 +103,17 @@ export default function ViewQuiz() {
 
   const handleFinalSubmit = () => {
     setShowCompletionMessage(true); // Show the completion message
+    setQuizCompleted(true); // Mark quiz as completed
+    // You can add any additional logic to submit quiz data here
+  };
+
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+      2,
+      "0"
+    )}`;
   };
 
   if (!token) return <p>Loading...</p>;
@@ -95,6 +126,10 @@ export default function ViewQuiz() {
       {!showCompletionMessage ? (
         <>
           <h1 className={styles.title}>Quiz</h1>
+          <div className={styles.timer}>
+            {/* Display the timer */}
+            <p>Time Left: {formatTime(timeLeft)}</p>
+          </div>
           <div className={styles.quizContainer}>
             <div className={styles.field}>
               {/* Display current question number and total questions */}

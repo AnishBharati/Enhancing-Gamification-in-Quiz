@@ -29,6 +29,7 @@ router.put("/update_details", authController.updateDetails);
 router.post("/update_password", authController.changePassword);
 router.get("/get_leaderboard", authController.getLeaderBoard);
 router.get("/get_people_details", authController.getPeopleDetails);
+// router.put("/update_points", authController.updatePoints);
 
 router.post("/add_class", classController.add_quiz_class);
 router.get("/see_class", classController.see_class);
@@ -44,10 +45,13 @@ router.post("/add_question", classController_question.add_question);
 router.post("/check", classController_question.check_answer);
 router.post("/see_quiz", classController_question.seeQuiz);
 router.delete("/delete_question", classController_question.delete_question);
+router.get("/check_student_quiz", classController_question.checkStudentQuiz);
+router.get("/get_marks", classController_question.seeMarks);
 
 router.post("/add_ask_question", askedQuestionController.add_ask_question);
 router.put("/update_ask_question", askedQuestionController.update_ask_question);
 router.get("/see_ask_question", askedQuestionController.see_ask_question);
+
 router.delete(
   "/delete_ask_question",
   askedQuestionController.delete_ask_question

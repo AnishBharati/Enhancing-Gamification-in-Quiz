@@ -67,107 +67,122 @@ exports.add_question = (req, res) => {
   });
 };
 
-exports.check_answer = (req, res) => {
-  const { quizTopicID, question_id, selected_option } = req.body;
+exports.check_answer = async (req, res) => {
+  try {
+    const { quizTopicID, question_id, selected_option } = req.body;
 
-  const authHeader = req.headers["authorization"];
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res
-      .status(401)
-      .json({ error: "Unauthorized", message: "JWT token is required" });
-  }
-
-  const token = authHeader.split(" ")[1]; // Extracting the token from the Bearer scheme
-
-  // Verifying the JWT token
-  jwt.verify(token, secretKey, (err, decoded) => {
-    if (err) {
-      console.error("JWT Verification Error:", err);
-      return res.status(401).json({ error: "Invalid token" });
+    const authHeader = req.headers["authorization"];
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res
+        .status(401)
+        .json({ error: "Unauthorized", message: "JWT token is required" });
     }
 
+    const token = authHeader.split(" ")[1]; // Extracting the token from the Bearer scheme
+
+    // Verifying the JWT token
+    const decoded = jwt.verify(token, secretKey);
     const userId = decoded.id;
 
     // Get the correct option from the database
-    const sql = "SELECT correct_option FROM quiz_questions WHERE id = ?";
-    db.query(sql, [question_id], (err, results) => {
-      if (err) {
-        console.error("Database Query Error:", err);
-        return res.status(500).json({ error: err.message });
-      }
+    const [questionResult] = await db
+      .promise()
+      .query("SELECT correct_option FROM quiz_questions WHERE id = ?", [
+        question_id,
+      ]);
 
-      if (results.length === 0) {
-        return res.status(404).json({ message: "Question not found" });
-      }
+    if (questionResult.length === 0) {
+      return res.status(404).json({ message: "Question not found" });
+    }
 
-      const correctOption = results[0].correct_option;
-      const marksAwarded = selected_option === correctOption ? 1 : 0; // Determine if the user gets marks
-      const points = marksAwarded * 5; // Calculate points
+    const correctOption = questionResult[0].correct_option;
+    const marksAwarded = selected_option == correctOption ? 1 : 0;
+    // if (marksAwarded < 0) {
+    //   marksAwarded = 0;
+    // }
+    const points = selected_option == correctOption ? marksAwarded * 5 : 2;
+    const quiz_points =
+      selected_option == correctOption ? marksAwarded * 2 : -1;
 
-      // First, check if the user already has marks for this topic
-      const sqlCheckMarks =
-        "SELECT marks FROM marks WHERE students_id = ? AND question_topic = ?";
+    // Get user points from the database
+    const [userResult] = await db
+      .promise()
+      .query("SELECT quiz_points, exp_points FROM user_details WHERE id = ?", [
+        userId,
+      ]);
 
-      db.query(sqlCheckMarks, [userId, quizTopicID], (err, result) => {
-        if (err) {
-          console.error("Error Checking Existing Marks:", err);
-          return res.status(500).json({ error: err.message });
-        }
+    if (userResult.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
 
-        if (result.length > 0) {
-          // If record exists, update it
-          const existingMarks = parseInt(result[0].marks, 10) || 0; // Ensure existing marks are treated as an integer
-          const newMarks = existingMarks + marksAwarded; // Accumulate marks
-          console.log("Existing marks: ", existingMarks);
-          console.log("New MArks: ", newMarks);
-          const sqlUpdateMarks =
-            "UPDATE marks SET marks = ?, points = ? WHERE students_id = ? AND question_topic = ?";
+    const currentQuizPoints = Number(userResult[0].quiz_points);
+    const currentExpPoints = Number(userResult[0].exp_points);
 
-          db.query(
-            sqlUpdateMarks,
-            [newMarks, newMarks * 5, userId, quizTopicID],
-            (err) => {
-              if (err) {
-                console.error("Error Updating Marks:", err);
-                return res.status(500).json({ error: err.message });
-              }
+    // Calculate new points
+    const newQuizPoints = currentQuizPoints + quiz_points;
+    const newExpPoints = currentExpPoints + points;
 
-              res.status(200).json({
-                message:
-                  marksAwarded === 1
-                    ? "Correct answer!"
-                    : "Incorrect answer, try again.",
-                marks: newMarks, // Return the new accumulated marks
-              });
-            }
-          );
-        } else {
-          // If no record exists, insert a new one
-          const sqlInsertMarks =
-            "INSERT INTO marks (students_id, question_topic, marks, points) VALUES (?,?,?,?)";
+    // Update user points in the database
+    await db
+      .promise()
+      .query(
+        "UPDATE user_details SET quiz_points = ?, exp_points = ? WHERE id = ?",
+        [newQuizPoints, newExpPoints, userId]
+      );
 
-          db.query(
-            sqlInsertMarks,
-            [userId, quizTopicID, marksAwarded, points],
-            (err) => {
-              if (err) {
-                console.error("Error Inserting Marks:", err);
-                return res.status(500).json({ error: err.message });
-              }
+    // Check if user has marks for this topic
+    const [marksResult] = await db
+      .promise()
+      .query(
+        "SELECT marks FROM marks WHERE students_id = ? AND question_topic = ?",
+        [userId, quizTopicID]
+      );
 
-              res.status(201).json({
-                message:
-                  marksAwarded === 1
-                    ? "Correct answer!"
-                    : "Incorrect answer, try again.",
-                marks: marksAwarded, // Return the marks awarded for the first question
-              });
-            }
-          );
-        }
+    if (marksResult.length > 0) {
+      // Update existing marks
+      const existingMarks = parseInt(marksResult[0].marks, 10) || 0;
+      const newMarks = existingMarks + marksAwarded;
+
+      await db
+        .promise()
+        .query(
+          "UPDATE marks SET marks = ?, points = ? WHERE students_id = ? AND question_topic = ?",
+          [newMarks, newMarks * 5, userId, quizTopicID]
+        );
+
+      return res.status(200).json({
+        message:
+          marksAwarded === 1
+            ? "Correct answer!"
+            : "Incorrect answer, try again.",
+        marks: newMarks,
       });
-    });
-  });
+    } else {
+      // Insert new marks
+      const [studentResult] = await db
+        .promise()
+        .query("SELECT full_name FROM user_details WHERE id = ?", [userId]);
+      const studentName = studentResult[0].full_name;
+
+      await db
+        .promise()
+        .query(
+          "INSERT INTO marks (students_id, student_name, question_topic, marks, points) VALUES (?,?,?,?,?)",
+          [userId, studentName, quizTopicID, marksAwarded, points]
+        );
+
+      return res.status(201).json({
+        message:
+          marksAwarded === 1
+            ? "Correct answer!"
+            : "Incorrect answer, try again.",
+        marks: marksAwarded,
+      });
+    }
+  } catch (err) {
+    console.error("Error: ", err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 };
 
 exports.seeQuiz = (req, res) => {
@@ -204,30 +219,6 @@ exports.seeQuiz = (req, res) => {
         options: [row.Option1, row.Option2, row.Option3, row.Option4],
       }));
       return res.status(200).json({ questions: questionsArray });
-
-      // Array to store questions and options
-      // const questionsArray = [];
-
-      // Using a for loop to process each row individually
-      // for (let i = 0; i < data.length; i++) {
-      //   const row = data[i];
-
-      //   // Creating an object for each question
-      //   const questionObject = {
-      //     question: row.Question,
-      //     options: [row.Option1, row.Option2, row.Option3, row.Option4],
-      //   };
-
-      //   // Logging the question and options to the console
-      //   console.log(`Question ${i + 1}: ${questionObject.question}`);
-      //   console.log(`Options: ${questionObject.options.join(", ")}`);
-
-      //   // Pushing the question object into the array
-      //   questionsArray.push(questionObject);
-      // }
-
-      // Sending the array of questions as JSON response
-      // return res.status(200).json({ questions: questionsArray });
     });
   });
 };
@@ -277,6 +268,74 @@ exports.delete_question = (req, res) => {
           message: "Question deleted successfully",
         });
       });
+    });
+  });
+};
+
+exports.checkStudentQuiz = (req, res) => {
+  const { quiz_topic } = req.query;
+
+  // Extracting the JWT token from the Authorization header
+  const authHeader = req.headers["authorization"];
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res
+      .status(401)
+      .json({ error: "Unauthorized", message: "JWT token is required" });
+  }
+
+  const token = authHeader.split(" ")[1]; // Extracting the token from the Bearer scheme
+
+  // Verifying the JWT token
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      console.error("JWT Verification Error:", err);
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    const userId = decoded.id;
+
+    const sqlCheck =
+      "SELECT * FROM marks WHERE students_id=? AND question_topic=?";
+    db.query(sqlCheck, [userId, quiz_topic], (err, result) => {
+      if (err) {
+        console.error("Database Query Error:", err);
+        return res.status(500).json({ error: err.message });
+      }
+
+      return res.status(200).json({ data: result });
+    });
+  });
+};
+
+exports.seeMarks = (req, res) => {
+  const { quiz_topic } = req.query;
+
+  const authHeader = req.headers["authorization"];
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res
+      .status(401)
+      .json({ error: "Unauthorized", message: "JWT token is required" });
+  }
+
+  const token = authHeader.split(" ")[1]; // Extracting the token from the Bearer scheme
+
+  // Verifying the JWT token
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      console.error("JWT Verification Error:", err);
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    const userId = decoded.id;
+
+    const sqlCheckStudentMarks = "SELECT * FROM marks WHERE question_topic = ?";
+    db.query(sqlCheckStudentMarks, [quiz_topic], (err, result) => {
+      if (err) {
+        console.error("Database Query Error:", err);
+        return res.status(500).json({ error: err.message });
+      }
+
+      return res.status(200).json({ marks: result });
     });
   });
 };

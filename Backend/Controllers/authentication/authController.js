@@ -487,3 +487,81 @@ exports.getPeopleDetails = (req, res) => {
     });
   });
 };
+
+// exports.updatePoints = (req, res) => {
+//   const { id, quiz_points, exp_points } = req.body; // Assuming quiz_points and exp_points are in the request body
+
+//   // Convert to numbers in case they are strings
+//   const quiz_pointsNum = Number(quiz_points);
+//   const exp_pointsNum = Number(exp_points);
+
+//   // Check if the conversion resulted in valid numbers
+//   if (isNaN(quiz_pointsNum) || isNaN(exp_pointsNum)) {
+//     return res
+//       .status(400)
+//       .json({
+//         error: "Invalid points value",
+//         message: "Points to add must be valid numbers",
+//       });
+//   }
+
+//   const authHeader = req.headers["authorization"];
+
+//   if (!authHeader || !authHeader.startsWith("Bearer ")) {
+//     return res
+//       .status(401)
+//       .json({ error: "Unauthorized", message: "JWT token is required" });
+//   }
+
+//   const token = authHeader.split(" ")[1];
+
+//   jwt.verify(token, secretKey, (err, decoded) => {
+//     if (err) {
+//       console.error("JWT Verification Error: ", err);
+//       return res.status(401).json({ error: "Invalid token" });
+//     }
+
+//     const userId = decoded.id;
+
+//     // Step 1: Get the current values of quiz_points and exp_points for the user
+//     const getUserQuery =
+//       "SELECT quiz_points, exp_points FROM user_details WHERE id = ?";
+//     db.query(getUserQuery, [userId], (err, result) => {
+//       if (err) {
+//         console.error("MySQL Error: ", err);
+//         return res.status(500).json({ error: "Internal Server Error" });
+//       }
+
+//       if (result.length === 0) {
+//         return res.status(404).json({ error: "User not found" });
+//       }
+
+//       const currentQuizPoints = Number(result[0].quiz_points); // Ensure it's a number
+//       const currentExpPoints = Number(result[0].exp_points); // Ensure it's a number
+
+//       // Step 2: Add the new points to the existing values
+//       const newQuizPoints = currentQuizPoints + quiz_pointsNum;
+//       const newExpPoints = currentExpPoints + exp_pointsNum;
+
+//       // Step 3: Update the user’s points in the database
+//       const updateUserQuery =
+//         "UPDATE user_details SET quiz_points = ?, exp_points = ? WHERE id = ?";
+//       db.query(
+//         updateUserQuery,
+//         [newQuizPoints, newExpPoints, userId],
+//         (err, updateResult) => {
+//           if (err) {
+//             console.error("MySQL Error: ", err);
+//             return res.status(500).json({ error: "Internal Server Error" });
+//           }
+
+//           return res.status(200).json({
+//             message: "User points updated successfully",
+//             quiz_points: newQuizPoints,
+//             exp_points: newExpPoints,
+//           });
+//         }
+//       );
+//     });
+//   });
+// };
