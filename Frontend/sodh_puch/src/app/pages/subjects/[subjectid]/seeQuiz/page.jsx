@@ -13,9 +13,11 @@ export default function ViewQuiz() {
   const [score, setScore] = useState(0);
   const [token, setToken] = useState(null);
   const [showCompletionMessage, setShowCompletionMessage] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(false);
 
   // Timer state
   const [timeLeft, setTimeLeft] = useState(0.3 * 60); // 10 minutes in seconds
+  const [timerActive, setTimerActive] = useState(true);
 
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
@@ -51,6 +53,30 @@ export default function ViewQuiz() {
         .catch((error) => console.error("Error fetching quiz:", error));
     }
   }, [token, id]);
+
+  // Timer logic to count down the time
+  useEffect(() => {
+    // Only start the timer if it's active and timeLeft is greater than 0
+    if (timerActive && timeLeft > 0) {
+      const timerId = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          // Check if timeLeft is greater than 0 before decrementing
+          if (prevTime > 0) {
+            return prevTime - 1;
+          } else {
+            clearInterval(timerId); // Stop the timer when it reaches 0
+            return 0;
+          }
+        });
+      }, 1000);
+
+      // Cleanup the interval on component unmount or when the timer stops
+      return () => clearInterval(timerId);
+    } else if (timeLeft === 0) {
+      // When timer runs out, end the quiz
+      handleFinalSubmit();
+    }
+  }, [timeLeft, timerActive]);
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
@@ -91,10 +117,17 @@ export default function ViewQuiz() {
 
   const handleFinalSubmit = () => {
     setQuizCompleted(true); // Mark quiz as completed
+    setTimerActive(false); // Stop the timer
     setShowCompletionMessage(true);
     setTimeout(() => {
       router.push("/pages/subjects");
     }, 3000);
+    setSuccessMessage(true);
+
+    // Hide the success message after 2 seconds
+    setTimeout(() => {
+      setSuccessMessage(false);
+    }, 2000); // Mark quiz as completed
   };
 
   const formatTime = (timeInSeconds) => {
@@ -168,9 +201,15 @@ export default function ViewQuiz() {
           </div>
         </>
       ) : (
-        <p className={styles.completionMessage}>
-          You've completed all quizzes!
-        </p>
+        successMessage && (
+          <div className={styles.successPopupOverlay}>
+            <div className={styles.successPopup}>
+              <p className={styles.completionMessage}>
+                You've completed all quizzes!
+              </p>
+            </div>
+          </div>
+        )
       )}
     </div>
   );

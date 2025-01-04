@@ -9,8 +9,10 @@ import axios from "../../axiosSetup";
 export default function Subjects() {
   const [topics, setTopics] = useState([]);
   const [descriptions, setDescriptions] = useState([]);
+  const [code, setCode] = useState([]);
   const [teacherData, setTeacherData] = useState({}); // New state to store teacher data for each classId
   const [error, setError] = useState(null);
+
   const router = useRouter();
 
   const subjectImages = {
@@ -38,7 +40,9 @@ export default function Subjects() {
   // Fetch teacher data for a given classId
   const fetchTeacherData = async (classId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/get_teacher?id=${classId}`);
+      const response = await axios.get(
+        `http://localhost:8000/get_teacher?id=${classId}`
+      );
       setTeacherData((prevData) => ({
         ...prevData,
         [classId]: {
@@ -73,9 +77,10 @@ export default function Subjects() {
         }));
 
         const fetchedDescriptions = tasks.map((task) => task.description);
-
+        const fetchedCode = tasks.map((task) => task.code);
         setTopics(fetchedTopics);
         setDescriptions(fetchedDescriptions);
+        setCode(fetchedCode);
 
         // Fetch teacher data for each classId
         tasks.forEach((task) => {
@@ -134,6 +139,7 @@ export default function Subjects() {
               <div className={styles.cardContent}>
                 <h3>{topic.quiz_class}</h3>
                 <p>{descriptions[index]}</p>
+                <p>{code[index]}</p>
                 <div className={styles.cardFooter}>
                   <Link
                     href={`/pages/subjects/${topic.id}?id=${
@@ -143,14 +149,16 @@ export default function Subjects() {
                     <button className={styles.viewButton}>View Details</button>
                   </Link>
                   {/* Check if teacherId matches userId to show the delete option */}
-                  {teacherData[topic.id] && teacherData[topic.id].teacherId == teacherData[topic.id].userId && (
-                    <button
-                      className={styles.deleteButton}
-                      onClick={() => handleDelete(topic.id)}
-                    >
-                      Delete
-                    </button>
-                  )}
+                  {teacherData[topic.id] &&
+                    teacherData[topic.id].teacherId ==
+                      teacherData[topic.id].userId && (
+                      <button
+                        className={styles.deleteButton}
+                        onClick={() => handleDelete(topic.id)}
+                      >
+                        Delete
+                      </button>
+                    )}
                 </div>
               </div>
             </div>

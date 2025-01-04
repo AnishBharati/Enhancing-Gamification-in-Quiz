@@ -146,7 +146,7 @@ exports.check_answer = async (req, res) => {
       const newMarks =
         marksAwarded === 1
           ? existingMarks + marksAwarded
-          : Math.max(0, existingMarks - 1);
+          : Math.max(0, existingMarks - 0.25);
 
       console.log("Existing marks: ", existingMarks);
       console.log("New MArks: ", newMarks);
