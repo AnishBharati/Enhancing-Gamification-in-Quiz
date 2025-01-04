@@ -6,6 +6,7 @@ import { IoMdAdd } from "react-icons/io";
 import { useRouter, useParams } from "next/navigation";
 import axios from "../../../axiosSetup";
 import { useSearchParams } from "next/navigation";
+import { IoMdNotificationsOutline } from "react-icons/io";
 import Link from "next/link";
 
 export default function SubjectDetails() {
@@ -144,15 +145,18 @@ export default function SubjectDetails() {
   return (
     <div className={styles.container}>
       {/* Back Button */}
+      <div className={styles.top}> 
       <button className={styles.backButton} onClick={() => router.back()}>
         <IoIosArrowBack size={30} />
       </button>
       <Link
         href={`/pages/subjects/${subjectid}/see_asked_question?classid=${subjectid}`}
       >
-        <button className={styles.btn}>See asked question</button>
+        <button className={styles.btn}> <IoMdNotificationsOutline size={30} />
+       See ASked Questions
+         </button>
       </Link>
-
+      </div>
       {/* Subject Header */}
       <div className={styles.subjectCard}>
         <div>
