@@ -141,8 +141,13 @@ exports.check_answer = async (req, res) => {
     if (marksResult.length > 0) {
       // Update existing marks
       const existingMarks = parseInt(marksResult[0].marks, 10) || 0;
-      const newMarks = existingMarks + marksAwarded;
+      const newMarks =
+        marksAwarded === 1
+          ? existingMarks + marksAwarded
+          : Math.max(0, existingMarks - 1);
 
+      console.log("Existing marks: ", existingMarks);
+      console.log("New MArks: ", newMarks);
       await db
         .promise()
         .query(
