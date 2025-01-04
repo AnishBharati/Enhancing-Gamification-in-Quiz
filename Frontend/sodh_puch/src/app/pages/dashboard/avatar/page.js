@@ -94,7 +94,7 @@ export default function Avatar({ quizPoint }) {
                 <div className={styles.popupOverlay}>
                     <div className={styles.popup}>
                         <h3>Dashboard Avatars</h3>
-                        <p>Unlock some aesthetic avatars based on your achievements!</p>
+                        <p>Unlock some aesthetic avatars based on your Quiz Points!</p>
                         <div className={styles.shop}>
                             {["avatar1.jpg", "avatar2.jpg", "avatar3.jpg", "avatar4.jpg"].map((avatar, index) => (
                                 <div
