@@ -4,6 +4,7 @@ import styles from "./page.module.css";
 import axios from "../../../../axiosSetup";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+
 export default function ViewQuiz() {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -16,11 +17,13 @@ export default function ViewQuiz() {
 
   // Timer state
   const [timeLeft, setTimeLeft] = useState(0.3 * 60); // 10 minutes in seconds
+  const [timerActive, setTimerActive] = useState(true);
 
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const classid = searchParams.get("classid");
   const router = useRouter();
+
   // Load token from localStorage on the client side
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -51,22 +54,29 @@ export default function ViewQuiz() {
     }
   }, [token, id]);
 
-  // Timer logic: decrease time every second
+  // Timer logic to count down the time
   useEffect(() => {
-    if (timeLeft > 0) {
+    // Only start the timer if it's active and timeLeft is greater than 0
+    if (timerActive && timeLeft > 0) {
       const timerId = setInterval(() => {
-        setTimeLeft((prevTime) => prevTime - 1);
+        setTimeLeft((prevTime) => {
+          // Check if timeLeft is greater than 0 before decrementing
+          if (prevTime > 0) {
+            return prevTime - 1;
+          } else {
+            clearInterval(timerId); // Stop the timer when it reaches 0
+            return 0;
+          }
+        });
       }, 1000);
+
+      // Cleanup the interval on component unmount or when the timer stops
       return () => clearInterval(timerId);
-    } else {
-      // Automatically submit when time runs out
-      handleSubmit();
-      setShowCompletionMessage(true); // Show the completion message
-      setTimeout(() => {
-        router.push("/pages/subjects");
-      }, 3000); // 3 seconds delay before redirecting
+    } else if (timeLeft === 0) {
+      // When timer runs out, end the quiz
+      handleFinalSubmit();
     }
-  }, [timeLeft]);
+  }, [timeLeft, timerActive]);
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
@@ -74,6 +84,8 @@ export default function ViewQuiz() {
 
   const handleSubmit = () => {
     const currentQuestion = questions[currentQuestionIndex];
+
+    // Send the answer to the backend and update the score
     axios
       .post(
         "http://localhost:8000/check",
@@ -92,27 +104,30 @@ export default function ViewQuiz() {
         const { marks } = response.data;
         if (marks) setScore((prevScore) => prevScore + marks);
 
+        // Move to next question only if it's not the last one
         if (currentQuestionIndex < questions.length - 1) {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
           setSelectedOption(null);
         } else {
-          setQuizCompleted(true);
+          setQuizCompleted(true); // End the quiz if it's the last question
         }
       })
       .catch((error) => console.error("Error submitting answer:", error));
   };
 
   const handleFinalSubmit = () => {
-    setShowCompletionMessage(true); // Show the completion message
-    setQuizCompleted(true);
-
+    setQuizCompleted(true); // Mark quiz as completed
+    setTimerActive(false); // Stop the timer
+    setShowCompletionMessage(true);
+    setTimeout(() => {
+      router.push("/pages/subjects");
+    }, 3000);
     setSuccessMessage(true);
 
     // Hide the success message after 2 seconds
     setTimeout(() => {
       setSuccessMessage(false);
     }, 2000); // Mark quiz as completed
-    // You can add any additional logic to submit quiz data here
   };
 
   const formatTime = (timeInSeconds) => {

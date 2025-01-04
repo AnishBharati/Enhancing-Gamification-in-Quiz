@@ -71,6 +71,8 @@ exports.check_answer = async (req, res) => {
   try {
     const { quizTopicID, question_id, selected_option } = req.body;
 
+    console.log("ID: ", question_id);
+
     const authHeader = req.headers["authorization"];
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res
@@ -96,7 +98,7 @@ exports.check_answer = async (req, res) => {
     }
 
     const correctOption = questionResult[0].correct_option;
-    const marksAwarded = selected_option == correctOption ? 1 : 0;
+    const marksAwarded = selected_option == correctOption ? 1 : -0.25;
     // if (marksAwarded < 0) {
     //   marksAwarded = 0;
     // }
@@ -144,7 +146,7 @@ exports.check_answer = async (req, res) => {
       const newMarks =
         marksAwarded === 1
           ? existingMarks + marksAwarded
-          : Math.max(0, existingMarks - 1);
+          : Math.max(0, existingMarks - 0.25);
 
       console.log("Existing marks: ", existingMarks);
       console.log("New MArks: ", newMarks);
