@@ -68,9 +68,17 @@ export default function ViewQuiz() {
         }
       )
       .then((response) => {
-        const { marks } = response.data;
-        if (marks) setScore((prevScore) => prevScore + marks);
+        const { message } = response.data;
 
+        if (message === "Correct answer!") {
+          // Correct answer
+          setScore((prevScore) => prevScore + 1);
+          console.log(score);
+        } else if (message === "Incorrect answer, try again.") {
+          // Incorrect answer
+          setScore((prevScore) => Math.max(0, prevScore - 1)); // Ensure score doesn't go below 0
+          console.log(score);
+        }
         if (currentQuestionIndex < questions.length - 1) {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
           setSelectedOption(null);
