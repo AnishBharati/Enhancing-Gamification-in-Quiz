@@ -12,6 +12,7 @@ export default function ViewQuiz() {
   const [score, setScore] = useState(0);
   const [token, setToken] = useState(null);
   const [showCompletionMessage, setShowCompletionMessage] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(false);
 
   // Timer state
   const [timeLeft, setTimeLeft] = useState(0.3 * 60); // 10 minutes in seconds
@@ -103,7 +104,14 @@ export default function ViewQuiz() {
 
   const handleFinalSubmit = () => {
     setShowCompletionMessage(true); // Show the completion message
-    setQuizCompleted(true); // Mark quiz as completed
+    setQuizCompleted(true);
+
+    setSuccessMessage(true);
+
+    // Hide the success message after 2 seconds
+    setTimeout(() => {
+      setSuccessMessage(false);
+    }, 2000); // Mark quiz as completed
     // You can add any additional logic to submit quiz data here
   };
 
@@ -178,9 +186,15 @@ export default function ViewQuiz() {
           </div>
         </>
       ) : (
-        <p className={styles.completionMessage}>
-          You've completed all quizzes!
-        </p>
+        successMessage && (
+          <div className={styles.successPopupOverlay}>
+            <div className={styles.successPopup}>
+              <p className={styles.completionMessage}>
+                You've completed all quizzes!
+              </p>
+            </div>
+          </div>
+        )
       )}
     </div>
   );
