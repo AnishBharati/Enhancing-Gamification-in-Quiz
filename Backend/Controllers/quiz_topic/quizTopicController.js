@@ -107,43 +107,6 @@ exports.see_quiz_topic = (req, res) => {
 
         return res.status(200).json({ quiz_topics: result });
       });
-
-      //     // SQL query to fetch quiz topics for a specific class
-      //   let selectQuizTopicQuery = `
-      //   SELECT
-      //       quiz_topic.id,
-      //       quiz_topic.quiz_topic
-      //   FROM
-      //       quiz_classes
-      //   JOIN
-      //       quiz_topic
-      //   ON
-      //       quiz_classes.id = quiz_topic.quiz_class
-      //   WHERE
-      //       quiz_classes.code = ?;
-      // `;
-      // const queryParams = [code];
-
-      // if (id) {
-      //   selectQuizTopicQuery += " AND id = ?";
-      //   queryParams.push(id);
-      // }
-
-      // db.query(selectQuizTopicQuery, queryParams, (queryErr, results) => {
-      //   if (queryErr) {
-      //     console.error("MySQL Error:", queryErr);
-      //     return res.status(500).json({ error: "Internal Server Error" });
-      //   }
-
-      //   if (results.length === 0) {
-      //     return res
-      //       .status(200)
-      //       .json({ message: "No quiz topics found for this class" });
-      //   }
-
-      //   // Return the quiz topics with their IDs
-      //   return res.status(200).json({ quiz_topics: results });
-      // });
     });
   });
 };

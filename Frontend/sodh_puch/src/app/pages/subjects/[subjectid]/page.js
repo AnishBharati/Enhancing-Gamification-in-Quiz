@@ -17,6 +17,8 @@ export default function SubjectDetails() {
   const router = useRouter();
   const params = useParams(); // Use `useParams()` to get params from the URL
   const searchParams = useSearchParams(); // Access query params
+  const [isMarksPopup, setIsMarksPopup] = useState(false);
+  const [marks, setMarks] = useState("");
 
   const subjectid = params?.subjectid; // Accessing subjectid from params
   const classNamed = searchParams.get("class");
@@ -88,6 +90,8 @@ export default function SubjectDetails() {
     fetchTeacherData(); // Fetch teacher data when component mounts
   }, [id]); // Only fetch once per subject id
 
+  useEffect(() => {}, []);
+
   // Fetch existing topics from the backend
   useEffect(() => {
     const fetchData = async () => {
@@ -136,10 +140,40 @@ export default function SubjectDetails() {
       });
   };
 
-  // Handle adding a quiz for a topic
-  const handleAddQuiz = () => {
-    router.push(`/pages/subjects/${subjectid}/addquiz`);
+  const handleOpenPopup = (id) => {
+    setIsMarksPopup(true); // Correctly set state to show the popup
+    axios
+      .get(`http://localhost:8000/get_marks?quiz_topic=${id}`)
+      .then((res) => {
+        setMarks(res.data.marks || []); // Ensure the marks array is fetched
+      });
   };
+
+  const handleAlert = (id) => {
+    axios
+      .get(`http://localhost:8000/check_student_quiz?quiz_topic=${id}`)
+      .then((res) => {
+        // Check if the 'data' array inside 'res.data' is empty
+        if (!res.data || res.data.data.length === 0) {
+          // If the array is empty, redirect to the quiz page
+          router.push(
+            `/pages/subjects/${subjectid}/seeQuiz?id=${id}&classid=${subjectid}`
+          );
+        } else {
+          // If the array has data, show the alert and redirect to the subjects page
+          alert("You have already Submitted Quiz");
+          router.push("/pages/subjects");
+        }
+      })
+      .catch((error) => {
+        console.error("Error checking quiz submission:", error);
+      });
+  };
+
+  // Handle adding a quiz for a topic
+  // const handleAddQuiz = () => {
+  //   router.push(`/pages/subjects/${subjectid}/addquiz`);
+  // };
 
   return (
     <div className={styles.container}>
@@ -198,6 +232,15 @@ export default function SubjectDetails() {
                   >
                     Delete Chapter
                   </button>
+                  <button
+                    className={styles.deleteButton}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent dropdown closure
+                      handleOpenPopup(topic.id);
+                    }}
+                  >
+                    See Marks
+                  </button>
                 </div>
               ) : (
                 <Link
@@ -207,7 +250,12 @@ export default function SubjectDetails() {
                     topic.quiz_topic
                   )}`}
                 >
-                  <button className={styles.addQuizButton}>Do Quiz</button>
+                  <button
+                    onClick={() => handleAlert(topic.id)}
+                    className={styles.addQuizButton}
+                  >
+                    Do Quiz
+                  </button>
                 </Link>
               ))}
           </div>
@@ -236,6 +284,33 @@ export default function SubjectDetails() {
                 Cancel
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {isMarksPopup && (
+        <div className={styles.popupOverlay}>
+          <div className={styles.popupContent}>
+            <h2>See Marks</h2>
+            {marks && marks.length > 0 ? (
+              <ul>
+                {marks.map((mark, index) => (
+                  <li key={index}>
+                    <div>
+                      <strong>{mark.student_name}</strong>: {mark.marks}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No marks available</p>
+            )}
+            <button
+              onClick={() => setIsMarksPopup(false)}
+              className={styles.cancelButton}
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
