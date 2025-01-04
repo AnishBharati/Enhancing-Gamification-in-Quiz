@@ -4,6 +4,7 @@ import styles from "./page.module.css";
 import axios from "../../../../axiosSetup";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+
 export default function ViewQuiz() {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -20,6 +21,7 @@ export default function ViewQuiz() {
   const id = searchParams.get("id");
   const classid = searchParams.get("classid");
   const router = useRouter();
+
   // Load token from localStorage on the client side
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -50,29 +52,14 @@ export default function ViewQuiz() {
     }
   }, [token, id]);
 
-  // Timer logic: decrease time every second
-  useEffect(() => {
-    if (timeLeft > 0) {
-      const timerId = setInterval(() => {
-        setTimeLeft((prevTime) => prevTime - 1);
-      }, 1000);
-      return () => clearInterval(timerId);
-    } else {
-      // Automatically submit when time runs out
-      handleSubmit();
-      setShowCompletionMessage(true); // Show the completion message
-      setTimeout(() => {
-        router.push("/pages/subjects");
-      }, 3000); // 3 seconds delay before redirecting
-    }
-  }, [timeLeft]);
-
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
   };
 
   const handleSubmit = () => {
     const currentQuestion = questions[currentQuestionIndex];
+
+    // Send the answer to the backend and update the score
     axios
       .post(
         "http://localhost:8000/check",
@@ -91,20 +78,23 @@ export default function ViewQuiz() {
         const { marks } = response.data;
         if (marks) setScore((prevScore) => prevScore + marks);
 
+        // Move to next question only if it's not the last one
         if (currentQuestionIndex < questions.length - 1) {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
           setSelectedOption(null);
         } else {
-          setQuizCompleted(true);
+          setQuizCompleted(true); // End the quiz if it's the last question
         }
       })
       .catch((error) => console.error("Error submitting answer:", error));
   };
 
   const handleFinalSubmit = () => {
-    setShowCompletionMessage(true); // Show the completion message
     setQuizCompleted(true); // Mark quiz as completed
-    // You can add any additional logic to submit quiz data here
+    setShowCompletionMessage(true);
+    setTimeout(() => {
+      router.push("/pages/subjects");
+    }, 3000);
   };
 
   const formatTime = (timeInSeconds) => {
