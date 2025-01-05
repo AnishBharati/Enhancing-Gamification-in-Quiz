@@ -205,7 +205,7 @@ export default function ViewQuiz() {
           <div className={styles.successPopupOverlay}>
             <div className={styles.successPopup}>
               <p className={styles.completionMessage}>
-                You've completed all quizzes!
+              🎉 Congratulations!🥳  You've completed all quizzes!  🎉
               </p>
             </div>
           </div>

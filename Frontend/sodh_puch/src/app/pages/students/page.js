@@ -191,10 +191,11 @@ export default function Students() {
             <button className={styles.close} onClick={toggleModal}>
               <FiX />
             </button>
-            <form action="" onSubmit={handleSubmit} className={styles.form}>
+            <form action="    transition: transform 0.3s, box-shadow 0.3s;
+" onSubmit={handleSubmit} className={styles.form}>
               <div className={styles.field}>
                 <label htmlFor="question" className={styles.label}>
-                  Type a Question:
+                  Type Your Question:
                 </label>
                 <input
                   className={styles.input}

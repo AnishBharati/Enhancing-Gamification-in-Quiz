@@ -10,7 +10,10 @@
   font-family: "Roboto", sans-serif; /* Modern font */
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transition on hover */
 }
-
+.timer{
+  text-align: center;
+  font-size: 1.2rem;
+}
 .quizContainer:hover {
   transform: scale(1.02); /* Slightly enlarge on hover */
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
@@ -19,10 +22,12 @@
 /* Title */
 .title {
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 2.3rem;
+  padding: 1rem;
   font-weight: 600;
   color: white; /* Darker text */
   margin-bottom: 20px;
+  margin-top: 1rem;
   text-transform: uppercase; /* Capitalize quiz title */
 }
 
@@ -75,7 +80,7 @@
 .submitButton {
   padding: 12px 24px;
   font-size: 1.3rem;
-  background-color: #4caf50; /* Fresh green */
+  background-color: #5f0077; /* Fresh green */
   color: white;
   border: none;
   border-radius: 8px;
@@ -86,7 +91,7 @@
 }
 
 .submitButton:hover {
-  background-color: #45a049; /* Slightly darker green on hover */
+  background-color: #9b16b9; /* Slightly darker green on hover */
   transform: translateY(-3px); /* Button lifts slightly */
 }
 
@@ -100,12 +105,14 @@
   text-align: center;
   font-size: 1.3rem;
   font-weight: 500;
-  color: #4caf50;
+  color: black;
+  padding-bottom: 1rem;
   margin-top: 30px;
   animation: fadeIn 1s ease-in-out;
+  text-align: center;
 }
 .finalSubmitButton {
-  background-color: #4caf50; /* Green background */
+  background-color: #5f0077; /* Green background */
   color: white; /* White text */
   padding: 12px 20px; /* Add padding for size */
   font-size: 18px; /* Make text larger */
@@ -118,12 +125,12 @@
 }
 
 .finalSubmitButton:hover {
-  background-color: #45a049; /* Slightly darker green on hover */
+  background-color: #9b16b9; /* Slightly darker green on hover */
   transform: scale(1.05); /* Slightly larger on hover */
 }
 
 .finalSubmitButton:active {
-  background-color: #388e3c; /* Even darker green when clicked */
+  background-color: #9b16b9; /* Even darker green when clicked */
   transform: scale(0.98); /* Slightly smaller on click */
 }
 .questionNumber {
@@ -142,6 +149,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   z-index: 1000;
 }
 
@@ -152,8 +160,11 @@
     #81a9c9
   ); /* Subtle gradient */
   color: black;
-  padding: 2rem;
   font-size: 1.1rem;
+  padding: 1rem;
+  margin-left: 2rem;
+
+  padding-bottom: 1rem;
   border-radius: 10px;
   text-align: center;
   animation: fadeIn 0.5s ease-in-out, slideUp 0.5s ease-in-out;
