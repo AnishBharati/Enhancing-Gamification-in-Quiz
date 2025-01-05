@@ -145,33 +145,38 @@
 /* New Styles for Displaying Questions */
 .quizContainer {
   margin-top: 20px;
-  padding: 10px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
+  background-color: #f3f4f6;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .questionCard {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #ffffff, #f0f0f0);
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   overflow: hidden;
+  position: relative; /* Ensure delete button is positioned correctly */
 }
 
 .questionCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-7px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
 }
 
 .question {
-  font-size: 18px;
+  font-size: 22px; /* Increased font size */
   font-weight: bold;
   color: #333;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .options {
@@ -180,49 +185,48 @@
 }
 
 .options li {
-  font-size: 16px;
-  color: #090909;
-  margin-bottom: 5px;
+  font-size: 17px;
+  color: #333;
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .options li:hover {
-  color: #5f0077;
+  color: white;
+  background-color: #5f0077;
+  cursor: pointer;
 }
 
 .options li:hover::before {
   content: "👉 ";
-  color: #5f0077;
+  color: white;
 }
 
 .quizContainer p {
   font-size: 16px;
-  color: #15123f;
+  color: #444;
   text-align: center;
   font-style: italic;
-}
-.questionCard {
-  position: relative; /* Needed for positioning the delete button */
-  padding: 20px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+  margin-top: 15px;
 }
 
 .deleteButton {
-  position: absolute; /* Absolute position inside the card */
-  bottom: 10px; /* Distance from the bottom of the card */
-  right: 10px; /* Distance from the right side of the card */
-  padding: 8px 16px;
-  background-color: #ff4d4d; /* Red color for the delete button */
+ 
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #ff4d4d, #ff7373);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
   font-weight: bold;
+  box-shadow: 0 4px 8px rgba(255, 0, 0, 0.2);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .deleteButton:hover {
-  background-color: #ff1a1a; /* Darker red on hover */
+  background: linear-gradient(135deg, #ff1a1a, #ff4d4d);
+  box-shadow: 0 6px 12px rgba(255, 0, 0, 0.3);
 }

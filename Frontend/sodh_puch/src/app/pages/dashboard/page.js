@@ -84,6 +84,18 @@ export default function Dashboard() {
     if (expPoints >= 100) return 1;
     return 0;
   };
+
+
+  // const getLevelavatar = (expPoints) => {
+  //   if (expPoints >= 1600) return (
+  //     <img src=""></img>
+  //   );
+  //   if (expPoints >= 800) return 4;
+  //   if (expPoints >= 400) return 3;
+  //   if (expPoints >= 200) return 2;
+  //   if (expPoints >= 100) return 1;
+  //   return 0;
+  // };
   // Handle profile edit and photo upload
   const handleEditProfile = async (e) => {
     e.preventDefault();

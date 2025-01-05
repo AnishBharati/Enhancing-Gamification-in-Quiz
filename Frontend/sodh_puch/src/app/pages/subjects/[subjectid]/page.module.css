@@ -7,7 +7,7 @@
 .backButton {
   color: #5f0077;
   border: none;
-  border-radius: 6px;
+  border-radius: 6px; 
   padding: 0.5rem 1rem;
   font-size: 1rem;
   font-weight: 500;
@@ -108,6 +108,7 @@
 .seButton {
   margin-left: 0.7rem;
 }
+
 /* Popup Overlay */
 .popupOverlay {
   position: fixed;
@@ -115,47 +116,126 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7); 
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-}
-/* Popup Overlay */
-.popupOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+  
 }
 
 /* Popup Content */
 .popupContent {
   position: relative;
-  background: linear-gradient(135deg, #a9c3f7, #c1d4f7);
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, #d9e8fc, #f1f8ff); 
+  padding: 3rem 2.5rem;
+  border-radius: 15px; 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); 
   text-align: center;
-  width: 40vh;
-  max-height: 60vh;
-  overflow-y: auto; /* Adds scrolling for large popup content */
+ 
+  
+  overflow-y: auto; 
+  animation: slideUp 0.4s ease; 
 }
 
 /* Title */
 .popupContent h2 {
-  color: black;
-  background-color: white;
-  border-radius: 10px;
+  color: #333;
+  background-color: #fff;
+  border-radius: 12px;
   padding: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
+
+/* Input Field */
+.inputField {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #f9f9f9;
+  transition: border 0.3s ease;
+}
+
+.inputField:focus {
+  border-color: #4facfe; 
+  outline: none;
+}
+
+/* Button Group */
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Add Button */
+.addButton {
+  padding: 0.8rem 2rem;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  flex: 1;
+}
+
+.addButton:hover {
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Cancel Button */
+.cancelButton {
+  padding: 0.8rem 2rem;
+  background: linear-gradient(135deg, #ff4d4d, #ff7373);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  flex: 1;
+}
+
+.cancelButton:hover {
+  background: linear-gradient(135deg, #ff1a1a, #ff4d4d);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    background: rgba(0, 0, 0, 0);
+  }
+  to {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 
 /* Marks Table Container */
 .marksTableContainer {
