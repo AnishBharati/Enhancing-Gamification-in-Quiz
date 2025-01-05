@@ -16,7 +16,7 @@ export default function Classes() {
   useEffect(() => {
     const checkAuth = async () => {
       if (!(await isAuthenticated())) {
-        router.push('/pages/login');
+        router.push("/pages/login");
       }
     };
     checkAuth();
@@ -39,7 +39,7 @@ export default function Classes() {
         if (token) {
           localStorage.setItem("token", token);
         }
-        setCode('');
+        setCode("");
         router.push("/pages/subjects");
       })
       .catch((error) => {
@@ -51,25 +51,40 @@ export default function Classes() {
     <div className={styles.container}>
       {/* Main Heading */}
       <div className={styles.heading}>
-        <p>Join our daily quizzes and test your knowledge. Or you can create your own quiz and share it with the community.</p>
+        <p>
+          Join our daily quizzes and test your knowledge. Or you can create your
+          own quiz and share it with the community.
+        </p>
       </div>
 
       {/* Quiz Cards */}
       <div className={styles.cardContainer}>
         {/* Join Quiz Card */}
         <div className={styles.card}>
-          <img src="/img/join-quiz.jpeg" alt="Join Quiz" className={styles.cardImage} />
+          <img
+            src="/img/join-quiz.jpeg"
+            alt="Join Quiz"
+            className={styles.cardImage}
+          />
           <h2>Join Quiz</h2>
           <p>Join our daily quizzes and challenge your knowledge.</p>
-          <button className={styles.btn1} onClick={toggleJoinModal}>Join Quiz</button>
+          <button className={styles.btn1} onClick={toggleJoinModal}>
+            Join Quiz
+          </button>
         </div>
 
         {/* Add Quiz Card */}
         <div className={styles.card}>
-          <img src="/img/add-quiz.jpg" alt="Add Quiz" className={styles.cardImage} />
+          <img
+            src="/img/add-quiz.jpg"
+            alt="Add Quiz"
+            className={styles.cardImage}
+          />
           <h2>Add Quiz</h2>
           <p>Create and share your own quiz with the community.</p>
-          <button className={styles.btn2} onClick={toggleModal}>Add Quiz</button>
+          <button className={styles.btn2} onClick={toggleModal}>
+            Add Quiz
+          </button>
         </div>
       </div>
 
