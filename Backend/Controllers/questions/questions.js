@@ -148,8 +148,8 @@ exports.check_answer = async (req, res) => {
           ? existingMarks + marksAwarded
           : Math.max(0, existingMarks - 0.25);
 
-      console.log("Existing marks: ", existingMarks);
-      console.log("New MArks: ", newMarks);
+      // console.log("Existing marks: ", existingMarks);
+      // console.log("New MArks: ", newMarks);
       await db
         .promise()
         .query(

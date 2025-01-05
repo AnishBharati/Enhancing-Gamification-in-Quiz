@@ -159,7 +159,9 @@ export default function ViewQuiz() {
               <p className={styles.questionNumber}>
                 Question {currentQuestionIndex + 1} / {questions.length}
               </p>
-              <h2 className={styles.question}>{currentQuestion.question}</h2>
+              <h2 className={styles.question} style={{ userSelect: "none" }}>
+                {currentQuestion.question}
+              </h2>
             </div>
             <div className={styles.optionsContainer}>
               {currentQuestion.options.map((option, index) => (
@@ -173,7 +175,11 @@ export default function ViewQuiz() {
                     className={styles.radio}
                     checked={parseInt(selectedOption, 10) === index + 1} // Match numeric values
                   />
-                  <label htmlFor={`option-${index}`} className={styles.label}>
+                  <label
+                    htmlFor={`option-${index}`}
+                    className={styles.label}
+                    style={{ userSelect: "none" }}
+                  >
                     {option}
                   </label>
                 </div>

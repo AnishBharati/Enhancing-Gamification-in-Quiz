@@ -139,7 +139,9 @@ export default function Subjects() {
               <div className={styles.cardContent}>
                 <h3>{topic.quiz_class}</h3>
                 <p>{descriptions[index]}</p>
-                <p>{code[index]}</p>
+                {teacherData[topic.id] &&
+                  teacherData[topic.id].teacherId ==
+                    teacherData[topic.id].userId && <p>{code[index]}</p>}
                 <div className={styles.cardFooter}>
                   <Link
                     href={`/pages/subjects/${topic.id}?id=${
