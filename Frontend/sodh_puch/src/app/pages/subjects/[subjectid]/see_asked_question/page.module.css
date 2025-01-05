@@ -1,70 +1,176 @@
-/* Main Container */
-.quizContainer {
-  margin: 40px auto;
-  padding: 40px;
-  border-radius: 15px;
-  background-color: #f9f9f9; /* Light grey background */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Stronger shadow */
-  width: 90%;
-  max-width: 700px;
-  font-family: "Roboto", sans-serif; /* Modern font */
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transition on hover */
-}
+/* Main container */
 
-.quizContainer:hover {
-  transform: scale(1.02); /* Slightly enlarge on hover */
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
-}
-
-/* Title */
-.title {
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: 600;
-  color: white; /* Darker text */
-  margin-bottom: 20px;
-  text-transform: uppercase; /* Capitalize quiz title */
-}
-
-/* Question Field */
-.field {
-  margin-bottom: 20px;
-}
-
-.question {
-  font-size: 1.6rem;
-  font-weight: 500;
-  color: #444; /* Slightly lighter than the title */
-  margin-bottom: 15px;
-}
-
-/* Options Container */
-.optionsContainer {
-  margin-bottom: 30px;
-}
-
-.option {
-  margin-bottom: 15px;
+.container {
   display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.leftPane, .rightPane {
+  width: 48%;
+}
+
+.ui {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  width: 100%;
+  margin-top: 20px;
 }
 
-.radio {
-  margin-right: 12px;
-  transform: scale(1.2); /* Larger radio buttons */
-  cursor: pointer;
+.questionCard {
+  padding: 20px;
+  margin: 10px 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
-.label {
+.questionButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 1.1rem;
+  border-radius: 10px;
+}
+
+.quizContainer {
+  padding: 15px;
+  border-radius: 15px;
+  background-color: #f9f9f9;
+  width: 100%;
+}
+
+.ui {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px; /* Ensures spacing from other elements */
+  position: relative; /* Keeps modal section within this container */
+  font-family: "Arial", sans-serif;
+}
+
+/* Style for the Question Card */
+.questionCard {
+  padding: 20px;
+  margin: 10px 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  max-width: 600px;
+  background-color: #ffffff;
+}
+
+.questionCard:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for the Question Button */
+.questionButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 14px;
   font-size: 1.2rem;
-  font-weight: 400;
-  color: #555; /* Lighter color for options */
+  font-weight: bold;
   cursor: pointer;
-  transition: color 0.3s ease; /* Smooth color change on hover */
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  text-align: center;
 }
 
-.label:hover {
-  color: #4caf50; /* Highlight option on hover */
+.questionButton:hover {
+  background-color: #0056b3;
+}
+
+/* Style for the Question Details */
+.questionDetails {
+  margin-top: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+/* Styling for options */
+.optionsList {
+  margin-top: 10px;
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.optionItem {
+  font-size: 1.1rem;
+  padding: 8px;
+  background-color: #e8f5e9;
+  margin: 5px 0;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.optionItem:hover {
+  background-color: #d1f0d1;
+}
+
+/* Style for the Answer Section */
+.answerSection {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-radius: 8px;
+}
+
+.answerSection h3 {
+  font-weight: 600;
+  color: #4caf50;
+}
+
+.answerSection p {
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Style for Notes Section */
+.noteSection {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #fff9c4;
+  border-radius: 8px;
+}
+
+.noteSection h3 {
+  font-weight: 600;
+  color: #ff9800;
+}
+
+.noteSection p {
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Back Button */
+.backButton {
+  color: #ffffff;
+  background-color: #6c757d;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.backButton:hover {
+  background-color: #5a6268;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Submit Button */
@@ -73,73 +179,122 @@
 }
 
 .submitButton {
-  padding: 12px 24px;
-  font-size: 1.3rem;
-  background-color: #4caf50; /* Fresh green */
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
-  width: 200px; /* Fixed width */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 180px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .submitButton:hover {
-  background-color: #45a049; /* Slightly darker green on hover */
-  transform: translateY(-3px); /* Button lifts slightly */
+  background-color: #45a049;
+  transform: translateY(-3px);
 }
 
 .submitButton:disabled {
-  background-color: #ccc; /* Disabled button */
+  background-color: #ccc;
   cursor: not-allowed;
 }
 
-/* Completion Message */
-.completionMessage {
-  text-align: center;
-  font-size: 1.3rem;
-  font-weight: 500;
-  color: #4caf50;
-  margin-top: 30px;
-  animation: fadeIn 1s ease-in-out;
-}
-.finalSubmitButton {
-  background-color: #4caf50; /* Green background */
-  color: white; /* White text */
-  padding: 12px 20px; /* Add padding for size */
-  font-size: 18px; /* Make text larger */
-  font-weight: bold; /* Bold text */
-  border: none; /* Remove default border */
-  border-radius: 8px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  transition: transform 0.2s ease, background-color 0.3s ease;
+/* Close Button */
+.closeButton {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  background-color: #ff3d00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
 }
 
-.finalSubmitButton:hover {
-  background-color: #45a049; /* Slightly darker green on hover */
-  transform: scale(1.05); /* Slightly larger on hover */
+.closeButton:hover {
+  background-color: #e02a00;
 }
 
-.finalSubmitButton:active {
-  background-color: #388e3c; /* Even darker green when clicked */
-  transform: scale(0.98); /* Slightly smaller on click */
+/* Modal Background */
+.quizContainer {
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 700px;
+  font-family: "Roboto", sans-serif;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  display: block;
 }
+
+.quizContainer.showModal {
+  display: block;
+}
+
 .questionNumber {
+  text-align: center;
   font-size: 1.2rem;
   font-weight: bold;
-  color: #333; /* Dark gray for light backgrounds */
-  /* Or, use color: white; for dark backgrounds */
-  margin-bottom: 10px;
+  color: #444;
 }
 
-/* Animation for fadeIn effect */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.field {
+  margin-bottom: 20px;
+}
+
+.question {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 15px;
+}
+
+/* Options Container */
+.optionsContainer {
+  margin-bottom: 20px;
+}
+
+.option {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.radio {
+  margin-right: 10px;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #555;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.label:hover {
+  color: #4caf50;
+}
+
+.textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  min-height: 80px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.textarea:focus {
+  border-color: #4caf50;
+  outline: none;
 }
