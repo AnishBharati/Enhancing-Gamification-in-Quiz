@@ -123,7 +123,7 @@
 .icon {
     font-size: 3.5rem; /* Increased icon size */
     color: #fdd835; /* Yellow color for icons */
-    filter:drop-shadow(3px 3px 5px #080702);
+    filter:drop-shadow(5px 5px 5px #080702);
     
 }
 
