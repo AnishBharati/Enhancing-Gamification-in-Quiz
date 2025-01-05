@@ -3,78 +3,62 @@ import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "../../../../axiosSetup";
+import { IoIosArrowBack } from "react-icons/io";
 
 export default function SeeAskedQuestion() {
   const [questions, setQuestions] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [note, setNote] = useState(""); // State to hold note text
-  const [quizCompleted, setQuizCompleted] = useState(false);
-  const [score, setScore] = useState(0); // Added score state
+  const [note, setNote] = useState("");
+  const [isClicked, setIsClicked] = useState(null);
   const router = useRouter();
-  const [token, setToken] = useState(null);
-  const [isClicked, setIsClicked] = useState(false);
   const classid = useSearchParams().get("classid");
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedToken = localStorage.getItem("token");
-      setToken(storedToken);
-    }
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
+    const fetchQuestions = async () => {
       try {
-        const token = localStorage.getItem("token");
-        if (!token) throw new Error("Authentication token not found");
-
-        const response = await fetch(
+        const response = await axios.get(
           `http://localhost:8000/see_ask_question?classId=${classid}`,
           {
-            method: "GET",
             headers: { Authorization: `Bearer ${token}` },
           }
         );
 
-        if (!response.ok) throw new Error("Failed to fetch data");
-        const data = await response.json();
-        const questionsData = data.seeQuestion || [];
-
-        // Modify the fetched questions to include all necessary fields
-        const fetchedQuestions = questionsData.map((question) => ({
-          id: question.id,
-          question: question.Question,
-          option1: question.Option1,
-          option2: question.Option2,
-          option3: question.Option3,
-          option4: question.Option4,
-          asked_to: question.asked_to,
-          classId: question.classId,
-          correct_option: question.correct_option,
-          note: question.note,
-        }));
-
-        setQuestions(fetchedQuestions);
+        const questionsData = response.data.seeQuestion || [];
+        setQuestions(
+          questionsData.map((q) => ({
+            id: q.id,
+            question: q.Question,
+            option1: q.Option1,
+            option2: q.Option2,
+            option3: q.Option3,
+            option4: q.Option4,
+            asked_to: q.asked_to,
+            correct_option: q.correct_option,
+            note: q.note,
+          }))
+        );
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching questions:", error);
       }
     };
 
-    fetchData();
-  }, [classid]);
-
-  const handleButtonClicked = () => {
-    setIsClicked(!isClicked);
-    console.log("Button is clicked: ", isClicked);
-  };
+    if (token) fetchQuestions();
+  }, [classid, token]);
 
   const handleModalOpen = (index) => {
     setCurrentQuestionIndex(index);
     setIsModalOpen(true);
-    setSelectedOption(null); // Reset selected option when opening a new question
-    setNote(""); // Reset the note field
+    setSelectedOption(null);
+    setNote("");
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedOption(null);
+    setNote("");
   };
 
   const handleOptionChange = (option) => {
@@ -82,152 +66,174 @@ export default function SeeAskedQuestion() {
   };
 
   const handleNoteChange = (event) => {
-    setNote(event.target.value); // Update the note state
+    setNote(event.target.value);
   };
 
   const handleSubmit = async (question) => {
-    if (!selectedOption) return; // Prevent submission if no option is selected
-    console.log(question.id);
-    console.log(question.asked_to);
-    console.log(classid);
+    if (!selectedOption) return;
     try {
-      const response = await axios.put(
+      await axios.put(
         "http://localhost:8000/update_ask_question",
         {
           id: question.id,
-          askedto: question.asked_to, // This is now available from the fetched question
-          correct_option: parseInt(selectedOption, 10), // Use the selected option directly
-          classId: classid, // This is now available from the fetched question
-          note: note, // Send the note data
+          correct_option: parseInt(selectedOption, 10),
+          classId: classid,
+          note,
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log(response.data); // Handle the response if needed
+      handleModalClose();
     } catch (error) {
       console.error("Error submitting answer:", error);
     }
   };
 
+  const handleButtonClicked = (index) => {
+    setIsClicked((prev) => (prev === index ? null : index));
+  };
+
   return (
-    <div>
-      <h1>See Asked Questions</h1>
-      <div>
-        {questions.length > 0 ? (
-          questions.map((topic, index) => (
-            <div key={topic.id}>
-              <button onClick={() => handleModalOpen(index)}>
-                {topic.question}
-              </button>
-            </div>
-          ))
-        ) : (
-          <div>No any questions</div>
-        )}
-      </div>
-      <div>
-        <h1>your asked question:</h1>
-        {questions.length > 0 ? (
-          questions.map((topic, index) => (
-            <div key={topic.id}>
-              <button onClick={() => handleButtonClicked()}>
-                {topic.question}
-              </button>
-              {isClicked && (
-                <div>
-                  <h2>{topic.question}</h2>
-                  <h3>Options are: </h3>
-                  <ul>{topic.option1}</ul>
-                  <ul>{topic.option2}</ul>
-                  <ul>{topic.option3}</ul>
-                  <ul>{topic.option4}</ul>
-                  {topic.correct_option == "1" && (
-                    <ul>The correct answer is {topic.option1}</ul>
-                  )}
-                  {topic.correct_option == "2" && (
-                    <ul>The correct answer is {topic.option2}</ul>
-                  )}
-                  {topic.correct_option == "3" && (
-                    <ul>The correct answer is {topic.option3}</ul>
-                  )}
-                  {topic.correct_option == "4" && (
-                    <ul>The correct answer is {topic.option4}</ul>
-                  )}
-                  {topic.correct_option == "" && (
-                    <ul>The answer is not given</ul>
-                  )}
-                  <ul>{topic.note}</ul>
-                </div>
-              )}
-            </div>
-          ))
-        ) : (
-          <div>No any questions</div>
-        )}
-      </div>
-      {isModalOpen && (
-        <div>
-          <h1 className={styles.title}>Quiz</h1>
-          <div className={styles.quizContainer}>
-            <div className={styles.field}>
-              <p className={styles.questionNumber}>
-                Question {currentQuestionIndex + 1} of {questions.length}
-              </p>
-              <h2 className={styles.question}>
-                {questions[currentQuestionIndex]?.question}
-              </h2>
-            </div>
-            <div className={styles.optionsContainer}>
-              {["option1", "option2", "option3", "option4"].map((key, idx) => (
-                <div key={idx} className={styles.option}>
-                  <input
-                    type="radio"
-                    id={`option${idx + 1}`}
-                    name="quizOption"
-                    value={key}
-                    className={styles.radio}
-                    onChange={() => handleOptionChange(idx + 1)} // Store the index (1, 2, 3, 4)
-                    checked={selectedOption === idx + 1}
-                  />
-                  <label htmlFor={`option${idx + 1}`} className={styles.label}>
-                    {questions[currentQuestionIndex]?.[key]}
-                  </label>
-                </div>
-              ))}
-            </div>
-            <div className={styles.noteContainer}>
-              <label htmlFor="note" className={styles.label}>
-                Add a note:
-              </label>
-              <textarea
-                id="note"
-                className={styles.textarea}
-                value={note}
-                onChange={handleNoteChange}
-                placeholder="Write a note for this question"
-              />
-            </div>
-            <div className={styles.submitContainer}>
-              <button
-                className={styles.submitButton}
-                onClick={() => handleSubmit(questions[currentQuestionIndex])}
-                disabled={selectedOption === null}
-              >
-                Submit
-              </button>
-              <button
-                className={styles.closeButton}
-                onClick={() => setIsModalOpen(false)}
-              >
-                Close
-              </button>
-            </div>
-          </div>
+    <div className={styles.container}>
+      <div className={styles.leftPane}>
+        <div className={styles.top}>
+          <button className={styles.backButton} onClick={() => router.back()}>
+            <IoIosArrowBack size={30} />
+          </button>
         </div>
-      )}
+
+        <div className={styles.ui}>
+          <h1>See Asked Questions</h1>
+          <div>
+            {questions.length > 0 ? (
+              questions.map((topic, index) => (
+                <div key={topic.id}>
+                  <button
+                    className={styles.questionButton}
+                    onClick={() => handleModalOpen(index)}
+                  >
+                    Question
+                  </button>
+                </div>
+              ))
+            ) : (
+              <div>No questions available</div>
+            )}
+          </div>
+
+          {isModalOpen && (
+            <div className={styles.quizContainer}>
+              <div className={styles.field}>
+                <p className={styles.questionNumber}>
+                  Question {currentQuestionIndex + 1} of {questions.length}
+                </p>
+                <h2 className={styles.question}>
+                  {questions[currentQuestionIndex]?.question}
+                </h2>
+              </div>
+
+              <div className={styles.optionsContainer}>
+                {[
+                  "option1",
+                  "option2",
+                  "option3",
+                  "option4",
+                ].map((key, idx) => (
+                  <div key={idx} className={styles.option}>
+                    <input
+                      type="radio"
+                      id={`option${idx + 1}`}
+                      name="quizOption"
+                      value={key}
+                      className={styles.radio}
+                      onChange={() => handleOptionChange(idx + 1)}
+                      checked={selectedOption === idx + 1}
+                    />
+                    <label htmlFor={`option${idx + 1}`} className={styles.label}>
+                      {questions[currentQuestionIndex]?.[key]}
+                    </label>
+                  </div>
+                ))}
+              </div>
+
+              <div className={styles.noteContainer}>
+                <label htmlFor="note" className={styles.label}>
+                  Add a note:
+                </label>
+                <textarea
+                  id="note"
+                  className={styles.textarea}
+                  value={note}
+                  onChange={handleNoteChange}
+                  placeholder="Write a note for this question"
+                />
+              </div>
+
+              <div className={styles.submitContainer}>
+                <button
+                  className={styles.submitButton}
+                  onClick={() => handleSubmit(questions[currentQuestionIndex])}
+                  disabled={selectedOption === null}
+                >
+                  Submit
+                </button>
+                <button className={styles.closeButton} onClick={handleModalClose}>
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className={styles.rightPane}>
+        <div>
+          <h1>Your Asked Questions:</h1>
+          {questions.length > 0 ? (
+            questions.map((topic, index) => (
+              <div key={topic.id} className={styles.questionCard}>
+                <button
+                  className={styles.questionButton}
+                  onClick={() => handleButtonClicked(index)}
+                >
+                  Inquiry
+                </button>
+                {isClicked === index && (
+                  <div className={styles.questionDetails}>
+                    <h2>{topic.question}</h2>
+                    <h3>Options are:</h3>
+                    <div className={styles.optionsList}>
+                      <ul className={styles.optionItem}>{topic.option1}</ul>
+                      <ul className={styles.optionItem}>{topic.option2}</ul>
+                      <ul className={styles.optionItem}>{topic.option3}</ul>
+                      <ul className={styles.optionItem}>{topic.option4}</ul>
+                    </div>
+                    <div className={styles.answerSection}>
+                      <h3>Correct Answer:</h3>
+                      <p>
+                        {topic.correct_option === "1"
+                          ? `The correct answer is ${topic.option1}`
+                          : topic.correct_option === "2"
+                          ? `The correct answer is ${topic.option2}`
+                          : topic.correct_option === "3"
+                          ? `The correct answer is ${topic.option3}`
+                          : `The correct answer is ${topic.option4}`}
+                      </p>
+                    </div>
+                    <div className={styles.noteSection}>
+                      <h3>Note:</h3>
+                      <p>{topic.note}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))
+          ) : (
+            <div>No questions available</div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

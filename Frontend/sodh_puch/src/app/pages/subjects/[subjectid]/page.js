@@ -7,6 +7,7 @@ import { useRouter, useParams } from "next/navigation";
 import axios from "../../../axiosSetup";
 import { useSearchParams } from "next/navigation";
 import { IoMdNotificationsOutline } from "react-icons/io";
+import { ImCross } from "react-icons/im";
 import Link from "next/link";
 
 export default function SubjectDetails() {
@@ -237,7 +238,7 @@ export default function SubjectDetails() {
                     Delete Chapter
                   </button>
                   <button
-                    className={styles.deleteButton}
+                    className={styles.seButton}
                     onClick={(e) => {
                       e.stopPropagation(); // Prevent dropdown closure
                       handleOpenPopup(topic.id);
@@ -291,33 +292,44 @@ export default function SubjectDetails() {
           </div>
         </div>
       )}
-
-      {isMarksPopup && (
-        <div className={styles.popupOverlay}>
-          <div className={styles.popupContent}>
-            <h2>See Marks</h2>
-            {marks && marks.length > 0 ? (
-              <ul>
-                {marks.map((mark, index) => (
-                  <li key={index}>
-                    <div>
-                      <strong>{mark.student_name}</strong>: {mark.marks}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No marks available</p>
-            )}
-            <button
-              onClick={() => setIsMarksPopup(false)}
-              className={styles.cancelButton}
-            >
-              Close
-            </button>
-          </div>
+{isMarksPopup && (
+  <div className={styles.popupOverlay}>
+    <div className={styles.popupContent}>
+      <h2>See Marks</h2>
+      {marks && marks.length > 0 ? (
+        <div className={styles.marksTableContainer}>
+          <table className={styles.marksTable}>
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>Marks</th>
+              </tr>
+            </thead>
+            <tbody>
+              {marks.map((mark, index) => (
+                <tr key={index}>
+                  <td>{mark.student_name}</td>
+                  <td>{mark.marks}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
+      ) : (
+        <p>No marks available</p>
       )}
+
+      {/* Cross Icon in the top right */}
+      <button
+        onClick={() => setIsMarksPopup(false)}
+        className={styles.closeButton}
+        title="Close"
+      >
+<ImCross size={15} />
+</button>
+    </div>
+  </div>
+)}
     </div>
   );
 }
