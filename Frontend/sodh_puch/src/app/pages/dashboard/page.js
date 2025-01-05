@@ -86,16 +86,20 @@ export default function Dashboard() {
   };
 
 
-  // const getLevelavatar = (expPoints) => {
-  //   if (expPoints >= 1600) return (
-  //     <img src=""></img>
-  //   );
-  //   if (expPoints >= 800) return 4;
-  //   if (expPoints >= 400) return 3;
-  //   if (expPoints >= 200) return 2;
-  //   if (expPoints >= 100) return 1;
-  //   return 0;
-  // };
+  const getLevelAvatar = (expPoints) => {
+    if (expPoints >= 1600)
+      return <img src="path_to_level_5_image.png" alt="Level 5" />; // Level 5 image
+    if (expPoints >= 800)
+      return <img src="/img/lv20.jpeg" alt="Level 4" />; // Level 4 image
+    if (expPoints >= 400)
+      return <img src="/img/lvl5.2.jpeg" alt="Level 3" />; // Level 3 image
+    if (expPoints >= 200)
+      return <img src="/img/2.lvl10.jpeg" alt="Level 2" />; // Level 2 image
+    if (expPoints >= 0)
+      return <img src="/img/2.lvl5.jpeg" alt="Badge 1" />; // Level 1 image
+    return<img src="/img/lock.jpeg" alt="Badge 1" />; // Default or Level 0 image
+  };
+  
   // Handle profile edit and photo upload
   const handleEditProfile = async (e) => {
     e.preventDefault();
@@ -208,7 +212,8 @@ export default function Dashboard() {
         <div className={styles.badgesRow}>
           <div className={styles.badgeCard}>
             <div className={styles.badge}>
-              <img src="/img/2.lvl5.jpeg" alt="Badge 1" />
+              
+              {getLevelAvatar(expPoint)}
             </div>
             <p className={styles.badgeText}>Level 5</p>
           </div>

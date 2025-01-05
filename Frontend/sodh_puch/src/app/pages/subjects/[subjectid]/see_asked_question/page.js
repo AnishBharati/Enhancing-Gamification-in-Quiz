@@ -123,10 +123,10 @@ export default function SeeAskedQuestion() {
             <IoIosArrowBack size={30} />
           </button>
         </div>
-        <div>
-          <select>
+        <div className={styles.dropdown}>
+          <select className={styles.select}>
             Hello
-            <option
+            <option className={styles.option}
               onClick={() => {
                 setIsPendingQuestions(true);
                 setIsUpdatedQuestions(false);
@@ -136,7 +136,7 @@ export default function SeeAskedQuestion() {
             >
               Pending Questions
             </option>
-            <option
+            <option className={styles.option}
               onClick={() => {
                 setIsPendingQuestions(false);
                 setIsUpdatedQuestions(true);
@@ -149,7 +149,7 @@ export default function SeeAskedQuestion() {
           </select>
         </div>
         <div className={styles.ui}>
-          <h1>See Asked Questions</h1>
+          <h1 className={styles.h1}>See Asked Questions</h1>
           <div>
             {isPendingQuestions && (
               <div>
@@ -161,7 +161,9 @@ export default function SeeAskedQuestion() {
                           className={styles.questionButton}
                           onClick={() => handleModalOpen(index)}
                         >
-                          Question
+                         
+                        Question {currentQuestionIndex + 1}: {questions[currentQuestionIndex]?.question}?
+               
                         </button>
                       )}
                     </div>
@@ -262,7 +264,7 @@ export default function SeeAskedQuestion() {
       </div>
 
       <div className={styles.rightPane}>
-        <div>
+        <div className={styles.ui}>
           <h1>Your Asked Questions:</h1>
           {isPendingQuestions && (
             <div>
@@ -275,7 +277,7 @@ export default function SeeAskedQuestion() {
                           className={styles.questionButton}
                           onClick={() => handleButtonClicked(index)}
                         >
-                          Inquiry
+                        Question {currentQuestionIndex + 1}: {questions[currentQuestionIndex]?.question}?
                         </button>
                         {isClicked === index && (
                           <div className={styles.questionDetails}>
