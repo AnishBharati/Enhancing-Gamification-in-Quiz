@@ -83,7 +83,7 @@ export default function Calendar() {
 
       {/* Dropdown for Subject Selection */}
       <div className={styles.dropdown}>
-        <label htmlFor="subjects">Select Subject:</label>
+        <p className={styles.sub} htmlFor="subjects">Select Subject:</p>
         <select id="subjects" className={styles.select}>
           {topics.length > 0 ? (
             topics.map((topic, index) => (

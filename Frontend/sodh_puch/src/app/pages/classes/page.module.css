@@ -74,7 +74,12 @@
    justify-content: center;
    gap: 2rem;
    flex-wrap: wrap;
- }
+   padding: 1.7rem;
+   border-radius: 10px;
+   background: linear-gradient(to bottom, #4b0082, #6a5acd);
+   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+
+  }
  
  /* Individual Cards */
  .card {

@@ -177,7 +177,7 @@ export default function Dashboard() {
         <h2 className={styles.dashboardText}>Dashboard</h2>
         <div className={styles.statsRow}>
           <div className={styles.statItem}>
-            <RiPoliceBadgeFill className={styles.icon} />
+            <RiPoliceBadgeFill  className={styles.icon} />
             <p>User Level</p>
             <p>Level {getUserLevel(expPoint)}</p>
           </div>
