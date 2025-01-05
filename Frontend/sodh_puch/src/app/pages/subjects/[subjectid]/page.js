@@ -78,7 +78,11 @@ export default function SubjectDetails() {
       const response = await axios.get(
         `http://localhost:8000/get_teacher?id=${id}`
       );
-      // Assuming this response has userId and teacherId
+
+      if (!response.data || response.data.length === 0) {
+        // No data or empty response, do nothing or handle as needed
+        return; // Optionally, you can return early or log something else if needed
+      }
       setTeacherData({
         userId: response.data.userId,
         teacherId: response.data.data, // Assuming this is the teacher's ID
@@ -100,7 +104,7 @@ export default function SubjectDetails() {
       try {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Authentication token not found");
-        console.log("Id is", id);
+
         const response = await fetch(
           `http://localhost:8000/see_topic?quiz_class=${subjectid}`,
           {
@@ -109,16 +113,32 @@ export default function SubjectDetails() {
           }
         );
 
-        if (!response.ok) throw new Error("Failed to fetch data");
+        // If the status code is not 200, silently skip the error without logging
+        if (!response.ok) {
+          return; // Simply return without further action or logging
+        }
 
-        const data = await response.json();
-        const quizTopicsId = data.id || [];
+        // Attempt to read the raw response body
+        const rawResponse = await response.text();
+
+        // If the response body is empty, silently skip
+        if (!rawResponse) {
+          return; // No data, so skip without logging or error
+        }
+
+        // Try to parse the response as JSON
+        const data = JSON.parse(rawResponse);
+
+        // Check if the required data exists, if not silently skip
+        if (!data || !data.quiz_topics) {
+          return; // No quiz topics, so skip silently
+        }
+
         const quizTopics = data.quiz_topics || []; // Ensure quiz_topics is always an array
-
-        // Set the topics state with fetched data
         setTopics(quizTopics);
       } catch (error) {
-        console.error("Error in fetching topics: ", error);
+        // If there is an error, log it only when there's an actual issue (optional)
+        console.error("Error in fetching topics:", error);
       }
     };
 
@@ -180,17 +200,19 @@ export default function SubjectDetails() {
   return (
     <div className={styles.container}>
       {/* Back Button */}
-      <div className={styles.top}> 
-      <button className={styles.backButton} onClick={() => router.back()}>
-        <IoIosArrowBack size={30} />
-      </button>
-      <Link
-        href={`/pages/subjects/${subjectid}/see_asked_question?classid=${subjectid}`}
-      >
-        <button className={styles.btn}> <IoMdNotificationsOutline size={30} />
-       See ASked Questions
-         </button>
-      </Link>
+      <div className={styles.top}>
+        <button className={styles.backButton} onClick={() => router.back()}>
+          <IoIosArrowBack size={30} />
+        </button>
+        <Link
+          href={`/pages/subjects/${subjectid}/see_asked_question?classid=${subjectid}`}
+        >
+          <button className={styles.btn}>
+            {" "}
+            <IoMdNotificationsOutline size={30} />
+            See ASked Questions
+          </button>
+        </Link>
       </div>
       {/* Subject Header */}
       <div className={styles.subjectCard}>
@@ -292,44 +314,44 @@ export default function SubjectDetails() {
           </div>
         </div>
       )}
-{isMarksPopup && (
-  <div className={styles.popupOverlay}>
-    <div className={styles.popupContent}>
-      <h2>See Marks</h2>
-      {marks && marks.length > 0 ? (
-        <div className={styles.marksTableContainer}>
-          <table className={styles.marksTable}>
-            <thead>
-              <tr>
-                <th>Student Name</th>
-                <th>Marks</th>
-              </tr>
-            </thead>
-            <tbody>
-              {marks.map((mark, index) => (
-                <tr key={index}>
-                  <td>{mark.student_name}</td>
-                  <td>{mark.marks}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <p>No marks available</p>
-      )}
+      {isMarksPopup && (
+        <div className={styles.popupOverlay}>
+          <div className={styles.popupContent}>
+            <h2>See Marks</h2>
+            {marks && marks.length > 0 ? (
+              <div className={styles.marksTableContainer}>
+                <table className={styles.marksTable}>
+                  <thead>
+                    <tr>
+                      <th>Student Name</th>
+                      <th>Marks</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {marks.map((mark, index) => (
+                      <tr key={index}>
+                        <td>{mark.student_name}</td>
+                        <td>{mark.marks}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <p>No marks available</p>
+            )}
 
-      {/* Cross Icon in the top right */}
-      <button
-        onClick={() => setIsMarksPopup(false)}
-        className={styles.closeButton}
-        title="Close"
-      >
-<ImCross size={15} />
-</button>
-    </div>
-  </div>
-)}
+            {/* Cross Icon in the top right */}
+            <button
+              onClick={() => setIsMarksPopup(false)}
+              className={styles.closeButton}
+              title="Close"
+            >
+              <ImCross size={15} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

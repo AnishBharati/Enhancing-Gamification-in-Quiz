@@ -31,6 +31,8 @@ padding: 0.8rem;
     flex: 4;
     background-color: white;   ;
     border-radius:  20px;
+    width: 70%; /* Reduced width */
+
     color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Added box shadow */
     background: linear-gradient(to bottom, #f0f4f8, #8daec7); /* Subtle gradient */
@@ -39,14 +41,36 @@ padding: 0.8rem;
 }
 
 .containeer {
-    padding: 20px;
-    font-family: Arial, sans-serif;
+  width: 70%; /* Reduced width */
+  max-width: 800px; /* Adjusted max-width */
+  margin: 20px auto;
+  padding: 20px; /* Reduced padding */
+  background-color: #6a5acd;
+  border-radius: 15px; /* Smaller radius */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Reduced gap */
+
 }
 
+.select {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
 .containeer h1 {
     margin-bottom: 20px;
     font-size: 24px;
-    color: #333;
+    color: #fff;
+    text-align: center;
+}
+.containeer label{
+  color: #fff;
+  font-size: 1.2rem;  
 }
 
 .list {
@@ -61,31 +85,42 @@ padding: 0.8rem;
     margin-bottom: 10px;
     padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 12px;
     background-color: #f9f9f9;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+
+
+    
 }
 .item:hover{
    
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transform: scale(1.01);
+    transform: scale(1.03); /* Slightly reduced hover effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+
 }
 .item span {
     font-size: 18px;
-    color: #555;
+    color: black;
 }
 
 .ask{
     padding: 8px 10px;
-    background-color: #007bff;
+    background-color: #5f0077;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+
 }
 
 .ask:hover {
-    background-color: #0056b3;
+  background-color: #9b16b9;
+  transform: scale(1.03); /* Slightly reduced hover effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -130,7 +165,7 @@ padding: 0.8rem;
     cursor: pointer;
     font-size: 16px;
     margin-bottom: 9px;
-    
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   }
   
   .button:hover {

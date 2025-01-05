@@ -60,11 +60,16 @@ padding: 0.8rem;
     text-align: center;
     font-size: 2rem; /* Reduced font size */
     font-weight: bold;
-    color: #0f0f0f;
+    color: #fff;
     margin-bottom: 15px; /* Reduced margin */
     letter-spacing: 1px;
 }
 
+
+.sub{
+    color: #fff;
+    font-size: 1.2rem;
+}
 /* Student List */
 .list {
     display: flex;

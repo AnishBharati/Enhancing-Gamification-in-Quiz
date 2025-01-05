@@ -85,7 +85,6 @@
   transform: translateY(0);
 }
 
-.addQuizButton,
 .deleteButton,
 .seButton {
   background-color: #5f0077;
@@ -96,10 +95,29 @@
   cursor: pointer;
   font-size: 1rem;
   margin-right: 0.5rem;
+  margin-left: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
+.addQuizButton
+{
+  background-color: #5f0077;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 1rem;
+  margin-left: 1rem;
 
-.addQuizButton:hover,
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+}
+.addQuizButton:hover{
+  background-color: #9b16b9;
+
+}
+
+
 .deleteButton:hover,
 .seButton:hover {
   background-color: #9b16b9;
