@@ -105,15 +105,7 @@ export default function AddQuiz() {
 
   return (
     <div>
-      <button
-        onClick={() =>
-          router.push(
-            `/pages/subjects/${classid}/seeQuiz?id=${id}&classid=${classid}&class=${topic}`
-          )
-        }
-      >
-        See Quiz
-      </button>{" "}
+      {" "}
       <h1 className={styles.title}>Quiz Topic: {quiz_topic}</h1>
       <h1 className={styles.title}>
         CREATE QUIZ{" "}

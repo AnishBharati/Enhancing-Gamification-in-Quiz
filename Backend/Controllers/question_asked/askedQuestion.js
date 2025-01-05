@@ -153,36 +153,30 @@ exports.update_ask_question = async (req, res) => {
           let userFound = false;
           let responseSent = false; // Flag to track if the response has already been sent
           for (let i = 0; i < idsToCheck.length; i++) {
-            console.log(idsToCheck.length);
-            console.log(idsToCheck[i]);
+            // console.log(idsToCheck.length);
+            // console.log(idsToCheck[i]);
 
-            if (idsToCheck[i] == askedto) {
-              userFound = true;
-              const updateData =
-                "UPDATE questions_asked SET correct_option = ?, note = ? WHERE id = ?";
-              db.query(
-                updateData,
-                [correct_option, note, id],
-                (err, result) => {
-                  if (err) {
-                    console.error("MySQL Error: ", err);
-                    return res
-                      .status(500)
-                      .json({ error: "Internal Server Error" });
-                  }
+            // if (idsToCheck[i] == askedto) {
+            userFound = true;
+            const updateData =
+              "UPDATE questions_asked SET correct_option = ?, note = ? WHERE id = ?";
+            db.query(updateData, [correct_option, note, id], (err, result) => {
+              if (err) {
+                console.error("MySQL Error: ", err);
+                return res.status(500).json({ error: "Internal Server Error" });
+              }
 
-                  // Send the response only if it's not sent already
-                  if (!responseSent) {
-                    responseSent = true; // Mark that the response has been sent
-                    return res.status(200).json({
-                      updated: result,
-                      message: "Updated Successfully",
-                    });
-                  }
-                }
-              );
-              break; // Exit the loop after the first match is found and processed
-            }
+              // Send the response only if it's not sent already
+              if (!responseSent) {
+                responseSent = true; // Mark that the response has been sent
+                return res.status(200).json({
+                  updated: result,
+                  message: "Updated Successfully",
+                });
+              }
+            });
+            break; // Exit the loop after the first match is found and processed
+            // }
           }
 
           if (!userFound) {
@@ -245,6 +239,9 @@ exports.see_ask_question = async (req, res) => {
 
         const askedBy = result[0].asked_by;
         const askedTo = result[0].asked_to;
+        result.forEach((item) => {
+          item.userId = userId; // Adding the userId to each question in the result
+        });
 
         // Only proceed if the user is either the one who asked or was asked the question
         if (askedBy == userId || askedTo == userId) {
@@ -287,7 +284,6 @@ exports.delete_ask_question = async (req, res) => {
       }
 
       code = result[0].code;
-      console.log("Code is: ", code);
       const selectQuestion =
         "SELECT * FROM questions_asked WHERE id = ? AND classId = ?";
       db.query(selectQuestion, [id, code], (err, result) => {
@@ -298,7 +294,6 @@ exports.delete_ask_question = async (req, res) => {
         if (result.length == 0) {
           return res.status(204).json({ message: "No question found" });
         }
-        console.log("The questions are: ", result);
         askedBy = result[0].asked_by;
 
         if (userId == askedBy) {
@@ -314,7 +309,6 @@ exports.delete_ask_question = async (req, res) => {
               .json({ message: "Question deleted Successfully" });
           });
         } else {
-          console.log("Is tthis correct");
           return res
             .status(200)
             .json({ message: "You cannot delete question" });
