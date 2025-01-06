@@ -210,7 +210,7 @@ export default function SubjectDetails() {
           <button className={styles.btn}>
             {" "}
             <IoMdNotificationsOutline size={30} />
-            See ASked Questions
+            See Asked Questions
           </button>
         </Link>
       </div>
