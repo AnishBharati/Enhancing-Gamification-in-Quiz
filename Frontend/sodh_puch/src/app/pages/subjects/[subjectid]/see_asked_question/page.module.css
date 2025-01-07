@@ -12,7 +12,7 @@
 }
 .rightPane{
   width: 48%;
-  margin-top: 150px;
+  margin-top: 76px;
   margin-right: 10px;
 }
 .ui {
@@ -21,7 +21,7 @@
   align-items: center;
   width: 100%;  
   margin-top: 20px;
-  max-width: 700px;
+
 }
 
 
@@ -42,18 +42,15 @@
 }
 /* Style for the Question Card */
 .questionCard {
-  max-width: 600px;
+ 
  padding: 10px;
-
+  width: 100%;
 
 
  
 }
 
-.questionCard:hover {
-  transform: scale(1.02);
-  
-}
+
 
 /* Style for the Question Button */
 .questionButton {
@@ -71,6 +68,7 @@
 
 .questionButton:hover {
   background-color: #0056b3;
+  transform: scale(1.02);
 }
 
 /* Style for the Question Details */
@@ -99,9 +97,9 @@
   transition: background-color 0.3s ease;
 }
 
-.optionItem:hover {
+/* .optionItem:hover {
   background-color: #d1f0d1;
-}
+} */
 
 /* Style for the Answer Section */
 .answerSection {

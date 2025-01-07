@@ -59,6 +59,10 @@ export default function SeeAskedQuestion() {
     setNote("");
   };
 
+
+
+
+  
   const handleModalClose = () => {
     setIsModalOpen(false);
     setSelectedOption(null);
@@ -115,6 +119,9 @@ export default function SeeAskedQuestion() {
     setIsClicked((prev) => (prev === index ? null : index));
   };
 
+
+
+  
   return (
     <div className={styles.container}>
       <div className={styles.leftPane}>
@@ -136,8 +143,7 @@ export default function SeeAskedQuestion() {
                           className={styles.questionButton}
                           onClick={() => handleModalOpen(index)}
                         >
-                          Question {currentQuestionIndex + 1}:{" "}
-                          {questions[currentQuestionIndex]?.question}?
+                         {topic.question}
                         </button>
                       )}
                   </div>
@@ -219,7 +225,7 @@ export default function SeeAskedQuestion() {
       <div className={styles.rightPane}>
         <div className={styles.ui}>
           <h1>Your Asked Questions:</h1>
-          <div>
+          <div className={styles.questionCard}>
             {questions.length > 0 ? (
               questions.map((topic, index) => (
                 <div key={topic.id} className={styles.questionCard}>
@@ -230,11 +236,15 @@ export default function SeeAskedQuestion() {
                           className={styles.questionButton}
                           onClick={() => handleButtonClicked(index)}
                         >
-                          Question {currentQuestionIndex + 1}:{" "}
-                          {questions[currentQuestionIndex]?.question}?
+                          {topic.question}
+                          {/* Question {currentQuestionIndex + 1}:{" "}
+                          {questions[currentQuestionIndex]?.question}? */}
                         </button>
                         {isClicked === index && (
-                          <div className={styles.questionDetails}>
+                         
+                          
+                          
+                           <div className={styles.questionDetails}>
                             <h2>{topic.question}</h2>
                             <h3>Options are:</h3>
                             <div className={styles.optionsList}>

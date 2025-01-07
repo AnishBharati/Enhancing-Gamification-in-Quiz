@@ -86,18 +86,30 @@ export default function Dashboard() {
   };
 
 
-  const getLevelAvatar = (expPoints) => {
+  const getLevel5 = (expPoints) => {
+    
     if (expPoints >= 1600)
-      return <img src="path_to_level_5_image.png" alt="Level 5" />; // Level 5 image
-    if (expPoints >= 800)
-      return <img src="/img/lv20.jpeg" alt="Level 4" />; // Level 4 image
-    if (expPoints >= 400)
-      return <img src="/img/lvl5.2.jpeg" alt="Level 3" />; // Level 3 image
-    if (expPoints >= 200)
-      return <img src="/img/2.lvl10.jpeg" alt="Level 2" />; // Level 2 image
-    if (expPoints >= 0)
-      return <img src="/img/2.lvl5.jpeg" alt="Badge 1" />; // Level 1 image
-    return<img src="/img/lock.jpeg" alt="Badge 1" />; // Default or Level 0 image
+      return <img src="/img/2.lvl5.jpeg" alt="Badge 1" />; 
+    return<img src="/img/lock.jpg" alt="Badge 1" />; 
+  };
+  const getLevel10 = (expPoints) => {
+    
+    if (expPoints >= 3200)
+      return <img src="/img/2.lvl10.jpeg" alt="Badge 1" />; 
+    return<img src="/img/lock.jpg" alt="Badge 1" />; 
+  };
+
+  const getLevel15 = (expPoints) => {
+    
+    if (expPoints >= 6400)
+      return <img src="/img/lvl15.2.jpeg" alt="Badge 1" />; 
+    return<img src="/img/lock.jpg" alt="Badge 1" />; 
+  };
+  const getLevel20 = (expPoints) => {
+    
+    if (expPoints >= 12800)
+      return <img src="/img/lvl20.jpeg" alt="Badge 1" />; 
+    return<img src="/img/lock.jpg" alt="Badge 1" />; 
   };
   
   // Handle profile edit and photo upload
@@ -213,25 +225,25 @@ export default function Dashboard() {
           <div className={styles.badgeCard}>
             <div className={styles.badge}>
               
-              {getLevelAvatar(expPoint)}
+              {getLevel5(expPoint)}
             </div>
             <p className={styles.badgeText}>Level 5</p>
           </div>
           <div className={styles.badgeCard}>
             <div className={styles.badge}>
-              <img src="/img/lock.jpg" alt="Badge 2" />
+            {getLevel10(expPoint)}
             </div>
             <p className={styles.badgeText}>Level 10</p>
           </div>
           <div className={styles.badgeCard}>
             <div className={styles.badge}>
-              <img src="/img/lock.jpg" alt="Badge 3" />
+            {getLevel15(expPoint)}
             </div>
             <p className={styles.badgeText}>Level 15</p>
           </div>
           <div className={styles.badgeCard}>
             <div className={styles.badge}>
-              <img src="/img/lock.jpg" alt="Badge 4" />
+            {getLevel20(expPoint)}
             </div>
             <p className={styles.badgeText}>Level 20</p>
           </div>
