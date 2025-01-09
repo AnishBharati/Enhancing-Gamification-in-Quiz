@@ -12,6 +12,7 @@ export default function SeeAskedQuestion() {
   const [selectedOption, setSelectedOption] = useState(null);
   const [note, setNote] = useState("");
   const [isClicked, setIsClicked] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(false);
 
   const router = useRouter();
   const classid = useSearchParams().get("classid");
@@ -59,10 +60,6 @@ export default function SeeAskedQuestion() {
     setNote("");
   };
 
-
-
-
-  
   const handleModalClose = () => {
     setIsModalOpen(false);
     setSelectedOption(null);
@@ -78,6 +75,13 @@ export default function SeeAskedQuestion() {
   };
 
   const handleAskQuestionDelete = (id) => {
+    const userConfirmed = window.confirm(
+      "Are you sure do you want to delete question?"
+    );
+
+    if (!userConfirmed) {
+      return;
+    }
     axios
       .delete(`http://localhost:8000/delete_ask_question`, {
         data: {
@@ -86,6 +90,12 @@ export default function SeeAskedQuestion() {
         },
       })
       .then(() => {
+        setSuccessMessage(true);
+
+        // Hide the success message after 1.5 seconds
+        setTimeout(() => {
+          setSuccessMessage(false);
+        }, 2000);
         router.push("/pages/subjects");
       })
       .catch((err) => {
@@ -119,9 +129,6 @@ export default function SeeAskedQuestion() {
     setIsClicked((prev) => (prev === index ? null : index));
   };
 
-
-
-  
   return (
     <div className={styles.container}>
       <div className={styles.leftPane}>
@@ -143,7 +150,7 @@ export default function SeeAskedQuestion() {
                           className={styles.questionButton}
                           onClick={() => handleModalOpen(index)}
                         >
-                         {topic.question}
+                          {topic.question}
                         </button>
                       )}
                   </div>
@@ -241,10 +248,7 @@ export default function SeeAskedQuestion() {
                           {questions[currentQuestionIndex]?.question}? */}
                         </button>
                         {isClicked === index && (
-                         
-                          
-                          
-                           <div className={styles.questionDetails}>
+                          <div className={styles.questionDetails}>
                             <h2>{topic.question}</h2>
                             <h3>Options are:</h3>
                             <div className={styles.optionsList}>
@@ -304,6 +308,14 @@ export default function SeeAskedQuestion() {
           </div>
         </div>
       </div>
+      {successMessage && (
+        <div className={styles.successPopupOverlay}>
+          <div className={styles.successPopup}>
+            <h3>Success!</h3>
+            <p>Your question is deleted successfully</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

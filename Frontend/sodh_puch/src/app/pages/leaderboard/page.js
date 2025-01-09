@@ -1,11 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
-
+import { isAuthenticated } from "../(auth)/auth";
+import { useRouter } from "next/navigation";
 export default function Calendar() {
   const [topics, setTopics] = useState([]);
   const [error, setError] = useState(null); // Added state for error handling
   const [studentName, setStudentName] = useState([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,6 +40,15 @@ export default function Calendar() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      if (!(await isAuthenticated())) {
+        router.push("/pages/login");
+      }
+    };
+    checkAuth();
+  }, [router]);
 
   const handleOptionClick = async (id) => {
     try {
@@ -83,7 +95,9 @@ export default function Calendar() {
 
       {/* Dropdown for Subject Selection */}
       <div className={styles.dropdown}>
-        <p className={styles.sub} htmlFor="subjects">Select Subject:</p>
+        <p className={styles.sub} htmlFor="subjects">
+          Select Subject:
+        </p>
         <select id="subjects" className={styles.select}>
           {topics.length > 0 ? (
             topics.map((topic, index) => (

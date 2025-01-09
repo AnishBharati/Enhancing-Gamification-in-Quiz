@@ -213,7 +213,6 @@
 }
 
 .deleteButton {
- 
   padding: 10px 20px;
   background: linear-gradient(135deg, #ff4d4d, #ff7373);
   color: white;
@@ -229,4 +228,31 @@
 .deleteButton:hover {
   background: linear-gradient(135deg, #ff1a1a, #ff4d4d);
   box-shadow: 0 6px 12px rgba(255, 0, 0, 0.3);
+}
+
+/* Success Message Popup */
+.successPopupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.successPopup {
+  background: linear-gradient(
+    to bottom,
+    #f0f4f8,
+    #81a9c9
+  ); /* Subtle gradient */
+  color: black;
+  padding: 2rem;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out, slideUp 0.5s ease-in-out;
 }

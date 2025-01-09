@@ -7,7 +7,7 @@
 .backButton {
   color: #5f0077;
   border: none;
-  border-radius: 6px; 
+  border-radius: 6px;
   padding: 0.5rem 1rem;
   font-size: 1rem;
   font-weight: 500;
@@ -98,8 +98,7 @@
   margin-left: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
-.addQuizButton
-{
+.addQuizButton {
   background-color: #5f0077;
   color: white;
   border: none;
@@ -112,11 +111,9 @@
 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
 }
-.addQuizButton:hover{
+.addQuizButton:hover {
   background-color: #9b16b9;
-
 }
-
 
 .deleteButton:hover,
 .seButton:hover {
@@ -134,26 +131,24 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7); 
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  
 }
 
 /* Popup Content */
 .popupContent {
   position: relative;
-  background: linear-gradient(135deg, #d9e8fc, #f1f8ff); 
+  background: linear-gradient(135deg, #d9e8fc, #f1f8ff);
   padding: 3rem 2.5rem;
-  border-radius: 15px; 
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); 
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
   text-align: center;
- 
-  
-  overflow-y: auto; 
-  animation: slideUp 0.4s ease; 
+
+  overflow-y: auto;
+  animation: slideUp 0.4s ease;
 }
 
 /* Title */
@@ -184,7 +179,7 @@
 }
 
 .inputField:focus {
-  border-color: #4facfe; 
+  border-color: #4facfe;
   outline: none;
 }
 
@@ -254,7 +249,6 @@
   }
 }
 
-
 /* Marks Table Container */
 .marksTableContainer {
   max-height: 40vh; /* Set maximum height for table container */
@@ -308,8 +302,6 @@
   color: #4b0082; /* Change color on hover */
 }
 
-
-
 .addButton:hover {
   background-color: #450055;
 }
@@ -337,4 +329,30 @@
   display: flex;
   justify-content: space-between;
   margin: 0.5rem;
+}
+/* Success Message Popup */
+.successPopupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.successPopup {
+  background: linear-gradient(
+    to bottom,
+    #f0f4f8,
+    #81a9c9
+  ); /* Subtle gradient */
+  color: black;
+  padding: 2rem;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out, slideUp 0.5s ease-in-out;
 }
