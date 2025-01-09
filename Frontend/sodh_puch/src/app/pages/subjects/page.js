@@ -12,6 +12,7 @@ export default function Subjects() {
   const [code, setCode] = useState([]);
   const [teacherData, setTeacherData] = useState({}); // New state to store teacher data for each classId
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(false);
 
   const router = useRouter();
 
@@ -95,27 +96,37 @@ export default function Subjects() {
     fetchData();
   }, []); // This effect is fine to run once at component mount
 
-  const handleDelete = async (id) => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) throw new Error("Authentication token not found");
+  const handleDelete = async (id, quiz) => {
+    const userConfirmed = window.confirm(
+      `Are you sure do you want to this class (${quiz})`
+    );
+    if (userConfirmed) {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) throw new Error("Authentication token not found");
 
-      const response = await fetch("http://localhost:8000/delete_class", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id }),
-      });
+        const response = await fetch("http://localhost:8000/delete_class", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id }),
+        });
 
-      if (!response.ok) throw new Error("Failed to delete class");
+        if (!response.ok) throw new Error("Failed to delete class");
 
-      alert("Class deleted successfully!");
-      setTopics(topics.filter((topic) => topic.id !== id));
-    } catch (error) {
-      console.error("Error deleting class:", error.message);
-      alert("Error deleting class: " + error.message);
+        setSuccessMessage(true);
+
+        // Hide the success message after 1.5 seconds
+        setTimeout(() => {
+          setSuccessMessage(false);
+        }, 2000);
+        setTopics(topics.filter((topic) => topic.id !== id));
+      } catch (error) {
+        console.error("Error deleting class:", error.message);
+        alert("Error deleting class: " + error.message);
+      }
     }
   };
 
@@ -156,7 +167,7 @@ export default function Subjects() {
                       teacherData[topic.id].userId && (
                       <button
                         className={styles.deleteButton}
-                        onClick={() => handleDelete(topic.id)}
+                        onClick={() => handleDelete(topic.id, topic.quiz_class)}
                       >
                         Delete
                       </button>
@@ -165,6 +176,15 @@ export default function Subjects() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {successMessage && (
+        <div className={styles.successPopupOverlay}>
+          <div className={styles.successPopup}>
+            <h3>Success!</h3>
+            <p>Your class is deleted successfully</p>
+          </div>
         </div>
       )}
     </div>

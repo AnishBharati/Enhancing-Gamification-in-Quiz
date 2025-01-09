@@ -77,6 +77,11 @@ export default function Dashboard() {
   }, [router]);
 
   const getUserLevel = (expPoints) => {
+    if (expPoints >= 48000) return 10;
+    if (expPoints >= 24000) return 9;
+    if (expPoints >= 12000) return 8;
+    if (expPoints >= 6400) return 7;
+    if (expPoints >= 3200) return 6;
     if (expPoints >= 1600) return 5;
     if (expPoints >= 800) return 4;
     if (expPoints >= 400) return 3;
@@ -85,33 +90,24 @@ export default function Dashboard() {
     return 0;
   };
 
-
   const getLevel5 = (expPoints) => {
-    
-    if (expPoints >= 1600)
-      return <img src="/img/2.lvl5.jpeg" alt="Badge 1" />; 
-    return<img src="/img/lock.jpg" alt="Badge 1" />; 
+    if (expPoints >= 1600) return <img src="/img/2.lvl5.jpeg" alt="Badge 1" />;
+    return <img src="/img/lock.jpg" alt="Badge 1" />;
   };
   const getLevel10 = (expPoints) => {
-    
-    if (expPoints >= 3200)
-      return <img src="/img/2.lvl10.jpeg" alt="Badge 1" />; 
-    return<img src="/img/lock.jpg" alt="Badge 1" />; 
+    if (expPoints >= 3200) return <img src="/img/2.lvl10.jpeg" alt="Badge 1" />;
+    return <img src="/img/lock.jpg" alt="Badge 1" />;
   };
 
   const getLevel15 = (expPoints) => {
-    
-    if (expPoints >= 6400)
-      return <img src="/img/lvl15.2.jpeg" alt="Badge 1" />; 
-    return<img src="/img/lock.jpg" alt="Badge 1" />; 
+    if (expPoints >= 6400) return <img src="/img/lvl15.2.jpeg" alt="Badge 1" />;
+    return <img src="/img/lock.jpg" alt="Badge 1" />;
   };
   const getLevel20 = (expPoints) => {
-    
-    if (expPoints >= 12800)
-      return <img src="/img/lvl20.jpeg" alt="Badge 1" />; 
-    return<img src="/img/lock.jpg" alt="Badge 1" />; 
+    if (expPoints >= 12800) return <img src="/img/lvl20.jpeg" alt="Badge 1" />;
+    return <img src="/img/lock.jpg" alt="Badge 1" />;
   };
-  
+
   // Handle profile edit and photo upload
   const handleEditProfile = async (e) => {
     e.preventDefault();
@@ -168,33 +164,36 @@ export default function Dashboard() {
       alert("New password and Confirm Password don't match");
       return;
     }
+    const userConfirmed = window.confirm("Do you want to update password?");
+    if (userConfirmed) {
+      axios
+        .post("http://localhost:8000/update_password", {
+          currentPassword,
+          newPassword,
+        })
+        .then((res) => {
+          const token = res.data.token;
+          if (token) {
+            localStorage.setItem("token", token);
+          }
+          setShowPasswordPopup(false);
+          setConfirmPasswordPopup(false);
+          setCurrentPassword("");
+          setNewPassword("");
+          setConfirmNewPassword("");
+          setSuccessMessage(true);
 
-    axios
-      .post("http://localhost:8000/update_password", {
-        currentPassword,
-        newPassword,
-      })
-      .then((res) => {
-        const token = res.data.token;
-        if (token) {
-          localStorage.setItem("token", token);
-        }
-        setShowPasswordPopup(false);
-        setConfirmPasswordPopup(false);
-        setCurrentPassword("");
-        setNewPassword("");
-        setConfirmNewPassword("");
-        setSuccessMessage(true);
-
-        // Hide the success message after 2 seconds
-        setTimeout(() => {
-          setSuccessMessage(false);
-        }, 2000);
-      })
-      .catch((error) => {
-        console.error("Error changing password: ", error);
-        alert("Failed to change password. Please try again.");
-      });
+          // Hide the success message after 2 seconds
+          setTimeout(() => {
+            setSuccessMessage(false);
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error("Error changing password: ", error);
+          alert("Failed to change password. Please try again.");
+        });
+    } else {
+    }
   };
 
   return (
@@ -205,7 +204,7 @@ export default function Dashboard() {
         <h2 className={styles.dashboardText}>Dashboard</h2>
         <div className={styles.statsRow}>
           <div className={styles.statItem}>
-            <RiPoliceBadgeFill  className={styles.icon} />
+            <RiPoliceBadgeFill className={styles.icon} />
             <p>User Level</p>
             <p>Level {getUserLevel(expPoint)}</p>
           </div>
@@ -223,28 +222,19 @@ export default function Dashboard() {
         <h3 className={styles.badgesTitle}>Badges Unlocked</h3>
         <div className={styles.badgesRow}>
           <div className={styles.badgeCard}>
-            <div className={styles.badge}>
-              
-              {getLevel5(expPoint)}
-            </div>
+            <div className={styles.badge}>{getLevel5(expPoint)}</div>
             <p className={styles.badgeText}>Level 5</p>
           </div>
           <div className={styles.badgeCard}>
-            <div className={styles.badge}>
-            {getLevel10(expPoint)}
-            </div>
+            <div className={styles.badge}>{getLevel10(expPoint)}</div>
             <p className={styles.badgeText}>Level 10</p>
           </div>
           <div className={styles.badgeCard}>
-            <div className={styles.badge}>
-            {getLevel15(expPoint)}
-            </div>
+            <div className={styles.badge}>{getLevel15(expPoint)}</div>
             <p className={styles.badgeText}>Level 15</p>
           </div>
           <div className={styles.badgeCard}>
-            <div className={styles.badge}>
-            {getLevel20(expPoint)}
-            </div>
+            <div className={styles.badge}>{getLevel20(expPoint)}</div>
             <p className={styles.badgeText}>Level 20</p>
           </div>
         </div>

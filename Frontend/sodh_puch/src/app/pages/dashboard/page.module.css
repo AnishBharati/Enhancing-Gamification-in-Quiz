@@ -1,378 +1,392 @@
 /* main page content do not edit it */
 
-.maincontainer{
-    background: linear-gradient(to bottom, #4b0082, #6a5acd);
+.maincontainer {
+  background: linear-gradient(to bottom, #4b0082, #6a5acd);
 }
-.container{
-    display: flex;
-    background: linear-gradient(to bottom, #4b0082, #6a5acd);
+.container {
+  display: flex;
+  background: linear-gradient(to bottom, #4b0082, #6a5acd);
 }
-.menu{
-    height: 14vh;
-    padding: 0.8rem;
-    width: 100%; 
-    background: linear-gradient(to bottom, #8daec7, #f0f4f8); /* Subtle gradient */
-  
-    text-align: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9); /* Added box shadow */
+.menu {
+  height: 14vh;
+  padding: 0.8rem;
+  width: 100%;
+  background: linear-gradient(
+    to bottom,
+    #8daec7,
+    #f0f4f8
+  ); /* Subtle gradient */
 
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.9); /* Added box shadow */
 }
-.content1{
-    flex: 0.5;
-    color: white;
-    padding: 1rem;
-    background: linear-gradient(to bottom, #8daec7, #f0f4f8); /* Subtle gradient */
-    box-shadow: 0 8px 20px rgba(127, 118, 133, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
-
+.content1 {
+  flex: 0.5;
+  color: white;
+  padding: 1rem;
+  background: linear-gradient(
+    to bottom,
+    #8daec7,
+    #f0f4f8
+  ); /* Subtle gradient */
+  box-shadow: 0 8px 20px rgba(127, 118, 133, 0.7),
+    0 4px 15px rgba(106, 90, 205, 0.6);
 }
-.content2{
-    flex: 4;
-    border-radius:  20px;
-    color: white;
-    box-shadow: 0 8px 20px rgba(160, 156, 163, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
-    background: linear-gradient(to bottom, #8daec7, #f0f4f8); /* Subtle gradient */
-
-
+.content2 {
+  flex: 4;
+  border-radius: 20px;
+  color: white;
+  box-shadow: 0 8px 20px rgba(160, 156, 163, 0.7),
+    0 4px 15px rgba(106, 90, 205, 0.6);
+  background: linear-gradient(
+    to bottom,
+    #8daec7,
+    #f0f4f8
+  ); /* Subtle gradient */
 }
-.containeer{
-    padding: 30px;
+.containeer {
+  padding: 30px;
 }
 /* Updated dashboard section */
 .dashboardContainer {
-    display: flex;
-    gap: 3rem; /* Increased gap for better separation */
-    padding: 2rem;
-    height: 100vh;
-    background: linear-gradient(to bottom, #8daec7, #f0f4f8); /* Subtle gradient */
+  display: flex;
+  gap: 3rem; /* Increased gap for better separation */
+  padding: 2rem;
+  height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    #8daec7,
+    #f0f4f8
+  ); /* Subtle gradient */
 }
 
 .leftSection {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1.5rem;
-    background: linear-gradient(to bottom, #4b0082, #6a5acd);
-    border-radius: 10px; /* Optional: Adds smooth corners for a modern look */
-    padding: 20px; /* Optional: Adds spacing inside the dashboard */    
-    box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  background: linear-gradient(to bottom, #4b0082, #6a5acd);
+  border-radius: 10px; /* Optional: Adds smooth corners for a modern look */
+  padding: 20px; /* Optional: Adds spacing inside the dashboard */
+  box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7),
+    0 4px 15px rgba(106, 90, 205, 0.6);
 }
 
 .rightSection {
-    flex: 1;
-    justify-content: center;
-    display: flex;
-    height: 70vh;
-    background: linear-gradient(to bottom, #4b0082, #6a5acd);
-    flex-direction: column;
-    align-items: center;
-    padding: 1.5rem;
-    border-radius: 15px; /* Rounded corners */
-    box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
+  flex: 1;
+  justify-content: center;
+  display: flex;
+  height: 70vh;
+  background: linear-gradient(to bottom, #4b0082, #6a5acd);
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7),
+    0 4px 15px rgba(106, 90, 205, 0.6);
 }
 
-
 .profileImage {
-    width: 120px; /* Increased size */
-    height: 120px; /* Increased size */
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid #fbc02d;
+  width: 120px; /* Increased size */
+  height: 120px; /* Increased size */
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #fbc02d;
 
-    margin-bottom: 1rem;
-    box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7), 0 4px 15px rgba(106, 90, 205, 0.6);
-
+  margin-bottom: 1rem;
+  box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7),
+    0 4px 15px rgba(106, 90, 205, 0.6);
 }
 
 .circleImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .dashboardText {
-    font-size: 1.8rem; /* Slightly larger font */
-    font-weight: bold;
-    margin-bottom: 1.5rem;
-    color: #ffffff; /* White text for readability */
+  font-size: 1.8rem; /* Slightly larger font */
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #ffffff; /* White text for readability */
 }
 /* Updated dashboard section */
 .statsRow {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    gap: 1rem; /* Increased gap for separation */
-    margin-bottom: 3rem;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem; /* Increased gap for separation */
+  margin-bottom: 3rem;
 }
 
 .statItem {
-    flex: 1; /* Ensures cards have equal size */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1rem;
-    color: #fff; /* Neutral text color */
-    background-color: #687271; /* Card background */
-    padding: 1rem;
-    border-radius: 10px; /* Rounded corners for card */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9); /* Light shadow for card */
+  flex: 1; /* Ensures cards have equal size */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: #fff; /* Neutral text color */
+  background-color: #687271; /* Card background */
+  padding: 1rem;
+  border-radius: 10px; /* Rounded corners for card */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.9); /* Light shadow for card */
 }
 
 .icon {
-    font-size: 3.5rem; /* Increased icon size */
-    color: #fdd835; /* Yellow color for icons */
-    filter:drop-shadow(5px 5px 5px #080702);
-    
+  font-size: 3.5rem; /* Increased icon size */
+  color: #fdd835; /* Yellow color for icons */
+  filter: drop-shadow(5px 5px 5px #080702);
 }
 
-
 .badgesTitle {
-    margin-bottom: 1rem;
-    font-size: 1.4rem; /* Slightly larger title */
-    font-weight: bold;
-    margin-bottom: 2rem;
-    color: #ffffff; /* White text for readability */
+  margin-bottom: 1rem;
+  font-size: 1.4rem; /* Slightly larger title */
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: #ffffff; /* White text for readability */
 }
 /* Updated styles for badges */
 .badgesRow {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 2rem;
-    border-radius: 10px;
-    background-color: #687271;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
-    gap: 1.5rem; /* Increased gap between cards */
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 2rem;
+  border-radius: 10px;
+  background-color: #687271;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+  gap: 1.5rem; /* Increased gap between cards */
 }
 
 .badgeCard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100px; /* Fixed card width */
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px; /* Fixed card width */
+  text-align: center;
 }
 
 .badge {
-    width: 80px; /* Badge size */
-    height: 80px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #fdd835;
-    border: 3px solid #fbc02d;
-    cursor: pointer;
-    box-shadow: 0 15px 15px rgba(0, 0, 0, 0.5); /* Light shadow for separation */
-
+  width: 80px; /* Badge size */
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #fdd835;
+  border: 3px solid #fbc02d;
+  cursor: pointer;
+  box-shadow: 0 15px 15px rgba(0, 0, 0, 0.5); /* Light shadow for separation */
 }
 
 .badge img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%; /* Keep badge circular */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%; /* Keep badge circular */
 }
 
 .badgeText {
-    margin-top: 0.5rem;
-    font-size: 1rem;
-    font-weight: 500;
-    color: #fff; /* Darker text for badge levels */
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff; /* Darker text for badge levels */
 }
 
 /* Updated user info alignment */
 .userInfo {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin: 2rem 0;
-    text-align: left;
-    font-size: 1.0rem; /* Increased font size */
-    color: #fff; /* Darker text color */
-    width: 100%; /* Ensures alignment within container */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 2rem 0;
+  text-align: left;
+  font-size: 1rem; /* Increased font size */
+  color: #fff; /* Darker text color */
+  width: 100%; /* Ensures alignment within container */
 }
 
 .userInfo p {
-    margin: 0;
-    font-weight: 600; /* Slightly bolder font */
+  margin: 0;
+  font-weight: 600; /* Slightly bolder font */
 }
 
 .userInfo p strong {
-    width: 100px; /* Fixed width for labels */
-    display: inline-block;
+  width: 100px; /* Fixed width for labels */
+  display: inline-block;
 }
 
-
 .profileButtons {
-    display: flex;
-    gap: 1rem;
+  display: flex;
+  gap: 1rem;
 }
 
 .editProfileButton,
 .changePasswordButton {
-    padding: 0.7rem 1.5rem; /* Increased padding */
-    border: none;
-    border-radius: 6px; /* Slightly rounded buttons */
-    cursor: pointer;
-    font-size: 1rem; /* Increased font size */
+  padding: 0.7rem 1.5rem; /* Increased padding */
+  border: none;
+  border-radius: 6px; /* Slightly rounded buttons */
+  cursor: pointer;
+  font-size: 1rem; /* Increased font size */
 }
 
 .editProfileButton {
-    background-color: #5f0077;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Light shadow for separation */
-    color: white;
+  background-color: #5f0077;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Light shadow for separation */
+  color: white;
 }
 
-
-.editProfileButton:hover{
-    background-color: #9b16b9;
-
+.editProfileButton:hover {
+  background-color: #9b16b9;
 }
 
 .changePasswordButton {
-    background-color: #555555;
+  background-color: #555555;
 
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Light shadow for separation */
-    color: white;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Light shadow for separation */
+  color: white;
 }
-.changePasswordButton:hover{
-    background-color: #687271;
+.changePasswordButton:hover {
+  background-color: #687271;
 }
-
 
 /* Popup Overlay */
 .popupOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Ensure it appears above other content */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it appears above other content */
 }
 
 /* Popup Box */
 .popup {
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.9);
-    text-align: center;
-    width: 300px; /* Fixed width */
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.9);
+  text-align: center;
+  width: 300px; /* Fixed width */
 }
 
-.popup h3, .popup h4 {
-    margin-bottom: 1.5rem;
-    color: #333333; /* Darker text color */
+.popup h3,
+.popup h4 {
+  margin-bottom: 1.5rem;
+  color: #333333; /* Darker text color */
 }
 
 /* Input Fields */
 .inputField {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
 }
-.fileLabel{
-    color:black;
+.fileLabel {
+  color: black;
 }
-.fileInput{
-   margin: 1rem;
-   align-items: center;
+.fileInput {
+  margin: 1rem;
+  align-items: center;
 }
 /* Buttons */
-.submitButton, .closeButton, .yesButton, .noButton  {
-    padding: 0.7rem 1rem;
-    margin: 0.2rem;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    
+.submitButton,
+.closeButton,
+.yesButton,
+.noButton {
+  padding: 0.7rem 1rem;
+  margin: 0.2rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 .submitButton {
-    background-color: #5f0077;
-    color: white;
+  background-color: #5f0077;
+  color: white;
 }
 
 .submitButton:hover {
-    background-color: #9b16b9;
+  background-color: #9b16b9;
 }
 
 .closeButton {
-    background-color: #555555;
-    color: white;
+  background-color: #555555;
+  color: white;
 }
 
 .closeButton:hover {
-    background-color: #687271;
+  background-color: #687271;
 }
 
 .yesButton {
-    background-color: #28a745; /* Green */
-    color: white;
+  background-color: #28a745; /* Green */
+  color: white;
 }
 
 .yesButton:hover {
-    background-color: #218838;
+  background-color: #218838;
 }
 
 .noButton {
-    background-color: #dc3545; /* Red */
-    color: white;
+  background-color: #dc3545; /* Red */
+  color: white;
 }
 
 .noButton:hover {
-    background-color: #c82333;
+  background-color: #c82333;
 }
 
 /* Success Message Popup */
 .successPopupOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .successPopup {
-    background: linear-gradient(to bottom, #f0f4f8, #81a9c9); /* Subtle gradient */
-    color: black;
-    padding: 2rem;
-    font-size: 1.1rem;
-    border-radius: 10px;
-    text-align: center;
-    animation: fadeIn 0.5s ease-in-out, slideUp 0.5s ease-in-out;
+  background: linear-gradient(
+    to bottom,
+    #f0f4f8,
+    #81a9c9
+  ); /* Subtle gradient */
+  color: black;
+  padding: 2rem;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out, slideUp 0.5s ease-in-out;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-    from {
-        transform: translateY(20px);
-    }
-    to {
-        transform: translateY(0);
-    }
+  from {
+    transform: translateY(20px);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
-.rightSection h1{
-    margin-bottom: 1rem;
+.rightSection h1 {
+  margin-bottom: 1rem;
 }

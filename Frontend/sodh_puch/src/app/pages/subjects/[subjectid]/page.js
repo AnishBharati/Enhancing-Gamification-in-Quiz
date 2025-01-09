@@ -21,6 +21,7 @@ export default function SubjectDetails() {
   const searchParams = useSearchParams(); // Access query params
   const [isMarksPopup, setIsMarksPopup] = useState(false);
   const [marks, setMarks] = useState("");
+  const [successMessage, setSuccessMessage] = useState(false);
 
   const subjectid = params?.subjectid; // Accessing subjectid from params
   const classNamed = searchParams.get("class");
@@ -148,6 +149,12 @@ export default function SubjectDetails() {
   // Handle deleting a topic
   const handleDeleteTopic = (id, e) => {
     e.preventDefault();
+    const userConfirmed = window.confirm(
+      "Are you sure do you want to delete this topic?"
+    );
+    if (!userConfirmed) {
+      return;
+    }
     axios
       .delete("http://localhost:8000/delete_topic", { data: { id } })
       .then((res) => {
@@ -155,6 +162,12 @@ export default function SubjectDetails() {
         if (token) {
           localStorage.setItem("token", token);
         }
+        setSuccessMessage(true);
+
+        // Hide the success message after 1.5 seconds
+        setTimeout(() => {
+          setSuccessMessage(false);
+        }, 2000);
         router.push("/pages/subjects");
       })
       .catch((error) => {
@@ -349,6 +362,15 @@ export default function SubjectDetails() {
             >
               <ImCross size={15} />
             </button>
+          </div>
+        </div>
+      )}
+
+      {successMessage && (
+        <div className={styles.successPopupOverlay}>
+          <div className={styles.successPopup}>
+            <h3>Success!</h3>
+            <p>Topic is deleted successfully</p>
           </div>
         </div>
       )}

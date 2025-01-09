@@ -10,7 +10,7 @@
 .leftPane {
   width: 48%;
 }
-.rightPane{
+.rightPane {
   width: 48%;
   margin-top: 76px;
   margin-right: 10px;
@@ -19,14 +19,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;  
+  width: 100%;
   margin-top: 20px;
-
 }
-
-
-
-
 
 .quizContainer {
   padding: 15px;
@@ -35,22 +30,15 @@
   width: 100%;
 }
 
-
-.h1{
+.h1 {
   margin-bottom: 4px;
   margin-top: 4px;
 }
 /* Style for the Question Card */
 .questionCard {
- 
- padding: 10px;
+  padding: 10px;
   width: 100%;
-
-
- 
 }
-
-
 
 /* Style for the Question Button */
 .questionButton {
@@ -63,7 +51,6 @@
   cursor: pointer;
   border-radius: 10px;
   transition: background-color 0.3s ease;
- 
 }
 
 .questionButton:hover {
@@ -89,7 +76,6 @@
 }
 
 .optionItem {
- 
   padding: 8px;
   background-color: #e8f5e9;
   margin: 5px 0;
@@ -137,8 +123,6 @@
   color: #333;
 }
 
-
-
 /* Submit Button */
 .submitContainer {
   text-align: center;
@@ -147,25 +131,23 @@
 .submitButton {
   padding: 10px 20px;
   font-size: 1.2rem;
-  background:  #6a11cb;
+  background: #6a11cb;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
   width: 180px;
-  margin-right:12px;
+  margin-right: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .submitButton:hover {
- 
   transform: translateY(-3px);
 }
 
 .submitButton:disabled {
- 
-  background:  #6a11cb;
+  background: #6a11cb;
   cursor: not-allowed;
 }
 
@@ -173,7 +155,7 @@
 .closeButton {
   padding: 10px 20px;
   font-size: 1.2rem;
-  background:  #6a11cb;
+  background: #6a11cb;
   color: white;
   border: none;
   border-radius: 8px;
@@ -183,7 +165,6 @@
 }
 
 .closeButton:hover {
- 
   transform: translateY(-3px);
 }
 
@@ -275,40 +256,35 @@
 }
 
 .dropdown select {
- 
-  
   border-radius: 8px;
-  background:  #6a11cb;
+  background: #6a11cb;
   color: white;
   font-size: 16px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   padding: 10px 20px;
   cursor: pointer;
   outline: none;
-  
+
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .dropdown select:hover {
   background: linear-gradient(45deg, #2575fc, #6a11cb);
   transform: scale(1.05);
-
 }
-
-
 
 .dropdown option {
   color: #333;
   background: white;
   padding: 10px;
   font-size: 16px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .backButton {
   color: #5f0077;
   border: none;
-  border-radius: 6px; 
+  border-radius: 6px;
   padding: 0.5rem 1rem;
   font-size: 1rem;
   font-weight: 500;
@@ -325,4 +301,30 @@
   display: flex;
   justify-content: space-between;
   margin: 0.5rem;
+}
+/* Success Message Popup */
+.successPopupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.successPopup {
+  background: linear-gradient(
+    to bottom,
+    #f0f4f8,
+    #81a9c9
+  ); /* Subtle gradient */
+  color: black;
+  padding: 2rem;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out, slideUp 0.5s ease-in-out;
 }

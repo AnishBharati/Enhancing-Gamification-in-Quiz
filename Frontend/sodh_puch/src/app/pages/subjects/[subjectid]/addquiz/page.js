@@ -19,6 +19,7 @@ export default function AddQuiz() {
   const [error, setError] = useState(""); // For error handling
   const router = useRouter();
   const searchParams = useSearchParams(); // Access query params
+  const [successMessage, setSuccessMessage] = useState(false);
 
   const topic = searchParams.get("class");
   const id = searchParams.get("id");
@@ -81,7 +82,7 @@ export default function AddQuiz() {
     e.preventDefault();
     console.log("Deleting ID: ", id);
     const userConfirmed = window.confirm(
-      "Are you sure you want to delete this question?"
+      "Are you sure do you want to delete this question?"
     );
     if (!userConfirmed) {
       return; // Exit if the user selects "Cancel"
@@ -92,6 +93,12 @@ export default function AddQuiz() {
       })
       .then((res) => {
         console.log(res);
+        setSuccessMessage(true);
+
+        // Hide the success message after 1.5 seconds
+        setTimeout(() => {
+          setSuccessMessage(false);
+        }, 2000);
         window.location.reload(); // Reload the current page // Redirect after successful deletion
       })
       .catch((error) => {
@@ -226,6 +233,14 @@ export default function AddQuiz() {
           </div>
         ))}
       </div>
+      {successMessage && (
+        <div className={styles.successPopupOverlay}>
+          <div className={styles.successPopup}>
+            <h3>Success!</h3>
+            <p>Question is deleted Successfully.</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
