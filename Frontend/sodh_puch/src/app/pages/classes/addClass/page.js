@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import styles from "./page.module.css"; // Adjust the path as necessary
 import axios from "../../../axiosSetup";
