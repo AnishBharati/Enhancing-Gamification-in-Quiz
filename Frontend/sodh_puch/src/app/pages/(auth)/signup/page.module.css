@@ -54,10 +54,10 @@
   padding: 1.5rem;
   border-radius: 10px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Stronger shadow */
-  width: 100%;
-  max-width: 350px;
+  width: 500px;
+  max-width: 800px;
   margin: 0 auto;
-  height: 400px;
+  height: 700px;
   overflow-y: auto; /* Allow scroll if needed */
 }
 
