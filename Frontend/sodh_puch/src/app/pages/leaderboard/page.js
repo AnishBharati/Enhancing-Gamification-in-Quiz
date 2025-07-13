@@ -12,11 +12,12 @@ export default function Calendar() {
 
   useEffect(() => {
     const fetchData = async () => {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       try {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Authentication token not found");
 
-        const response = await fetch("http://localhost:8000/see_class", {
+        const response = await fetch(`${backendUrl}/see_class`, {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -51,19 +52,17 @@ export default function Calendar() {
   }, [router]);
 
   const handleOptionClick = async (id) => {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Authentication token not found");
 
-      const response = await fetch(
-        `http://localhost:8000/get_leaderboard?id=${id}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${backendUrl}/get_leaderboard?id=${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       // Check if the response is successful
       if (!response.ok) {

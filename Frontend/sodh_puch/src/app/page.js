@@ -37,7 +37,10 @@ export default function Home() {
               <li>Create</li>
               <li>Learn</li>
               <li>
-                <button className={styles.getStarted} onClick={handleGetStarted}>
+                <button
+                  className={styles.getStarted}
+                  onClick={handleGetStarted}
+                >
                   Get Started
                 </button>
               </li>
@@ -71,7 +74,10 @@ export default function Home() {
             fellow quiz enthusiasts, you'll never run out of new and exciting
             quizzes to enjoy.
           </p>
-          <button className={styles.getStartedFeatures} onClick={handleGetStarted}>
+          <button
+            className={styles.getStartedFeatures}
+            onClick={handleGetStarted}
+          >
             Get started
           </button>
         </section>

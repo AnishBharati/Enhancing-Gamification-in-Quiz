@@ -28,11 +28,12 @@ export default function Dashboard() {
   // Fetch user details on initial load
   useEffect(() => {
     const fetchData = async () => {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       try {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Authentication token not found");
 
-        const response = await fetch("http://localhost:8000/see_details", {
+        const response = await fetch(`${backendUrl}/see_details`, {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -51,7 +52,7 @@ export default function Dashboard() {
           // Set the full URL for photo (adjusting for the path returned by the server)
           setCurrentPhoto(
             userDetails.photo_url
-              ? `http://localhost:8000/${userDetails.photo_url}`
+              ? `${backendUrl}/${userDetails.photo_url}`
               : "/img/user.jpg"
           );
           setQuizPoint(userDetails.quiz_points);
@@ -77,7 +78,7 @@ export default function Dashboard() {
   }, [router]);
 
   const getUserLevel = (expPoints) => {
-    if (expPoints >= 48000) return 10;
+    if (expPoints >= 48000) return 20;
     if (expPoints >= 24000) return 9;
     if (expPoints >= 12000) return 8;
     if (expPoints >= 6400) return 7;
@@ -110,6 +111,7 @@ export default function Dashboard() {
 
   // Handle profile edit and photo upload
   const handleEditProfile = async (e) => {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     e.preventDefault();
 
     // Create a new FormData object to send both text and file data
@@ -125,7 +127,7 @@ export default function Dashboard() {
     try {
       // Send POST request with formData using axios
       const response = await axios.put(
-        "http://localhost:8000/update_details",
+        `${backendUrl}/update_details`,
         formData,
         {
           headers: {
@@ -159,6 +161,7 @@ export default function Dashboard() {
 
   // Handle password change request
   const handlePasswordChange = (e) => {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     e.preventDefault();
     if (newPassword !== confirmNewPassword) {
       alert("New password and Confirm Password don't match");
@@ -167,7 +170,7 @@ export default function Dashboard() {
     const userConfirmed = window.confirm("Do you want to update password?");
     if (userConfirmed) {
       axios
-        .post("http://localhost:8000/update_password", {
+        .post(`${backendUrl}/update_password`, {
           currentPassword,
           newPassword,
         })

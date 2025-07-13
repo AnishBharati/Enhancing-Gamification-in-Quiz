@@ -33,11 +33,12 @@ export default function ViewQuiz() {
   }, []);
 
   useEffect(() => {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     if (token) {
       // Fetch quiz questions from backend
       axios
         .post(
-          "http://localhost:8000/see_quiz",
+          `${backendUrl}/see_quiz`,
           { quizTopicID: id },
           {
             headers: {
@@ -84,11 +85,11 @@ export default function ViewQuiz() {
 
   const handleSubmit = () => {
     const currentQuestion = questions[currentQuestionIndex];
-
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     // Send the answer to the backend and update the score
     axios
       .post(
-        "http://localhost:8000/check",
+        `${backendUrl}/check`,
         {
           quizTopicID: id,
           question_id: currentQuestion.id,
@@ -211,7 +212,7 @@ export default function ViewQuiz() {
           <div className={styles.successPopupOverlay}>
             <div className={styles.successPopup}>
               <p className={styles.completionMessage}>
-              🎉 Congratulations!🥳  You've completed all quizzes!  🎉
+                🎉 Congratulations!🥳 You've completed all quizzes! 🎉
               </p>
             </div>
           </div>

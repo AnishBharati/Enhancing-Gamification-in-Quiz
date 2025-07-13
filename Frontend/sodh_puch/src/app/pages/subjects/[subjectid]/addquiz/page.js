@@ -34,9 +34,10 @@ export default function AddQuiz() {
 
   // Fetch quiz questions on component load
   useEffect(() => {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     if (id) {
       axios
-        .post("http://localhost:8000/see_quiz", { quizTopicID: id })
+        .post(`${backendUrl}/see_quiz`, { quizTopicID: id })
         .then((response) => {
           setQuizQuestions(response.data.questions || []);
         })
@@ -48,9 +49,10 @@ export default function AddQuiz() {
   }, [id]);
 
   const handleSubmit = (e) => {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     e.preventDefault();
     axios
-      .post("http://localhost:8000/add_question", {
+      .post(`${backendUrl}/add_question`, {
         quiz_topic: id,
         Question,
         correct_option,
@@ -79,6 +81,7 @@ export default function AddQuiz() {
     // setIsModalOpen(false);
   };
   const handleDeleteQuestion = (id, e) => {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     e.preventDefault();
     console.log("Deleting ID: ", id);
     const userConfirmed = window.confirm(
@@ -88,7 +91,7 @@ export default function AddQuiz() {
       return; // Exit if the user selects "Cancel"
     }
     axios
-      .delete("http://localhost:8000/delete_question", {
+      .delete(`${backendUrl}/delete_question`, {
         data: { question_id: id },
       })
       .then((res) => {

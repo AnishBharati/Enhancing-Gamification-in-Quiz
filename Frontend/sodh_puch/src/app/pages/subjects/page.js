@@ -40,9 +40,10 @@ export default function Subjects() {
 
   // Fetch teacher data for a given classId
   const fetchTeacherData = async (classId) => {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     try {
       const response = await axios.get(
-        `http://localhost:8000/get_teacher?id=${classId}`
+        `${backendUrl}/get_teacher?id=${classId}`
       );
       setTeacherData((prevData) => ({
         ...prevData,
@@ -61,8 +62,8 @@ export default function Subjects() {
       try {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Authentication token not found");
-
-        const response = await fetch("http://localhost:8000/see_class", {
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+        const response = await fetch(`${backendUrl}/see_class`, {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -103,9 +104,10 @@ export default function Subjects() {
     if (userConfirmed) {
       try {
         const token = localStorage.getItem("token");
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
         if (!token) throw new Error("Authentication token not found");
 
-        const response = await fetch("http://localhost:8000/delete_class", {
+        const response = await fetch(`${backendUrl}/delete_class`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,

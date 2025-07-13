@@ -52,11 +52,12 @@ export default function Students() {
 
   useEffect(() => {
     const fetchData = async () => {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       try {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Authentication token not found");
 
-        const response = await fetch("http://localhost:8000/see_class", {
+        const response = await fetch(`${backendUrl}/see_class`, {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -87,9 +88,9 @@ export default function Students() {
     console.log("Student id: ", studentId);
   };
   const handleAskQuestion = () => {
-    console.log("Sudents id after asking:", studentId);
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     axios
-      .post(`http://localhost:8000/add_ask_question`, {
+      .post(`${backendUrl}/add_ask_question`, {
         askedto: studentId,
         Question: question,
         Option1: option1,
@@ -112,12 +113,13 @@ export default function Students() {
     setIsModalOpen(false);
   };
   const handleOptionClick = async (id) => {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Authentication token not found");
 
       const response = await fetch(
-        `http://localhost:8000/get_people_details?id=${id}`,
+        `${backendUrl}/get_people_details?id=${id}`,
         {
           method: "GET",
           headers: {
@@ -191,8 +193,12 @@ export default function Students() {
             <button className={styles.close} onClick={toggleModal}>
               <FiX />
             </button>
-            <form action="    transition: transform 0.3s, box-shadow 0.3s;
-" onSubmit={handleSubmit} className={styles.form}>
+            <form
+              action="    transition: transform 0.3s, box-shadow 0.3s;
+"
+              onSubmit={handleSubmit}
+              className={styles.form}
+            >
               <div className={styles.field}>
                 <label htmlFor="question" className={styles.label}>
                   Type Your Question:

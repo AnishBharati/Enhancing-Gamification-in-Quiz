@@ -31,7 +31,7 @@
   color: #050505; /* Lighter color for bottom text */
   max-width: 60%;
   margin-top: auto; /* Aligns it to the bottom */
-}/* Right Section */
+} /* Right Section */
 /* Right Section */
 .rightSection {
   flex: 1;

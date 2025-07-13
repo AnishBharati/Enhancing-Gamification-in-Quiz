@@ -19,9 +19,11 @@ const Signup = () => {
   }, []);
 
   function handleSubmit(event) {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+    console.log("Backend URL:", backendUrl); // Log the backend URL for debugging
     event.preventDefault();
     axios
-      .post("http://localhost:8000/signup", {
+      .post(`${backendUrl}/signup`, {
         fullname,
         email,
         username,

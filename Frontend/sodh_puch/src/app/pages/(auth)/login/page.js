@@ -17,9 +17,11 @@ const Login = () => {
   }, []);
 
   function handleSubmit(event) {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+    console.log("Backend URL:", backendUrl); // Log the backend URL for debugging
     event.preventDefault();
     axios
-      .post("http://localhost:8000/login", { username, password })
+      .post(`${backendUrl}/login`, { username, password })
       .then((res) => {
         const token = res.data.token; // Get the token from the response
         localStorage.setItem("token", token); // Store the token in localStorage

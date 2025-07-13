@@ -21,9 +21,10 @@ export default function SeeAskedQuestion() {
 
   useEffect(() => {
     const fetchQuestions = async () => {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       try {
         const response = await axios.get(
-          `http://localhost:8000/see_ask_question?classId=${classid}`,
+          `${backendUrl}/see_ask_question?classId=${classid}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -82,8 +83,9 @@ export default function SeeAskedQuestion() {
     if (!userConfirmed) {
       return;
     }
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     axios
-      .delete(`http://localhost:8000/delete_ask_question`, {
+      .delete(`${backendUrl}/delete_ask_question`, {
         data: {
           id: id,
           classId: classid,
@@ -105,9 +107,10 @@ export default function SeeAskedQuestion() {
 
   const handleSubmit = async (question) => {
     if (!selectedOption) return;
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     try {
       await axios.put(
-        "http://localhost:8000/update_ask_question",
+        `${backendUrl}/update_ask_question`,
         {
           id: question.id,
           correct_option: parseInt(selectedOption, 10),

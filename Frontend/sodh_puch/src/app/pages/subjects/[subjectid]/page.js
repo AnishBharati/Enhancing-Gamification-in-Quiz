@@ -47,9 +47,9 @@ export default function SubjectDetails() {
     if (!quizTopic.trim()) {
       return; // Prevent submitting if quizTopic is empty
     }
-
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     axios
-      .post("http://localhost:8000/add_topic", {
+      .post(`${backendUrl}/add_topic`, {
         quizTopic,
         quizClass: subjectid,
       })
@@ -75,10 +75,9 @@ export default function SubjectDetails() {
   };
 
   const fetchTeacherData = async () => {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     try {
-      const response = await axios.get(
-        `http://localhost:8000/get_teacher?id=${id}`
-      );
+      const response = await axios.get(`${backendUrl}/get_teacher?id=${id}`);
 
       if (!response.data || response.data.length === 0) {
         // No data or empty response, do nothing or handle as needed
@@ -105,9 +104,9 @@ export default function SubjectDetails() {
       try {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Authentication token not found");
-
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
         const response = await fetch(
-          `http://localhost:8000/see_topic?quiz_class=${subjectid}`,
+          `${backendUrl}/see_topic?quiz_class=${subjectid}`,
           {
             method: "GET",
             headers: { Authorization: `Bearer ${token}` },
@@ -149,6 +148,7 @@ export default function SubjectDetails() {
   // Handle deleting a topic
   const handleDeleteTopic = (id, e) => {
     e.preventDefault();
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     const userConfirmed = window.confirm(
       "Are you sure do you want to delete this topic?"
     );
@@ -156,7 +156,7 @@ export default function SubjectDetails() {
       return;
     }
     axios
-      .delete("http://localhost:8000/delete_topic", { data: { id } })
+      .delete(`${backendUrl}/delete_topic`, { data: { id } })
       .then((res) => {
         const token = res.data.token;
         if (token) {
@@ -176,17 +176,17 @@ export default function SubjectDetails() {
   };
 
   const handleOpenPopup = (id) => {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     setIsMarksPopup(true); // Correctly set state to show the popup
-    axios
-      .get(`http://localhost:8000/get_marks?quiz_topic=${id}`)
-      .then((res) => {
-        setMarks(res.data.marks || []); // Ensure the marks array is fetched
-      });
+    axios.get(`${backendUrl}/get_marks?quiz_topic=${id}`).then((res) => {
+      setMarks(res.data.marks || []); // Ensure the marks array is fetched
+    });
   };
 
   const handleAlert = (id) => {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     axios
-      .get(`http://localhost:8000/check_student_quiz?quiz_topic=${id}`)
+      .get(`${backendUrl}/check_student_quiz?quiz_topic=${id}`)
       .then((res) => {
         // Check if the 'data' array inside 'res.data' is empty
         if (!res.data || res.data.data.length === 0) {

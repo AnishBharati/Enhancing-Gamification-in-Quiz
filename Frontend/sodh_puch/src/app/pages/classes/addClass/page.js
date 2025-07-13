@@ -11,10 +11,11 @@ export default function AddClass({ onClose }) {
   const router = useRouter();
 
   const handleSubmit = (e) => {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     e.preventDefault();
 
     axios
-      .post("http://localhost:8000/add_class", { topic, description })
+      .post(`${backendUrl}/add_class`, { topic, description })
       .then((res) => {
         const token = res.data.token;
         if (token) {

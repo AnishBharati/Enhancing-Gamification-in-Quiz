@@ -31,9 +31,10 @@ export default function Classes() {
   };
 
   const handleSubmit = (e) => {
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
     e.preventDefault();
     axios
-      .post("http://localhost:8000/add_student", { code })
+      .post(`${backendUrl}/add_student`, { code })
       .then((res) => {
         const token = res.data.token;
         if (token) {
