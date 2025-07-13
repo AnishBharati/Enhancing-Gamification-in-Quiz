@@ -1,23 +1,31 @@
 "use client";
 import React from "react";
+import Head from "next/head"; // ✅ Import Head
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 
 export default function Home() {
-  const router = useRouter(); // Initialize the router
+  const router = useRouter();
 
-  // Function to handle navigation to sign-up
   const handleGetStarted = () => {
-    router.push("/pages/signup"); // Replace with your actual sign-up route
+    router.push("/pages/signup");
   };
 
-  // Function to handle navigation to login
   const handleLogin = () => {
-    router.push("/pages/login"); // Replace with your actual login route
+    router.push("/pages/login");
   };
 
   return (
     <>
+      {/* ✅ Add Page Title for the browser tab */}
+      <Head>
+        <title>Quizzify | Fun & Easy Quizzes</title>
+        <meta
+          name="description"
+          content="Create and play quizzes with Quizzify - the fun way to learn!"
+        />
+      </Head>
+
       <div className={styles.container}>
         {/* Navigation Bar */}
         <header className={styles.navbar}>
@@ -29,10 +37,7 @@ export default function Home() {
               <li>Create</li>
               <li>Learn</li>
               <li>
-                <button
-                  className={styles.getStarted}
-                  onClick={handleGetStarted}
-                >
+                <button className={styles.getStarted} onClick={handleGetStarted}>
                   Get Started
                 </button>
               </li>
@@ -66,10 +71,7 @@ export default function Home() {
             fellow quiz enthusiasts, you'll never run out of new and exciting
             quizzes to enjoy.
           </p>
-          <button
-            className={styles.getStartedFeatures}
-            onClick={handleGetStarted}
-          >
+          <button className={styles.getStartedFeatures} onClick={handleGetStarted}>
             Get started
           </button>
         </section>
