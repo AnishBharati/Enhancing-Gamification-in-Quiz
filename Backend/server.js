@@ -12,11 +12,13 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://enhancing-gamification-in-quiz.onrender.com"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // Only if you're using cookies or auth headers
   })
 );
+
 
 app.use("/", routes);
 
